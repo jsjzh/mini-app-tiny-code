@@ -12,6 +12,7 @@ app.innerHTML = require("./index.html");
 import "type/interview";
 import "type/string";
 import "type/array";
+import "type/regexp";
 
 // -------------
 if (module.hot) {
