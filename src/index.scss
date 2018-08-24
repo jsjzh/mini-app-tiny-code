@@ -1,0 +1,34 @@
+#app {
+  min-width: 200px;
+  max-width: 767px;
+  margin: 0 auto;
+  padding: 45px;
+  .ct {
+    text-align: center;
+  }
+  .header-image {
+    width: 35px;
+    height: 35px
+  }
+  .fr {
+    float: right
+  }
+  .fl {
+    float: left
+  }
+  #change-image {
+    animation: 1s image-animate infinite;
+  }
+}
+
+@media (max-width: 767px) {
+  #app {
+    padding: 15px;
+  }
+}
+
+@keyframes image-animate {
+  100% {
+    transform: rotate(360deg)
+  }
+}
