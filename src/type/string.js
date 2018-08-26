@@ -2,7 +2,6 @@ console.log("-----------------------from string.js-----------------------");
 /**
  * 展示展示 javascript 中 String 的一些方法的地方
  */
-
 // http://www.w3school.com.cn/jsref/jsref_obj_string.asp
 
 const foo = "Hello";
@@ -34,6 +33,7 @@ console.log(foo.charCodeAt(0));
  * 
  * 注意
  *  原字符串本身并没有被改变
+ *  MDN 上强烈建议使用赋值操作符（+, +=）代替 concat
  */
 
 console.log(foo.concat(bar));
@@ -58,7 +58,7 @@ console.log(foo.indexOf("H", 1));
  * slice()
  *  用于提取字符串的某个部分。
  * param
- *  start
+ *  start nope 
  * 
  */
 
