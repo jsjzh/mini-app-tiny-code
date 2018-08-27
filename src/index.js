@@ -19,12 +19,11 @@ if (module.hot) {
   module.hot.accept();
 }
 
-// thinkpad10
-
-// thinkpad tablet 2
-
-// thinkpad x1 helix
-
-// thinkpad x1 tablet
+// thinkpad10 性能跟不上 atom 的实在是不行 排除
 
 // surface
+
+// thinkpad x1 helix 发热量稍微大一些 价格稍微高了一些 相比较更想要 surface
+
+// thinkpad tablet 2 性能不够
+// thinkpad x1 tablet 太贵

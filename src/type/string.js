@@ -12,17 +12,14 @@ const bar = "King";
  *  可以返回指定位置的字符 且为字符串类型
  * param
  *  index need 从 0 开始，若大于 string.length 则返回空字符串
- */
-
-console.log(foo.charAt(0));
-
-/**
+ * -----
  * charCodeAt()
  *  可以返回指定位置的字符的 Unicode 编码 是 0 ～ 65535 之间的整数
  * param
  *  index need 从 0 开始，若大于 string.length 则返回 NaN
  */
 
+console.log(foo.charAt(0));
 console.log(foo.charCodeAt(0));
 
 /**
@@ -45,10 +42,13 @@ console.log(foo);
  * param
  *  searchValue need 需要被搜索的字符串
  *  formIndex nope 一个整数参数，规定字符串中开始检索的位置，合法取值为 0 ～ string.length - 1
- *    若省略则从首字符开始
+ *   若省略则从首字符开始
  * 
  * 注意
  *  若找到则返回被找字符第一次出现的位置，若没找到则返回 -1
+ * -----
+ * lastIndexof()
+ *  
  */
 
 console.log(foo.indexOf("H"));
