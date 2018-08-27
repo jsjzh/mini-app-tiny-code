@@ -5,6 +5,7 @@ console.log("-----------------------from string.js-----------------------");
 
 const foo = "Hello";
 const bar = "King";
+const spaceStr = "    king    ";
 
 /**
  * charAt()
@@ -17,10 +18,10 @@ const bar = "King";
  * param
  *  index need 从 0 开始，若大于 string.length 则返回 NaN
  */
-
+console.log("charAt charCodeAt----------------------------------------------");
 console.log(foo.charAt(0));
 console.log(foo.charCodeAt(0));
-
+console.log("charAt charCodeAt----------------------------------------------");
 /**
  * concat()
  *  用于连接两个或多个字符串
@@ -31,10 +32,10 @@ console.log(foo.charCodeAt(0));
  *  原字符串本身并没有被改变
  *  MDN 上强烈建议使用赋值操作符（+, +=）代替 concat
  */
-
+console.log("concat----------------------------------------------");
 console.log(foo.concat(bar));
 console.log(foo);
-
+console.log("concat----------------------------------------------");
 /**
  * indexOf()
  *  可返回某个指定的字符串在字符串中首次出现的位置
@@ -61,7 +62,7 @@ console.log(foo);
  *  searchValue need 需要被搜索的字符串
  *  fromIndex nope 字符串开始索引的位置
  */
-
+console.log("indexOf lastIndexOf includes----------------------------------------------");
 console.log(foo.indexOf("l"));
 console.log(foo.lastIndexOf("l"));
 
@@ -74,7 +75,7 @@ console.log(foo.includes("e", 2));
 // 一般情况下 includes 可以用 indexOf 替代
 console.log(!!(foo.indexOf("e") !== -1));
 console.log(!!(foo.indexOf("e", 2) !== -1));
-
+console.log("indexOf lastIndexOf includes----------------------------------------------");
 /**
  * padEnd()
  *  用一个指定的字符串将原字符串填充到指定的长度，从右侧开始填充
@@ -88,23 +89,23 @@ console.log(!!(foo.indexOf("e", 2) !== -1));
  *  targetLength need 需要被填充到的长度，若小于当前字符串，则直接返回该字符串
  *  padString nope 指定填充进去的字符串，若不传入则默认为 " "
  */
-
+console.log("padEnd padStart----------------------------------------------");
 console.log(foo.padEnd("20") + "end");
 console.log(foo.padEnd("20", "k"));
 
 console.log("start" + foo.padStart("20"));
 console.log(foo.padStart("20", "k"));
-
+console.log("padEnd padStart----------------------------------------------");
 /**
  * repeat()
  *  将一个制定的字符串重复指定次数并返回重复后的字符串
  * param
  *  count need 字符串需要被重复的次数
  */
-
+console.log("repeat----------------------------------------------");
 console.log(foo.repeat("10"));
 console.log(foo.repeat("10").match(/H/g).length);
-
+console.log("repeat----------------------------------------------");
 /**
  * slice()
  *  用于提取字符串的某个部分
@@ -120,30 +121,47 @@ console.log(foo.repeat("10").match(/H/g).length);
  * -----
  * substr()
  *  提取一个字符串中指定开始的索引，指定长度的字符串
+ * param
+ *  start nope 指定要开始提取的索引，若不传则为 0，若为负数则从后开始算索引
+ *  length nope 指定要提取的长度
+ * 注意
+ *  若 start 大于字符串长度，则返回一个空字符串
+ *  若 start 为负值，且其绝对值大于字符串长度，则当作 0 来计算
+ *  若 length 为 0 或负值，则返回一个空字符串
+ *  若 length 不传入，则提取从 start 到字符串末尾
  * -----
  * substring()
- *  
+ *  和 slice 类似，用于提取字符串的某个部分
+ * param
+ *  indexStart need 一个
+ *  indexEnd 
  */
-
-console.log(foo.slice(0, 3));
-console.log(foo.slice(0, -1));
+console.log("slice substr substring----------------------------------------------");
+console.log(foo.slice(1, 3));
+console.log(foo.slice(1, -1));
 console.log(foo.slice(-3, 3));
 console.log(foo.slice(-3, -1));
 
-console.log(foo.substring(0, 3));
-
-
+console.log(foo.substr(0, 3));
+console.log(foo.substr(3));
+console.log("slice substr substring----------------------------------------------");
 /**
- * split()
- * param
- *  
+ * trim()
+ *  用于去除字符串前后的字符串，可去除 \s \uFEFF \xA0
  */
-
-
+console.log("trim----------------------------------------------");
+console.log(spaceStr.trim());
+console.log("trim----------------------------------------------");
 /**
- * match()
- *  
+ * toLowerCase()
+ *  字符串转为小写
+ * -----
+ * toUpperCase()
+ *  字符串转为大写
  */
-
+console.log("toLowerCase toUpperCase----------------------------------------------");
+console.log(foo.toLowerCase());
+console.log(foo.toUpperCase());
+console.log("toLowerCase toUpperCase----------------------------------------------");
 
 console.log("-----------------------from string.js-----------------------");
