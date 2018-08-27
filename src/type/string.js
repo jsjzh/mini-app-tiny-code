@@ -6,6 +6,8 @@ console.log("-----------------------from string.js-----------------------");
 const foo = "Hello";
 const bar = "King";
 const spaceStr = "    king    ";
+const longStr = "hello my name is king. =A=";
+const ABCDStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 /**
  * charAt()
@@ -129,12 +131,19 @@ console.log("repeat----------------------------------------------");
  *  若 start 为负值，且其绝对值大于字符串长度，则当作 0 来计算
  *  若 length 为 0 或负值，则返回一个空字符串
  *  若 length 不传入，则提取从 start 到字符串末尾
+ *  ECMAscript 没有对该方法进行标准化，不建议使用
  * -----
  * substring()
  *  和 slice 类似，用于提取字符串的某个部分
  * param
- *  indexStart need 一个
- *  indexEnd 
+ *  indexStart need 一个从 0 到 string.length 的整数
+ *  indexEnd nope 一个从 0 到 string.length 的整数
+ * 注意
+ *  若 indexStart 等于 indexEnd 则返回空字符串
+ *  若 indexEd 不传入，则提取从 indexStart 直到末尾
+ *  若任一参数小于 0 或为 NaN，则被当作 0
+ *  若任一参数大于 string.length，则被当作 string.length
+ *  若 indexStart 大于 indexEnd，则执行效果等同于两个参数对调
  */
 console.log("slice substr substring----------------------------------------------");
 console.log(foo.slice(1, 3));
@@ -144,6 +153,12 @@ console.log(foo.slice(-3, -1));
 
 console.log(foo.substr(0, 3));
 console.log(foo.substr(3));
+
+console.log(foo.substring(1, 3));
+console.log(foo.substring(3, 1));
+console.log(foo.substring(1, -1));
+console.log(foo.substring(-1, 1));
+console.log(foo.substring(-1, -1));
 console.log("slice substr substring----------------------------------------------");
 /**
  * trim()
@@ -163,5 +178,64 @@ console.log("toLowerCase toUpperCase--------------------------------------------
 console.log(foo.toLowerCase());
 console.log(foo.toUpperCase());
 console.log("toLowerCase toUpperCase----------------------------------------------");
+/**
+ * 可传入正则表达式的方法
+ * 正则可用下标
+ *  g 查找所有可能的匹配，返回的结果可能是多个，不加的话最多只匹配一个
+ *  i 表示不区分大小写
+ *  m 表示多行匹配，就是匹配换行符两端可能存在的潜在匹配
+ * split()
+ *  用于分割一个字符串为数组
+ * param
+ *  separator nope 可传入字符串或正则表达式
+ *  limit nope 限制返回的字符串长度
+ * 注意
+ *  若不传入 separator 则会返回每个字符分割的数组
+ *  若传入的是正则，并且有捕获符号，也就是 ()，则返回的结果中也会包含被分割的字符串
+ * -----
+ * search()
+ *  用于搜索字符串是否存在某一被搜索内容，和 indexOf 不同的是他支持正则
+ * param
+ *  regexp nope 可传入字符串或正则表达式
+ * 注意
+ *  若存在则返回被搜索的内容的索引，若不存在则返回 -1
+ * -----
+ * match()
+ * param
+ *  regexp nope 一个正则表达式对象，如果传入的不是正则表达式，则会隐式调用 new RegExp
+ * 注意
+ * 
+ * -----
+ * replace()
+ */
+console.log("split search replace match----------------------------------------------");
+console.log(longStr.split(" "));
+console.log(longStr.split(" ", 3));
+console.log(longStr.split(/\s*[\., \s]\s*/));
+console.log(longStr.split(/(\s*[\., \s]\s*)/));
+
+console.log(longStr.search(""));
+console.log(longStr.search("p"));
+console.log(longStr.search(/\d/));
+console.log(longStr.search(/\w/));
+
+console.log(longStr.match(/\s*[\., \s]\s*/));
+console.log(longStr.match(/\s*[\., \s]\s*/g));
+console.log(longStr.match(/(my name (is))/));
+// 输出如下
+// {
+// 是正则匹配的值
+//   0: "my name is",
+// 是第一个 () 匹配的值
+//   1: "my name is",
+// 第二个 () 匹配的值
+//   2: "is",
+// 是在原字符串中，正则表达式开始匹配时候的索引
+//   index: 6,
+// 原字符串
+//   input: "hello my name is king. =A="
+// }
+
+console.log("split search replace match----------------------------------------------");
 
 console.log("-----------------------from string.js-----------------------");
