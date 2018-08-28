@@ -22,43 +22,48 @@ String.prototype.renderTwo = function (options) {
   })
 }
 
-// 反过来想，如果从 options 先入手，把 options 转成字符串的样子，深度用 . 来代表
-// String.prototype.render = function (options) {
-//   const str = this;
-//   let done;
+// 第三种方法
+// 反过来想，如果从 options 先入手，把 options 转成字符串的形式，深度用 . 来代表，最后执行替换，岂不是美滋滋
+String.prototype.renderThree = function (options) {
+  const str = this;
+  let done;
+  "options.name"
+  "options.age"
+  "options.job.jobName"
+  "options.job.jobLevel"
+  "options.deep.deep.deep.deep"
 
-//   "options.name"
-//   "options.age"
-//   "options.job.jobName"
-//   "options.job.jobLevel"
-//   "options.deep.deep.deep.deep"
+  function getDeepPro(ops) {
+    for (const key in ops) {
+      if (ops.hasOwnProperty(key)) {
+        let item = ops[key];
+        if (typeof item === "object") {
 
-//   // for (const key in options) {
-//   //   if (options.hasOwnProperty(key)) {
-//   //     const item = options[key];
-//   //     let proKey = "${" + key + "}";
-//   //     console.log(proKey);
-//   //     console.log(item);
-//   //     done = str.replace(proKey, item);
-//   //   }
-//   // }
-//   return done;
-// }
+        } else {
+          return key
+        }
+      }
+    }
+  }
+
+  console.log(getDeepPro(options));
+  return done;
+}
 
 // 网友说的一些比较特别的，我没想到或者有一些新东西的方法
 // -------------------------------------------------
-// String.prototype.render = function (obj) {
-//   with(obj) {
-//     return eval('`' + this + '`')
-//   }
-// }
+String.prototype.renderFour = function (obj) {
+  with(obj) {
+    return eval('`' + this + '`')
+  }
+}
 // -------------------------------------------------
-// String.prototype.render = function (ctx) {
-//   return this.replace(/\x24\x7b([\w\.]+)\x7d/ig, (_, key) => key.split('\.').reduce((obj, attr) => obj[attr], ctx))
-// }
+String.prototype.renderFive = function (ctx) {
+  return this.replace(/\x24\x7b([\w\.]+)\x7d/ig, (_, key) => key.split('\.').reduce((obj, attr) => obj[attr], ctx))
+}
 // -------------------------------------------------
 
-const foo = "my name is ${name}, age ${age}, my job is ${job.jobName}, test ${deep.deep.deep.deep}";
+const str = "my name is ${name}, age ${age}, my job is ${job.jobName}, test ${deep.deep.deep.deep}";
 const bar = {
   name: "king",
   age: 24,
@@ -74,5 +79,8 @@ const bar = {
     }
   }
 }
-console.log(foo.renderOne(bar));
-console.log(foo.renderTwo(bar));
+// console.log(str.renderOne(bar));
+// console.log(str.renderTwo(bar));
+console.log(str.renderThree(bar));
+// console.log(str.renderFour(bar));
+// console.log(str.renderFive(bar));
