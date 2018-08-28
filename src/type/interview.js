@@ -1,24 +1,26 @@
-// 直接用模板语法
 // 第一种写法 哈哈哈 笑死我了这个写法
+// 直接用模板语法
 String.prototype.renderOne = function (options) {
   return eval(`\`${this.replace(/\$\{/g, "${options.")}\``);
 }
 
-// 正则取出 ${} 的元素，然后进行替换
 // 第二种写法
+// 正则取出 ${} 的元素，然后进行替换
 String.prototype.renderTwo = function (options) {
   const str = this;
   return str.replace(/\$\{([\w,\.])*?\}/g, function (foo) {
     let arr = foo.slice(2, -1).split(".");
 
-    function get(option, keys) {
-      let op = option[keys[0]];
-      if (typeof op === "object") {
-        return get(op, keys.slice(1))
+    function getPro(ops, keys) {
+      let op = ops[keys[0]];
+      if (typeof op === "object" || keys.slice(1).length !== 0) {
+        // 还需要深入进行解析
+        return getPro(op, keys.slice(1))
+      } else {
+        return op
       }
-      return op
     }
-    return get(options, arr)
+    return getPro(options, arr)
   })
 }
 
