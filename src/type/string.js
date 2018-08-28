@@ -204,7 +204,7 @@ console.log("toLowerCase toUpperCase--------------------------------------------
  * param
  *  regexp nope 一个正则表达式对象，如果传入的不是正则表达式，则会隐式调用 new RegExp
  * 注意
- * 
+ *  
  * -----
  * replace()
  */
