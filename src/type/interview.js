@@ -1,8 +1,7 @@
 // 直接用模板语法
 // 第一种写法 哈哈哈 笑死我了这个写法
 String.prototype.renderOne = function (options) {
-  const str = this;
-  return eval(`\`${str.replace(/\$\{/g, "${options.")}\``);
+  return eval(`\`${this.replace(/\$\{/g, "${options.")}\``);
 }
 
 // 正则取出 ${} 的元素，然后进行替换
@@ -59,7 +58,7 @@ String.prototype.renderTwo = function (options) {
 // }
 // -------------------------------------------------
 
-const foo = "my name is ${name}, age ${age}, my job is ${job.jobName}, test ${deep.deep.deep.deep.deep}";
+const foo = "my name is ${name}, age ${age}, my job is ${job.jobName}, test ${deep.deep.deep.deep}";
 const bar = {
   name: "king",
   age: 24,
