@@ -8,19 +8,17 @@ String.prototype.renderOne = function (options) {
 // 正则取出 ${} 的元素，然后进行替换
 String.prototype.renderTwo = function (options) {
   const str = this;
-  return str.replace(/\$\{([\w,\.])*?\}/g, function (foo) {
-    let arr = foo.slice(2, -1).split(".");
-
-    function getPro(ops, keys) {
+  return str.replace(/\$\{([\w,\.])*?\}/g, function (item) {
+    function getDeep(ops, keys) {
       let op = ops[keys[0]];
       if (typeof op === "object" || keys.slice(1).length !== 0) {
         // 还需要深入进行解析
-        return getPro(op, keys.slice(1))
+        return getDeep(op, keys.slice(1))
       } else {
         return op
       }
     }
-    return getPro(options, arr)
+    return getDeep(options, item.slice(2, -1).split("."))
   })
 }
 
