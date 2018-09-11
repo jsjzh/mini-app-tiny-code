@@ -52,10 +52,11 @@ String.prototype.renderThree = function (options) {
 
 // 网友说的一些比较特别的，我没想到或者有一些新东西的方法
 // -------------------------------------------------
+// 严格模式下不能够使用 with =3=
 String.prototype.renderFour = function (obj) {
-  with(obj) {
-    return eval('`' + this + '`')
-  }
+  // with(obj) {
+  //   return eval('`' + this + '`')
+  // }
 }
 // -------------------------------------------------
 String.prototype.renderFive = function (ctx) {
