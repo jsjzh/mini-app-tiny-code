@@ -46,3 +46,33 @@
 
 // console.log("Hello" && false)
 // console.log("World" && undefined)
+
+/**
+ * 来个简单的题目练练手
+ */
+
+// function foo(count) {
+//   return count === 5 ? 1 : count === 10 ? 2 : count === 12 ? 3 : count === 15 ? 4 : 0;
+// }
+
+// function bar(count) {
+//   return count === 5 && 1 || count === 10 && 2 || count === 12 && 3 || count === 15 && 4 || 0
+// }
+
+// console.log(foo(10));
+// console.log(bar(10));
+
+/**
+ * 稍微改改题目
+ */
+
+// function foo(count) {
+//   return count > 12 ? 4 : count > 10 ? 3 : count > 5 ? 2 : count > 0 ? 1 : 0;
+// }
+
+// function bar(count) {
+//   return count > 12 && 4 || count > 10 && 3 || count > 5 && 2 || count > 0 && 1 || 0;
+// }
+
+// console.log(foo(10));
+// console.log(bar(10));
