@@ -9,6 +9,7 @@ const app = document.getElementById("app");
 app.innerHTML = require("./index.html");
 // -------------
 // 开始写项目代码
+import "type/plugin-blendent";
 // import "type/logic";
 // import "type/interview";
 // import "type/string";
