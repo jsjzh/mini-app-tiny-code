@@ -9,14 +9,16 @@ const app = document.getElementById("app");
 app.innerHTML = require("./index.html");
 // -------------
 // 开始写项目代码
-import _blendent from "plugin/blendent";
+import blendent from "plugin/blendent";
 // import "type/logic";
 // import "type/interview";
 // import "type/string";
 // import "type/array";
 // import "type/regexp";
 
-console.log(_blendent);
+blendent
+
+console.log(blendent);
 // -------------
 if (module.hot) {
   module.hot.accept();
