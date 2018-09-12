@@ -24,7 +24,8 @@ module.exports = {
     alias: {
       "@": utils.resolve("src"),
       "static": utils.resolve("static"),
-      "type": utils.resolve("src/type")
+      "type": utils.resolve("src/type"),
+      "plugin": utils.resolve("src/plugin")
     }
   },
   module: {
