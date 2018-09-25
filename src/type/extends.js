@@ -26,10 +26,9 @@ function ChildOne() {}
 ChildOne.prototype = new ParentsOne();
 ChildOne.prototype.constructor = ChildOne;
 
+console.log("-----");
 // 无法传入参数
 let catOne = new ChildOne();
-let catTwo = new ChildOne();
-
 console.log("catOne.type", catOne.type);
 console.log("catOne.foo", catOne.foo);
 console.log("catOne.name", catOne.name);
@@ -37,15 +36,14 @@ console.log("catOne.hi()", catOne.hi());
 
 console.log("catOne.bar", catOne.bar);
 console.log("catOne.hello()", catOne.hello());
-
-// ChildOne.foo = [1, 2, 3];
-// ChildOne.bar = [3, 2, 1];
-
-// console.log("catOne.foo", catOne.foo);
-// console.log("catOne.bar", catOne.bar);
-
-// console.log("catTwo.foo", catTwo.foo);
-// console.log("catTwo.bar", catTwo.bar);
+console.log("-----");
+// 由于是引用属性，所以修改父类会直接影响到子类实例
+ParentsOne.prototype.bar = [3, 2, 1];
+ParentsOne.prototype.hello = function () {
+  return `hello my name is change`;
+}
+console.log("catOne.bar", catOne.bar);
+console.log("catOne.hello()", catOne.hello());
 
 /**
  * 构造函数继承
