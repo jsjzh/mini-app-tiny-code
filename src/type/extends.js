@@ -8,6 +8,44 @@
  *  父类的引用属性会被所有子类实例共享
  *  子类构建实例时不能向父类传递参数
  */
+function ParentsOne(name = "未传入值") {
+  this.type = "animal";
+  this.foo = ["one", "two", "three"];
+  this.name = name;
+  this.hi = function () {
+    return `hi my name is ${this.name}`;
+  }
+}
+ParentsOne.prototype.bar = ["three", "two", "one"];
+ParentsOne.prototype.hello = function () {
+  return `hello my name is ${this.name}`;
+}
+
+function ChildOne() {}
+
+ChildOne.prototype = new ParentsOne();
+ChildOne.prototype.constructor = ChildOne;
+
+// 无法传入参数
+let catOne = new ChildOne();
+let catTwo = new ChildOne();
+
+console.log("catOne.type", catOne.type);
+console.log("catOne.foo", catOne.foo);
+console.log("catOne.name", catOne.name);
+console.log("catOne.hi()", catOne.hi());
+
+console.log("catOne.bar", catOne.bar);
+console.log("catOne.hello()", catOne.hello());
+
+// ChildOne.foo = [1, 2, 3];
+// ChildOne.bar = [3, 2, 1];
+
+// console.log("catOne.foo", catOne.foo);
+// console.log("catOne.bar", catOne.bar);
+
+// console.log("catTwo.foo", catTwo.foo);
+// console.log("catTwo.bar", catTwo.bar);
 
 /**
  * 构造函数继承
