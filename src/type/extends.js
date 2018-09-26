@@ -12,35 +12,35 @@ import {
  *  Object.create
  */
 
-function Parent() {
-  this.x = 0;
-  this.y = 0;
-}
+// function Parent() {
+//   this.x = 0;
+//   this.y = 0;
+// }
 
-// 父类的方法
-Parent.prototype.move = function (x, y) {
-  this.x += x;
-  this.y += y;
-  console.info('Parent moved.');
-};
+// // 父类的方法
+// Parent.prototype.move = function (x, y) {
+//   this.x += x;
+//   this.y += y;
+//   console.info('Parent moved.');
+// };
 
-function Child() {
-  Parent.call(this); // call super constructor.
-}
+// function Child() {
+//   Parent.call(this); // call super constructor.
+// }
 
-// 子类续承父类
-Child.prototype = Object.create(Parent.prototype);
-Child.prototype.constructor = Child;
+// // 子类续承父类
+// Child.prototype = Object.create(Parent.prototype);
+// Child.prototype.constructor = Child;
 
-var rect = new Child();
+// var rect = new Child();
 
-console.log(rect instanceof Child, 'Is rect an instance of Child?');
-console.log(rect instanceof Parent, 'Is rect an instance of Parent?');
+// console.log(rect instanceof Child, 'Is rect an instance of Child?');
+// console.log(rect instanceof Parent, 'Is rect an instance of Parent?');
 
-rect.move(1, 1); // Outputs, 'Shape moved.'
+// rect.move(1, 1); // Outputs, 'Shape moved.'
 
-console.log(Object.create(Parent.prototype));
-console.log(new Parent());
+// console.log(Object.create(Parent.prototype));
+// console.log(new Parent());
 
 // 继承多个对象
 // function MyClass() {
@@ -90,6 +90,44 @@ console.log(new Parent());
  *  父类的引用属性会被所有子类实例共享
  *  子类构建实例时不能向父类传递参数
  */
+
+/**
+ * 继承
+ * 期望的效果
+ * 当 new 了一个 child 之后，生成的实例对象可以直接调用 Parent 的属性和方法，包括私有方法和原型方法
+ */
+function ParentOne() {
+  this.name = "someOne";
+  this.arr = [1, 2, 3];
+  this.getName = function () {
+    return this.name
+  }
+}
+
+ParentOne.prototype.age = "18";
+ParentOne.prototype.Arr = [3, 2, 1];
+ParentOne.prototype.getAge = function () {
+  return this.age
+}
+
+function ChildOne() {}
+
+ChildOne.prototype = new ParentOne();
+ChildOne.prototype.constructor = ChildOne;
+
+let fooOne = new ChildOne();
+let BarOne = new ChildOne();
+
+_log(fooOne.name, BarOne.name);
+_log(fooOne.arr, BarOne.arr);
+fooOne.arr.push(1);
+_log(fooOne.arr, BarOne.arr);
+_log(fooOne.getName(), BarOne.getName());
+_log(fooOne.age, BarOne.age);
+_log(fooOne.Arr, BarOne.Arr);
+fooOne.Arr.push(1);
+_log(fooOne.Arr, BarOne.Arr);
+_log(fooOne.getAge(), BarOne.getAge());
 
 // function ParentOne(name = "未传入值") {
 //   this.type = "animal";
