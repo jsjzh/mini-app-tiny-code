@@ -9,7 +9,29 @@ const app = document.getElementById("app");
 app.innerHTML = require("./index.html");
 // -------------
 // 开始写项目代码
-import "type/extends";
+/**
+ * 说明
+ * extends
+ *  继承
+ * new
+ *  new 关键字
+ * prototype
+ *  原型链
+ * logic
+ *  逻辑
+ * interview
+ *  面试题
+ * string
+ *  String 相关
+ * array
+ *  Array 相关
+ * regexp
+ *  Regexp 相关
+ */
+
+// import "type/extends";
+import "type/new";
+// import "type/prototype";
 // import "type/logic";
 // import "type/interview";
 // import "type/string";
@@ -20,3 +42,10 @@ import "type/extends";
 if (module.hot) {
   module.hot.accept();
 }
+
+/**
+ * TODO
+ * 原型链
+ * new 关键字
+ * 继承
+ */

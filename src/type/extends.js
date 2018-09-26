@@ -28,7 +28,7 @@ ChildOne.prototype.constructor = ChildOne;
 
 console.log("-----");
 // 无法传入参数
-let catOne = new ChildOne();
+let catOne = new ChildOne("传入的name");
 console.log("catOne.type", catOne.type);
 console.log("catOne.foo", catOne.foo);
 console.log("catOne.name", catOne.name);
