@@ -25,7 +25,8 @@ module.exports = {
       "@": utils.resolve("src"),
       "static": utils.resolve("static"),
       "type": utils.resolve("src/type"),
-      "plugin": utils.resolve("src/plugin")
+      "plugin": utils.resolve("src/plugin"),
+      "util": utils.resolve("src/util"),
     }
   },
   module: {
