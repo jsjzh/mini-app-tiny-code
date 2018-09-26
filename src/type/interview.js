@@ -85,3 +85,7 @@ const bar = {
 console.log(str.renderThree(bar));
 // console.log(str.renderFour(bar));
 // console.log(str.renderFive(bar));
+
+for (let i = (setTimeout(() => compare(i), 2333), 0); i < 2; i++) {
+
+}

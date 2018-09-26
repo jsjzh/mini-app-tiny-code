@@ -30,8 +30,8 @@ app.innerHTML = require("./index.html");
  */
 
 // import "type/extends";
-// import "type/new";
-import "type/prototype";
+import "type/new";
+// import "type/prototype";
 // import "type/logic";
 // import "type/interview";
 // import "type/string";

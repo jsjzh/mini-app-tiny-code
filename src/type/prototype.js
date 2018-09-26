@@ -1,4 +1,4 @@
-import { compare } from "util";
+import { _log } from "util";
 
 function Fun() {};
 let fn = new Fun();
@@ -27,27 +27,21 @@ let fn = new Fun();
  * 是一个对象，当有一个新的对象由该构造函数生成时，这个新的对象可以直接访问该构造函数的原型
  */
 
-compare(fn.constructor, Fun)
-compare(Fun.constructor, Function)
-compare(Function.constructor, Function)
-compare(Object.constructor, Function)
+/**
+ * 理解 prototype
+ * prototype 为一个对象，身为对象就代表其有 __proto__ 属性，__proto__ 又是指向构造该对象的构造函数的原型，也就是 Object.prototype
+ */
 
-compare(fn.__proto__, Fun.prototype)
-compare(Fun.__proto__, Function.prototype)
-compare(Function.__proto__, Function.prototype)
-compare(Object.__proto__, Function.prototype)
+_log(fn.constructor, Fun)
+_log(Fun.constructor, Function)
+_log(Function.constructor, Function)
+_log(Object.constructor, Function)
 
-compare(Fun.prototype instanceof Object)
-compare(Function.prototype instanceof Object)
+_log(fn.__proto__, Fun.prototype)
+_log(Fun.__proto__, Function.prototype)
+_log(Function.__proto__, Function.prototype)
+_log(Object.__proto__, Function.prototype)
 
-compare(Fun.prototype.__proto__, Object.prototype)
-compare(Function.prototype.__proto__, Object.prototype)
-compare(Object.prototype.__proto__, null)
-
-// 函数对象的原型的隐式原型 --> Object 的原型，这也就是经常说的 万物皆对象 的由来
-// 函数对象 -> 拥有 prototype，prototype 是个对象 -> 那他的 prototype 属性和方法是哪里来的呢 -> 因为是对象，所以有 __proto__ 属性 -> 这个属性又是指向他的构造函数的原型，也就是 Object.protytype
-// 所以说，并没有绕来绕去，因为函数对象有一个特殊的属性 prototype，并且是个对象，对象就有 __proto__ 属性，__proto__ 当然就是指向他的构造构造函数的原型
-console.log(Function.prototype.__proto__ === Object.prototype);
-// 最终，Object 的原型的隐式原型，就指向了他的构造函数，发现竟然是个 null
-// 也就是传说中的 无中生有 了
-console.log(Object.prototype.__proto__ === null);
+_log(Fun.prototype.__proto__, Object.prototype)
+_log(Function.prototype.__proto__, Object.prototype)
+_log(Object.prototype.__proto__, null)
