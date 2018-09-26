@@ -29,9 +29,9 @@ app.innerHTML = require("./index.html");
  *  Regexp 相关
  */
 
-// import "type/extends";
-import "type/new";
 // import "type/prototype";
+// import "type/new";
+import "type/extends";
 // import "type/logic";
 // import "type/interview";
 // import "type/string";
@@ -42,10 +42,3 @@ import "type/new";
 if (module.hot) {
   module.hot.accept();
 }
-
-/**
- * TODO
- * 原型链
- * new 关键字
- * 继承
- */
