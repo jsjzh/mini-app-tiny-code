@@ -74,27 +74,29 @@ let fn = new Fun();
 
 // -----
 
-// function New(Parent) {
-//   let obj = {};
-//   obj.__proto__ = Parent.prototype;
-//   return Parent.apply(obj, Array.prototype.slice.call(arguments, 1)) || obj;
-// }
+function New(Parent) {
+  let obj = {};
+  obj.__proto__ = Parent.prototype;
+  return Parent.apply(obj, Array.prototype.slice.call(arguments, 1)) || obj;
+}
 
-// _log(typeof Function);
-// _log(typeof Object);
+_log(typeof Function);
+_log(typeof Object);
 
-// _log("---");
+_log("---");
 
-// _log(typeof Function.prototype);
-// _log(typeof Object.prototype);
+_log(typeof Function.prototype);
+_log(typeof Object.prototype);
 
-// _log("---");
+_log("---");
 
-// let _Function = New(Function);
-// let _Object = New(Object);
+let _Function = New(Function);
+let _Object = New(Object);
 
-// _log(typeof _Function.prototype);
-// _log(typeof _Object.prototype);
+_log(typeof _Function.prototype);
+_log(typeof _Object.prototype);
+
+_log(Function.prototype.__proto__, Object.prototype);
 
 // _log(Function instanceof Object);
 // _log(Object instanceof Function);

@@ -182,14 +182,15 @@ _Parents.prototype.getAges = function () {
  *  子类构建实例时不能向父类传递参数
  */
 
-function _extend(proto) {
+function Create(proto) {
   function F() {}
   F.prototype = proto;
   return new F();
 }
-let demo = _extend(_Parent)
 
 function ChildSix() {}
+
+ChildSix.prototype = Create(_Parent)
 
 // TODO
 /**
