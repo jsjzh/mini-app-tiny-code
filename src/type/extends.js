@@ -13,6 +13,135 @@ import {
  * 当 new 了一个 child 之后 生成的实例对象可以直接调用 Parent 的属性和方法 包括私有方法和原型方法
  */
 
+function _Parent(type = "未传入值") {
+  this.name = "someOne";
+  this.arr = [1, 2, 3];
+  this.type = type;
+  this.getName = function () {
+    return this.name
+  }
+}
+
+_Parent.prototype.age = "18";
+_Parent.prototype.Arr = [3, 2, 1];
+_Parent.prototype.getAge = function () {
+  return this.age
+}
+
+// DONE
+/**
+ * 原型链继承
+ * 核心
+ *  将父类的实例作为子类的原型
+ * 优点
+ *  父类方法可以复用
+ * 缺点
+ *  父类的引用属性会被所有子类实例共享
+ *    new 的实际效果 返回了一个对象 该对象的 __proto__ 属性 = 构建函数的 prototype 并且改变 this 指向运行了一遍构建函数 所以 child 的 this 中的引用属性都是同一个了
+ *      From.call(obj)
+ *    所以 如果利用生成的 child 再去生成实例 就会发现生成的实例中所有来自于父类的引用属性都是指向同一个内存地址
+ *  子类构建实例时不能向父类传递参数
+ */
+
+// function ChildOne() {}
+
+// ChildOne.prototype = new _Parent();
+// ChildOne.prototype.constructor = ChildOne;
+
+// let fooOne = new ChildOne();
+// let BarOne = new ChildOne();
+
+// _log(fooOne.name, BarOne.name);
+// _log(fooOne.type, BarOne.type);
+// _log(fooOne.arr, BarOne.arr);
+
+// // 更改父类中的私有引用属性
+// // 由该子类生成的各实例中该属性也改变了
+// fooOne.arr.push(1);
+// _log(fooOne.arr, BarOne.arr);
+
+// // 方法进行了复用 两个子类的方法指向相同
+// _log(fooOne.getName, BarOne.getName);
+
+// _log(fooOne.age, BarOne.age);
+// _log(fooOne.Arr, BarOne.Arr);
+
+// // 改变父类中的原型引用属性
+// // 由该子类生成的各实例中该属性也改变了
+// fooOne.Arr.push(1);
+// _log(fooOne.Arr, BarOne.Arr);
+
+// // 方法进行了复用 两个子类的方法指向相同
+// _log(fooOne.getAge, BarOne.getAge);
+
+
+// // 为了验证即使方法做的事情相同 但是内存地址不一样
+// let demoOne = function () { return this; }
+// let demoTwo = function () { return this; }
+// _log(demoOne, demoTwo)
+
+// DONE
+/**
+ * 构造函数继承
+ * 核心
+ *  将父类构造函数的内容复制给了子类的构造函数 可以理解成将父类中进行的步骤在子类中重新进行一次
+ * 优点
+ *  父类的引用属性不会被共享
+ *  子类构建实例时可以向父类传递参数
+ * 缺点
+ *  父类的方法不能复用 子类实例的方法每次都是单独创建
+ */
+
+// function ChildTwo() {
+//   _Parent.apply(this, Array.prototype.slice.call(arguments, 0));
+// }
+
+// let fooTwo = new ChildTwo("传入了 type");
+// let barTwo = new ChildTwo("传入了 type");
+
+// _log(fooTwo.name, barTwo.name);
+// // 可以传入 type
+// _log(fooTwo.type, barTwo.type);
+// // 根据子类生成的两个父类中的引用属性内存地址并不相同
+// _log(fooTwo.arr, barTwo.arr);
+// // 方法未复用 每次都是生成新的方法 新的内存地址
+// _log(fooTwo.getName, barTwo.getName);
+// // 不能够继承父类的 prototype 中的属性
+// _log(fooTwo.age, barTwo.age);
+// _log(fooTwo.Arr, barTwo.Arr);
+// _log(fooTwo.getAge, barTwo.getAge);
+
+// TODO
+/**
+ * 组合继承
+ * 核心
+ *  原型链继承和构造函数继承的组合
+ * 优点
+ *  父类的方法可以被复用
+ *  父类的引用属性不会被共享
+ *  子类构建实例时可以向父类传递参数
+ * 缺点
+ *  调用了两次父类的构造函数
+ *    第一次给子类的原型添加了父类构造函数中的属性
+ *    第二次又给子类的构造函数添加了父类的属性 从而覆盖了子类原型中的同名参数 覆盖的情况造成了性能上的浪费
+ */
+
+function ChildThree() {}
+
+
+
+// TODO
+/**
+ * 原型式继承
+ * 核心
+ *  原型式继承的 object 方法本质上是对参数对象的一个浅复制
+ * 优点
+ *  父类方法可以复用
+ * 缺点
+ *  父类的引用属性会被所有子类实例共享
+ *  子类构建实例时不能向父类传递参数
+ */
+
 /**
  * 类式继承
  *  Object.create
@@ -84,152 +213,6 @@ import {
 //     return new F();
 //   };
 // }
-
-// DONE
-// /**
-//  * 原型链继承
-//  * 核心
-//  *  将父类的实例作为子类的原型
-//  * 优点
-//  *  父类方法可以复用
-//  * 缺点
-//  *  父类的引用属性会被所有子类实例共享
-//  *    new 的实际效果 返回了一个对象 该对象的 __proto__ 属性 = 构建函数的 prototype 并且改变 this 指向运行了一遍构建函数 所以 child 的 this 中的引用属性都是同一个了
-//  *      From.call(obj)
-//  *    所以 如果利用生成的 child 再去生成实例 就会发现生成的实例中所有来自于父类的引用属性都是指向同一个内存地址
-//  *  子类构建实例时不能向父类传递参数
-//  */
-
-// function ParentOne() {
-//   this.name = "someOne";
-//   this.arr = [1, 2, 3];
-//   this.getName = function () {
-//     return this.name
-//   }
-// }
-
-// ParentOne.prototype.age = "18";
-// ParentOne.prototype.Arr = [3, 2, 1];
-// ParentOne.prototype.getAge = function () {
-//   return this.age
-// }
-
-// function ChildOne() {}
-
-// ChildOne.prototype = new ParentOne();
-// ChildOne.prototype.constructor = ChildOne;
-
-// let fooOne = new ChildOne();
-// let BarOne = new ChildOne();
-
-// _log(fooOne.name, BarOne.name);
-// _log(fooOne.arr, BarOne.arr);
-
-// // 更改父类中的私有引用属性
-// // 导致其他子类中该属性也改变了
-// fooOne.arr.push(1);
-// _log(fooOne.arr, BarOne.arr);
-
-// // 方法进行了复用 两个子类的方法指向相同
-// _log(fooOne.getName, BarOne.getName);
-
-// _log(fooOne.age, BarOne.age);
-// _log(fooOne.Arr, BarOne.Arr);
-
-// // 改变父类中的原型引用属性
-// // 导致其他子类中该属性也改变了
-// fooOne.Arr.push(1);
-// _log(fooOne.Arr, BarOne.Arr);
-
-// // 方法进行了复用 两个子类的方法指向相同
-// _log(fooOne.getAge, BarOne.getAge);
-
-
-// // 为了验证即使方法做的事情相同 但是内存地址不一样
-// // let demoOne = function () { return this; }
-// // let demoTwo = function () { return this; }
-// // _log(demo, demo_2)
-
-
-// function ParentOne(name = "未传入值") {
-//   this.type = "animal";
-//   this.foo = ["one", "two", "three"];
-//   this.name = name;
-//   this.hi = function () {
-//     return `hi my name is ${this.name}`;
-//   }
-// }
-// ParentOne.prototype.bar = ["three", "two", "one"];
-// ParentOne.prototype.hello = function () {
-//   return `hello my name is ${this.name}`;
-// }
-
-// function ChildOne() {}
-
-// ChildOne.prototype = new ParentOne();
-// ChildOne.prototype.constructor = ChildOne;
-
-// console.log("-----");
-// // 无法传入参数
-// let catOne = new ChildOne("传入的name");
-// _log(catOne.type);
-// _log(catOne.foo);
-// _log(catOne.name);
-// _log(catOne.hi());
-
-// _log(catOne.bar);
-// _log(catOne.hello());
-// console.log("-----");
-// // 由于是引用属性 所以修改父类会直接影响到子类实例
-// ParentOne.prototype.bar = [3, 2, 1];
-// ParentOne.prototype.hello = function () {
-//   return `hello my name is change`;
-// }
-// _log(catOne.bar);
-// _log(catOne.hello());
-
-// TODO
-/**
- * 构造函数继承
- * 核心
- *  将父类构造函数的内容复制给了子类的构造函数 可以理解成将父类中进行的步骤在子类中重新进行一次
- * 优点
- *  父类的引用属性不会被共享
- *  子类构建实例时可以向父类传递参数
- * 缺点
- *  父类的方法不能复用 子类实例的方法每次都是单独创建
- */
-
-
-
-
-
-// TODO
-/**
- * 组合继承
- * 核心
- *  原型链继承和构造函数继承的组合
- * 优点
- *  父类的方法可以被复用
- *  父类的引用属性不会被共享
- *  子类构建实例时可以向父类传递参数
- * 缺点
- *  调用了两次父类的构造函数
- *    第一次给子类的原型添加了父类构造函数中的属性
- *    第二次又给子类的构造函数添加了父类的属性 从而覆盖了子类原型中的同名参数 覆盖的情况造成了性能上的浪费
- */
-
-// TODO
-/**
- * 原型式继承
- * 核心
- *  原型式继承的 object 方法本质上是对参数对象的一个浅复制
- * 优点
- *  父类方法可以复用
- * 缺点
- *  父类的引用属性会被所有子类实例共享
- *  子类构建实例时不能向父类传递参数
- */
 
 // TODO
 /**
