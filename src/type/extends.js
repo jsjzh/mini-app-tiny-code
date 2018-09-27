@@ -12,8 +12,10 @@ import {
  * 期望的效果
  * 当 new 了一个 child 之后 生成的实例对象可以直接调用 Parent 的属性和方法 包括私有方法和原型方法
  */
+let i = 0;
 
 function _Parent(type = "未传入值") {
+  _log("_Parent 调用次数 ===>", ++i);
   this.name = "someOne";
   this.arr = [1, 2, 3];
   this.type = type;
@@ -96,8 +98,8 @@ _Parent.prototype.getAge = function () {
 //   _Parent.apply(this, Array.prototype.slice.call(arguments, 0));
 // }
 
-// let fooTwo = new ChildTwo("传入了 type");
-// let barTwo = new ChildTwo("传入了 type");
+// let fooTwo = new ChildTwo("ChildTwo 传入了 type");
+// let barTwo = new ChildTwo("ChildTwo 传入了 type");
 
 // _log(fooTwo.name, barTwo.name);
 // // 可以传入 type
@@ -111,7 +113,7 @@ _Parent.prototype.getAge = function () {
 // _log(fooTwo.Arr, barTwo.Arr);
 // _log(fooTwo.getAge, barTwo.getAge);
 
-// TODO
+// DONE
 /**
  * 组合继承
  * 核心
@@ -126,8 +128,32 @@ _Parent.prototype.getAge = function () {
  *    第二次又给子类的构造函数添加了父类的属性 从而覆盖了子类原型中的同名参数 覆盖的情况造成了性能上的浪费
  */
 
-function ChildThree() {}
+// function ChildThree() {
+//   // 当使用 new Child 生成实例的时候再次调用
+//   _Parent.apply(this, Array.prototype.slice.call(arguments, 0));
+// }
 
+// // 第一次调用 _Parent
+// ChildThree.prototype = new _Parent();
+// ChildThree.prototype.constructor = ChildThree;
+
+// let fooThree = new ChildThree("ChildThree 传入了 type");
+// let barThree = new ChildThree("ChildThree 传入了 type");
+
+// // 由子类生成的实例所对应的父类私有属性内存地址皆不相同
+// _log(fooThree.name, barThree.name);
+// _log(fooThree.type, barThree.type);
+// _log(fooThree.arr, barThree.arr);
+// fooThree.arr.push(1);
+// _log(fooThree.arr, barThree.arr);
+// _log(fooThree.getName, barThree.getName);
+
+// // 由子类生成的实例所对应的父类原型属性内存地址仍旧相同
+// _log(fooThree.age, barThree.age);
+// _log(fooThree.Arr, barThree.Arr);
+// fooThree.Arr.push(1);
+// _log(fooThree.Arr, barThree.Arr);
+// _log(fooThree.getAge, barThree.getAge);
 
 
 // TODO
