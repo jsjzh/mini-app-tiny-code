@@ -1,17 +1,15 @@
 import {
-  _log
+  _log,
+  extendsLog
 } from "util";
 
 /**
  * 继承
- * 想要一个对象能够访问另一个对象的属性 同时 这个对象还能够添加自己新的属性或是覆盖可访问的另一个对象的属性 我们实现这个目标的方式叫做 继承
+ *  想要一个对象能够访问另一个对象的属性 同时 这个对象还能够添加自己新的属性或是覆盖可访问的另一个对象的属性 我们实现这个目标的方式叫做 继承
+ * 期望的效果
+ *  当 new 了一个 child 之后 生成的实例对象可以直接调用 Parent 的属性和方法 包括私有方法和原型方法
  */
 
-/**
- * 继承
- * 期望的效果
- * 当 new 了一个 child 之后 生成的实例对象可以直接调用 Parent 的属性和方法 包括私有方法和原型方法
- */
 let i = 0;
 
 function _Parent(type = "未传入值") {
@@ -53,28 +51,13 @@ _Parent.prototype.getAge = function () {
 // let fooOne = new ChildOne();
 // let BarOne = new ChildOne();
 
-// _log(fooOne.name, BarOne.name);
-// _log(fooOne.type, BarOne.type);
-// _log(fooOne.arr, BarOne.arr);
-
 // // 更改父类中的私有引用属性
 // // 由该子类生成的各实例中该属性也改变了
-// fooOne.arr.push(1);
-// _log(fooOne.arr, BarOne.arr);
-
 // // 方法进行了复用 两个子类的方法指向相同
-// _log(fooOne.getName, BarOne.getName);
-
-// _log(fooOne.age, BarOne.age);
-// _log(fooOne.Arr, BarOne.Arr);
-
 // // 改变父类中的原型引用属性
 // // 由该子类生成的各实例中该属性也改变了
-// fooOne.Arr.push(1);
-// _log(fooOne.Arr, BarOne.Arr);
-
 // // 方法进行了复用 两个子类的方法指向相同
-// _log(fooOne.getAge, BarOne.getAge);
+// extendsLog(fooOne, BarOne);
 
 
 // // 为了验证即使方法做的事情相同 但是内存地址不一样
@@ -101,17 +84,11 @@ _Parent.prototype.getAge = function () {
 // let fooTwo = new ChildTwo("ChildTwo 传入了 type");
 // let barTwo = new ChildTwo("ChildTwo 传入了 type");
 
-// _log(fooTwo.name, barTwo.name);
 // // 可以传入 type
-// _log(fooTwo.type, barTwo.type);
 // // 根据子类生成的两个父类中的引用属性内存地址并不相同
-// _log(fooTwo.arr, barTwo.arr);
 // // 方法未复用 每次都是生成新的方法 新的内存地址
-// _log(fooTwo.getName, barTwo.getName);
 // // 不能够继承父类的 prototype 中的属性
-// _log(fooTwo.age, barTwo.age);
-// _log(fooTwo.Arr, barTwo.Arr);
-// _log(fooTwo.getAge, barTwo.getAge);
+// extendsLog(fooTwo, barTwo);
 
 // DONE
 /**
@@ -140,21 +117,7 @@ _Parent.prototype.getAge = function () {
 // let fooThree = new ChildThree("ChildThree 传入了 type");
 // let barThree = new ChildThree("ChildThree 传入了 type");
 
-// // 由子类生成的实例所对应的父类私有属性内存地址皆不相同
-// _log(fooThree.name, barThree.name);
-// _log(fooThree.type, barThree.type);
-// _log(fooThree.arr, barThree.arr);
-// fooThree.arr.push(1);
-// _log(fooThree.arr, barThree.arr);
-// _log(fooThree.getName, barThree.getName);
-
-// // 由子类生成的实例所对应的父类原型属性内存地址仍旧相同
-// _log(fooThree.age, barThree.age);
-// _log(fooThree.Arr, barThree.Arr);
-// fooThree.Arr.push(1);
-// _log(fooThree.Arr, barThree.Arr);
-// _log(fooThree.getAge, barThree.getAge);
-
+// extendsLog(fooThree, barThree);
 
 // TODO
 /**
@@ -172,6 +135,26 @@ _Parent.prototype.getAge = function () {
  * 类式继承
  *  Object.create
  */
+
+// function ChildFour() {
+//   _Parent.call(this, Array.prototype.slice.call(arguments, 0))
+// }
+
+// // function _extend(proto) {
+// //   function F() {}
+// //   F.prototype = proto;
+// //   return new F();
+// // }
+
+// ChildFour.prototype = Object.create(_Parent.prototype);
+// ChildFour.prototype.constructor = ChildFour;
+
+// let fooFour = new ChildFour("ChildFour 传入了 type");
+// let barFour = new ChildFour("ChildFour 传入了 type");
+
+// // 由子类生成的实例所对应的 父类私有属性 内存地址皆不相同
+// // 由子类生成的实例所对应的 父类原型属性 内存地址仍旧相同
+// extendsLog(fooFour, barFour);
 
 // function Parent() {
 //   this.x = 0;
@@ -235,7 +218,6 @@ _Parent.prototype.getAge = function () {
 
 //     function F() {}
 //     F.prototype = proto;
-
 //     return new F();
 //   };
 // }
