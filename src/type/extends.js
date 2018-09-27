@@ -144,12 +144,6 @@ _Parents.prototype.getAges = function () {
 //   _Parent.call(this, Array.prototype.slice.call(arguments, 0))
 // }
 
-// // function _extend(proto) {
-// //   function F() {}
-// //   F.prototype = proto;
-// //   return new F();
-// // }
-
 // ChildFour.prototype = Object.create(_Parent.prototype);
 // ChildFour.prototype.constructor = ChildFour;
 
@@ -187,6 +181,15 @@ _Parents.prototype.getAges = function () {
  *  父类的引用属性会被所有子类实例共享
  *  子类构建实例时不能向父类传递参数
  */
+
+function _extend(proto) {
+  function F() {}
+  F.prototype = proto;
+  return new F();
+}
+let demo = _extend(_Parent)
+
+function ChildSix() {}
 
 // TODO
 /**
