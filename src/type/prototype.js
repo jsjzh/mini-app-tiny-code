@@ -15,7 +15,8 @@ let fn = new Fun();
  * constructor
  * 简称：构造者
  * 
- * 每个对象都具有的一个属性
+ * 该属性在 prototype 上
+ * prototype.constructor
  * 一个对象的构造者会直接指向构造该对象的构造函数
  */
 

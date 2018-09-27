@@ -4,7 +4,13 @@ import {
 
 /**
  * 继承
- * 想要一个对象能够访问另一个对象的属性，同时，这个对象还能够添加自己新的属性或是覆盖可访问的另一个对象的属性，我们实现这个目标的方式叫做 继承
+ * 想要一个对象能够访问另一个对象的属性 同时 这个对象还能够添加自己新的属性或是覆盖可访问的另一个对象的属性 我们实现这个目标的方式叫做 继承
+ */
+
+/**
+ * 继承
+ * 期望的效果
+ * 当 new 了一个 child 之后 生成的实例对象可以直接调用 Parent 的属性和方法 包括私有方法和原型方法
  */
 
 /**
@@ -79,55 +85,71 @@ import {
 //   };
 // }
 
+// DONE
+// /**
+//  * 原型链继承
+//  * 核心
+//  *  将父类的实例作为子类的原型
+//  * 优点
+//  *  父类方法可以复用
+//  * 缺点
+//  *  父类的引用属性会被所有子类实例共享
+//  *    new 的实际效果 返回了一个对象 该对象的 __proto__ 属性 = 构建函数的 prototype 并且改变 this 指向运行了一遍构建函数 所以 child 的 this 中的引用属性都是同一个了
+//  *      From.call(obj)
+//  *    所以 如果利用生成的 child 再去生成实例 就会发现生成的实例中所有来自于父类的引用属性都是指向同一个内存地址
+//  *  子类构建实例时不能向父类传递参数
+//  */
 
-/**
- * 原型链继承
- * 核心
- *  将父类的实例作为子类的原型
- * 优点
- *  父类方法可以复用
- * 缺点
- *  父类的引用属性会被所有子类实例共享
- *  子类构建实例时不能向父类传递参数
- */
+// function ParentOne() {
+//   this.name = "someOne";
+//   this.arr = [1, 2, 3];
+//   this.getName = function () {
+//     return this.name
+//   }
+// }
 
-/**
- * 继承
- * 期望的效果
- * 当 new 了一个 child 之后，生成的实例对象可以直接调用 Parent 的属性和方法，包括私有方法和原型方法
- */
-function ParentOne() {
-  this.name = "someOne";
-  this.arr = [1, 2, 3];
-  this.getName = function () {
-    return this.name
-  }
-}
+// ParentOne.prototype.age = "18";
+// ParentOne.prototype.Arr = [3, 2, 1];
+// ParentOne.prototype.getAge = function () {
+//   return this.age
+// }
 
-ParentOne.prototype.age = "18";
-ParentOne.prototype.Arr = [3, 2, 1];
-ParentOne.prototype.getAge = function () {
-  return this.age
-}
+// function ChildOne() {}
 
-function ChildOne() {}
+// ChildOne.prototype = new ParentOne();
+// ChildOne.prototype.constructor = ChildOne;
 
-ChildOne.prototype = new ParentOne();
-ChildOne.prototype.constructor = ChildOne;
+// let fooOne = new ChildOne();
+// let BarOne = new ChildOne();
 
-let fooOne = new ChildOne();
-let BarOne = new ChildOne();
+// _log(fooOne.name, BarOne.name);
+// _log(fooOne.arr, BarOne.arr);
 
-_log(fooOne.name, BarOne.name);
-_log(fooOne.arr, BarOne.arr);
-fooOne.arr.push(1);
-_log(fooOne.arr, BarOne.arr);
-_log(fooOne.getName(), BarOne.getName());
-_log(fooOne.age, BarOne.age);
-_log(fooOne.Arr, BarOne.Arr);
-fooOne.Arr.push(1);
-_log(fooOne.Arr, BarOne.Arr);
-_log(fooOne.getAge(), BarOne.getAge());
+// // 更改父类中的私有引用属性
+// // 导致其他子类中该属性也改变了
+// fooOne.arr.push(1);
+// _log(fooOne.arr, BarOne.arr);
+
+// // 方法进行了复用 两个子类的方法指向相同
+// _log(fooOne.getName, BarOne.getName);
+
+// _log(fooOne.age, BarOne.age);
+// _log(fooOne.Arr, BarOne.Arr);
+
+// // 改变父类中的原型引用属性
+// // 导致其他子类中该属性也改变了
+// fooOne.Arr.push(1);
+// _log(fooOne.Arr, BarOne.Arr);
+
+// // 方法进行了复用 两个子类的方法指向相同
+// _log(fooOne.getAge, BarOne.getAge);
+
+
+// // 为了验证即使方法做的事情相同 但是内存地址不一样
+// // let demoOne = function () { return this; }
+// // let demoTwo = function () { return this; }
+// // _log(demo, demo_2)
+
 
 // function ParentOne(name = "未传入值") {
 //   this.type = "animal";
@@ -158,7 +180,7 @@ _log(fooOne.getAge(), BarOne.getAge());
 // _log(catOne.bar);
 // _log(catOne.hello());
 // console.log("-----");
-// // 由于是引用属性，所以修改父类会直接影响到子类实例
+// // 由于是引用属性 所以修改父类会直接影响到子类实例
 // ParentOne.prototype.bar = [3, 2, 1];
 // ParentOne.prototype.hello = function () {
 //   return `hello my name is change`;
@@ -166,17 +188,23 @@ _log(fooOne.getAge(), BarOne.getAge());
 // _log(catOne.bar);
 // _log(catOne.hello());
 
+// TODO
 /**
  * 构造函数继承
  * 核心
- *  将父类构造函数的内容复制给了子类的构造函数，可以理解成将父类中进行的步骤在子类中重新进行一次
+ *  将父类构造函数的内容复制给了子类的构造函数 可以理解成将父类中进行的步骤在子类中重新进行一次
  * 优点
  *  父类的引用属性不会被共享
  *  子类构建实例时可以向父类传递参数
  * 缺点
- *  父类的方法不能复用，子类实例的方法每次都是单独创建
+ *  父类的方法不能复用 子类实例的方法每次都是单独创建
  */
 
+
+
+
+
+// TODO
 /**
  * 组合继承
  * 核心
@@ -188,9 +216,10 @@ _log(fooOne.getAge(), BarOne.getAge());
  * 缺点
  *  调用了两次父类的构造函数
  *    第一次给子类的原型添加了父类构造函数中的属性
- *    第二次又给子类的构造函数添加了父类的属性，从而覆盖了子类原型中的同名参数，覆盖的情况造成了性能上的浪费
+ *    第二次又给子类的构造函数添加了父类的属性 从而覆盖了子类原型中的同名参数 覆盖的情况造成了性能上的浪费
  */
 
+// TODO
 /**
  * 原型式继承
  * 核心
@@ -202,16 +231,19 @@ _log(fooOne.getAge(), BarOne.getAge());
  *  子类构建实例时不能向父类传递参数
  */
 
+// TODO
 /**
  * 寄生式继承
  * 核心
- *  使用原型式继承获得一个目标对象的浅复制，然后增强这个浅复制的能力
+ *  使用原型式继承获得一个目标对象的浅复制 然后增强这个浅复制的能力
  */
 
+// TODO
 /**
  * 寄生组合继承
  */
 
+// TODO
 /**
  * ES6 Class extends
  */

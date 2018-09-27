@@ -13,6 +13,7 @@ import {
 
 function Parent(name) {
   this.name = name;
+  return this;
 }
 
 var childOne = new Parent("cat");
