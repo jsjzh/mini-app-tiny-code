@@ -10,10 +10,10 @@ import {
  *  当 new 了一个 child 之后 生成的实例对象可以直接调用 Parent 的属性和方法 包括私有方法和原型方法
  */
 
-let i = 0;
+// let i = 0;
 
 function _Parent(type = "未传入值") {
-  _log("_Parent 调用次数 ===>", ++i);
+  // _log("_Parent 调用次数 ===>", ++i);
   this.name = "someOne";
   this.arr = [1, 2, 3];
   this.type = type;
@@ -26,6 +26,21 @@ _Parent.prototype.age = "18";
 _Parent.prototype.Arr = [3, 2, 1];
 _Parent.prototype.getAge = function () {
   return this.age
+}
+
+function _Parents(types = "未传入值 s") {
+  this.names = "someOne s";
+  this.arrs = [1, 2, 3, 4];
+  this.types = types;
+  this.getNames = function () {
+    return this.names
+  }
+}
+
+_Parents.prototype.ages = "18s";
+_Parents.prototype.Arrs = [4, 3, 2, 1];
+_Parents.prototype.getAges = function () {
+  return this.ages
 }
 
 // DONE
@@ -119,18 +134,7 @@ _Parent.prototype.getAge = function () {
 
 // extendsLog(fooThree, barThree);
 
-// TODO
-/**
- * 原型式继承
- * 核心
- *  原型式继承的 object 方法本质上是对参数对象的一个浅复制
- * 优点
- *  父类方法可以复用
- * 缺点
- *  父类的引用属性会被所有子类实例共享
- *  子类构建实例时不能向父类传递参数
- */
-
+// DONE
 /**
  * 类式继承
  *  Object.create
@@ -156,71 +160,33 @@ _Parent.prototype.getAge = function () {
 // // 由子类生成的实例所对应的 父类原型属性 内存地址仍旧相同
 // extendsLog(fooFour, barFour);
 
-// function Parent() {
-//   this.x = 0;
-//   this.y = 0;
+// // 继承多个对象
+// function ChildFive() {
+//   _Parent.call(this, Array.prototype.slice.call(arguments, 0))
+//   _Parents.call(this, Array.prototype.slice.call(arguments, 0))
 // }
-
-// // 父类的方法
-// Parent.prototype.move = function (x, y) {
-//   this.x += x;
-//   this.y += y;
-//   console.info('Parent moved.');
-// };
-
-// function Child() {
-//   Parent.call(this); // call super constructor.
-// }
-
-// // 子类续承父类
-// Child.prototype = Object.create(Parent.prototype);
-// Child.prototype.constructor = Child;
-
-// var rect = new Child();
-
-// console.log(rect instanceof Child, 'Is rect an instance of Child?');
-// console.log(rect instanceof Parent, 'Is rect an instance of Parent?');
-
-// rect.move(1, 1); // Outputs, 'Shape moved.'
-
-// console.log(Object.create(Parent.prototype));
-// console.log(new Parent());
-
-// 继承多个对象
-// function MyClass() {
-//   SuperClass.call(this);
-//   OtherSuperClass.call(this);
-// }
-
-// // 继承一个类
-// MyClass.prototype = Object.create(SuperClass.prototype);
 // // 混合其它
-// Object.assign(MyClass.prototype, OtherSuperClass.prototype);
+// ChildFive.prototype = Object.create(_Parent.prototype);
+// Object.assign(ChildFive.prototype, _Parents.prototype);
 // // 重新指定constructor
-// MyClass.prototype.constructor = MyClass;
+// ChildFive.prototype.constructor = ChildFive;
 
-// MyClass.prototype.myMethod = function () {
-//   // do a thing
-// };
+// let fooFive = new ChildFive("ChildFive 传入了 type");
+// let barFive = new ChildFive("ChildFive 传入了 type");
 
-// 比较在意 polyfill 最后使用的是 function F() {}
-// 是否意味着这个更干净？
-// 是否意味着这才是所谓的起源？
-// if (typeof Object.create !== "function") {
-//   Object.create = function (proto, propertiesObject) {
-//     if (typeof proto !== 'object' && typeof proto !== 'function') {
-//       throw new TypeError('Object prototype may only be an Object: ' + proto);
-//     } else if (proto === null) {
-//       throw new Error("This browser's implementation of Object.create is a shim and doesn't support 'null' as the first argument.");
-//     }
+// extendsLog(fooFive, barFive, true);
 
-//     if (typeof propertiesObject != 'undefined') throw new Error("This browser's implementation of Object.create is a shim and doesn't support a second argument.");
-
-//     function F() {}
-//     F.prototype = proto;
-//     return new F();
-//   };
-// }
+// TODO
+/**
+ * 原型式继承
+ * 核心
+ *  原型式继承的 object 方法本质上是对参数对象的一个浅复制
+ * 优点
+ *  父类方法可以复用
+ * 缺点
+ *  父类的引用属性会被所有子类实例共享
+ *  子类构建实例时不能向父类传递参数
+ */
 
 // TODO
 /**
