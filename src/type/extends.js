@@ -37,7 +37,7 @@ function _Parents(types = "未传入值 s") {
   }
 }
 
-_Parents.prototype.ages = "18s";
+_Parents.prototype.ages = "18 s";
 _Parents.prototype.Arrs = [4, 3, 2, 1];
 _Parents.prototype.getAges = function () {
   return this.ages
