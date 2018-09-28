@@ -10,19 +10,19 @@ class Parent {
     this.getName = function () {
       return this.name
     }
-    // this._age = [1, 1, 1];
+    this.Arr = [3, 2, 1];
   }
 
-  get age() {
-    return this._age;
+  get Arr() {
+    return this._Arr;
   }
 
-  set age(val) {
-    this._age = val;
+  set Arr(val) {
+    this._Arr.push(`${this.type} push ${val}`);
   }
 
-  getAge() {
-    return this.age;
+  getArr() {
+    return this.Arr;
   }
 
   static getType() {
@@ -36,8 +36,8 @@ class Child extends Parent {
   }
 }
 
-let foo = new Child("foo 传入 type");
-let bar = new Child("bar 传入 type");
+let foo = new Child("foo");
+let bar = new Child("bar");
 
 // 私有属性 基本类型 数值相同 判断结果为 true
 _log(foo.name, bar.name);
@@ -49,8 +49,10 @@ _log(foo.type, bar.type);
 _log(foo.getName, bar.getName);
 // 不只是私有属性还是原型属性 基本类型 ???
 // 私认为不是原型属性
-_log(foo.age, bar.age);
+_log(foo.Arr, bar.Arr);
+foo.Arr = 4;
+_log(foo.Arr, bar.Arr);
 // 原型属性 引用类型 内存地址相同 判断结果为 true
-_log(foo.getAge, bar.getAge);
+_log(foo.getArr, bar.getArr);
 // class 上 static 属性 引用类型 内存地址相同 判断结果为 true
 _log(Parent.getType, Child.getType);
