@@ -182,16 +182,6 @@ _Parents.prototype.getAges = function () {
  *  子类构建实例时不能向父类传递参数
  */
 
-function Create(proto) {
-  function F() {}
-  F.prototype = proto;
-  return new F();
-}
-
-function ChildSix() {}
-
-ChildSix.prototype = Create(_Parent)
-
 // TODO
 /**
  * 寄生式继承
@@ -204,7 +194,175 @@ ChildSix.prototype = Create(_Parent)
  * 寄生组合继承
  */
 
+// function Create(_prototype)) {
+//   function F() {}
+//   F.prototype = _prototype;
+//   return new F();
+// }
+
+// function ChildSix() {
+//   _Parent.call(this, Array.prototype.slice.call(arguments, 0))
+//   _Parents.call(this, Array.prototype.slice.call(arguments, 0))
+// }
+
+// ChildSix.prototype = Create(_Parent.prototype);
+// Object.assign(ChildSix.prototype, _Parents.prototype);
+
+// ChildSix.prototype.constructor = ChildSix;
+
+// let fooSix = new ChildSix("ChildSix 传入了 type");
+// let barSix = new ChildSix("ChildSix 传入了 type");
+
+// extendsLog(fooSix, barSix, true);
+
 // TODO
 /**
  * ES6 Class extends
  */
+
+class ClassParent {
+  constructor(type) {
+    this.name = "someOne";
+    this.arr = [1, 2, 3];
+    this.type = type;
+    this.getName = function () {
+      return this.name
+    }
+  }
+  getAge() {
+    return this.age
+  }
+
+}
+
+class ClassChild extends ClassParent {
+  constructor() {
+    super();
+  }
+}
+
+let fooSeven = new ClassChild("ClassChild 传入了 type");
+let barSeven = new ClassChild("ClassChild 传入了 type");
+
+extendsLog(fooSeven, barSeven);
+
+let ChromeSamples = console;
+
+class Polygon {
+  constructor(height, width) {
+    this.name = 'Polygon';
+    this.height = height;
+    this.width = width;
+  }
+
+  sayName() {
+    console.log('Hi, I am a ', this.name + '.');
+  }
+
+  sayHistory() {
+    console.log('"Polygon" is derived from the Greek polus (many) ' + 'and gonia (angle).');
+  }
+}
+
+let p = new Polygon(300, 400);
+p.sayName();
+console.log('The width of this polygon is ' + p.width);
+
+class Square extends Polygon {
+  constructor(length) {
+    super(length, length);
+    this.name = 'Square';
+  }
+  get area() {
+    return this.height * this.width;
+  }
+  set area(value) {
+    this.area = value;
+  }
+}
+
+let s = new Square(5);
+
+s.sayName();
+console.log('The area of this square is ' + s.area);
+
+class Triple {
+  static triple(n) {
+    n = n || 1;
+    return n * 3;
+  }
+}
+
+class BiggerTriple extends Triple {
+  static triple(n) {
+    return super.triple(n) * super.triple(n);
+  }
+}
+
+ChromeSamples.log(Triple.triple());
+ChromeSamples.log(Triple.triple(6));
+ChromeSamples.log(BiggerTriple.triple(3));
+
+// class MyDate extends Date {
+//   constructor() {
+//     super();
+//   }
+
+//   getFormattedDate() {
+//     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+//     return this.getDate() + '-' + months[this.getMonth()] + '-' + this.getFullYear();
+//   }
+// }
+
+// var aDate = new MyDate();
+// ChromeSamples.log(aDate.getTime());
+// ChromeSamples.log(aDate.getFormattedDate());
+
+// class ExtendedUint8Array extends Uint8Array {
+//   constructor() {
+//     super(10);
+//     this[0] = 255;
+//     this[1] = 0xFFA;
+//   }
+// }
+
+// var eua = new ExtendedUint8Array();
+// ChromeSamples.log(eua.byteLength);
+
+// // Extend DOM Audio element
+// class MyAudio extends Audio {
+//   constructor() {
+//     super();
+//     this._lyrics = '';
+//   }
+
+//   get lyrics() {
+//     return this._lyrics;
+//   }
+
+//   set lyrics(str) {
+//     this._lyrics = str;
+//   }
+// }
+
+// var player = new MyAudio();
+// player.controls = true;
+// player.lyrics = 'Never gonna give you up';
+// document.querySelector('body').appendChild(player);
+// ChromeSamples.log(player.lyrics);
+
+// class Stack extends Array {
+//   constructor() {
+//     super();
+//   }
+
+//   demo() {
+//     return this[this.length - 1];
+//   }
+// }
+
+// var stack = new Stack();
+// stack.push('world');
+// stack.push('hello');
+// ChromeSamples.log(stack.demo());
+// ChromeSamples.log(stack.length);

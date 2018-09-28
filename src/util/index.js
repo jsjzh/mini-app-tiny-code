@@ -8,7 +8,7 @@ export function extendsLog(foo, bar, flag = false) {
   _log(foo.arr, bar.arr);
 
   if (foo.arr && bar.arr) {
-    foo.arr.push(1);
+    foo.arr.push("push 一个玩意儿进去");
     _log(foo.arr, bar.arr);
   }
 
@@ -18,20 +18,20 @@ export function extendsLog(foo, bar, flag = false) {
   _log(foo.Arr, bar.Arr);
 
   if (foo.Arr && bar.Arr) {
-    foo.Arr.push(1);
+    foo.Arr.push("push 一个玩意儿进去");
     _log(foo.Arr, bar.Arr);
   }
 
   _log(foo.getAge, bar.getAge);
 
   if (flag) {
-    console.log("----------- 分割线 -------------");
+    console.log("----------- 上面为继承 _Parent 分割线 下面为继承 _Parents -------------");
     _log(foo.names, bar.names);
     _log(foo.types, bar.types);
     _log(foo.arrs, bar.arrs);
 
     if (foo.arrs && bar.arrs) {
-      foo.arrs.push(1);
+      foo.arrs.push("push 一个玩意儿进去");
       _log(foo.arrs, bar.arrs);
     }
 
@@ -41,7 +41,7 @@ export function extendsLog(foo, bar, flag = false) {
     _log(foo.Arrs, bar.Arrs);
 
     if (foo.Arrs && bar.Arrs) {
-      foo.Arrs.push(1);
+      foo.Arrs.push("push 一个玩意儿进去");
       _log(foo.Arrs, bar.Arrs);
     }
   }
