@@ -140,19 +140,19 @@ _Parents.prototype.getAges = function () {
  *  Object.create
  */
 
-// function ChildFour() {
-//   _Parent.call(this, Array.prototype.slice.call(arguments, 0))
-// }
+function ChildFour() {
+  _Parent.call(this, Array.prototype.slice.call(arguments, 0))
+}
 
-// ChildFour.prototype = Object.create(_Parent.prototype);
-// ChildFour.prototype.constructor = ChildFour;
+ChildFour.prototype = Object.create(_Parent.prototype);
+ChildFour.prototype.constructor = ChildFour;
 
-// let fooFour = new ChildFour("ChildFour 传入了 type");
-// let barFour = new ChildFour("ChildFour 传入了 type");
+let fooFour = new ChildFour("ChildFour 传入了 type");
+let barFour = new ChildFour("ChildFour 传入了 type");
 
-// // 由子类生成的实例所对应的 父类私有属性 内存地址皆不相同
-// // 由子类生成的实例所对应的 父类原型属性 内存地址仍旧相同
-// extendsLog(fooFour, barFour);
+// 由子类生成的实例所对应的 父类私有属性 内存地址皆不相同
+// 由子类生成的实例所对应的 父类原型属性 内存地址仍旧相同
+extendsLog(fooFour, barFour);
 
 // // 继承多个对象
 // function ChildFive() {
@@ -307,42 +307,42 @@ _Parents.prototype.getAges = function () {
 // 然而我们使用不同的调用方法时, this的值也就不同了。当从变量 helloFunction()中调用的时候， this就被设置成了全局对象 (在浏览器中即window)。由于该对象 (非常可能地) 没有firstName 属性, 我们得到的结果便是"Hello, I'm undefined". (这是松散模式下的结果， 在 严格模式中，结果将不同（此时会产生一个error）。 但是为了避免混淆，我们在这里不涉及细节) 。另外，我们可以像上例末尾那样，使用Function#call (或者Function#apply)显式的设置this的值。
 
 // 也可以扩展传统的基于函数的“类”
-function Animal(name) {
-  this.name = name;
-}
-Animal.prototype.speak = function () {
-  console.log(this.name + ' makes a noise.');
-}
+// function Animal(name) {
+//   this.name = name;
+// }
+// Animal.prototype.speak = function () {
+//   console.log(this.name + ' makes a noise.');
+// }
 
-class Dog extends Animal {
-  speak() {
-    super.speak();
-    console.log(this.name + ' barks.');
-  }
-}
+// class Dog extends Animal {
+//   speak() {
+//     super.speak();
+//     console.log(this.name + ' barks.');
+//   }
+// }
 
-var d = new Dog('Mitzie');
-d.speak();
+// var d = new Dog('Mitzie');
+// d.speak();
 
 
-// 请注意，类不能继承常规（非可构造）对象。如果要继承常规对象，可以改用Object.setPrototypeOf()
+// // 请注意，类不能继承常规（非可构造）对象。如果要继承常规对象，可以改用Object.setPrototypeOf()
 
-var Animal = {
-  speak() {
-    console.log(this.name + ' makes a noise.');
-  }
-};
+// var Animal = {
+//   speak() {
+//     console.log(this.name + ' makes a noise.');
+//   }
+// };
 
-class Dog {
-  constructor(name) {
-    this.name = name;
-  }
-}
+// class Dog {
+//   constructor(name) {
+//     this.name = name;
+//   }
+// }
 
-Object.setPrototypeOf(Dog.prototype, Animal); // If you do not do this you will get a TypeError when you invoke speak
+// Object.setPrototypeOf(Dog.prototype, Animal); // If you do not do this you will get a TypeError when you invoke speak
 
-var d = new Dog('Mitzie');
-d.speak(); // Mitzie makes a noise.
+// var d = new Dog('Mitzie');
+// d.speak(); // Mitzie makes a noise.
 
 // class Animal {
 //   speak() {

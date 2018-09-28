@@ -32,6 +32,7 @@ app.innerHTML = require("./index.html");
 // import "type/prototype";
 // import "type/new";
 import "type/extends";
+// import "type/class";
 // import "type/logic";
 // import "type/interview";
 // import "type/string";
