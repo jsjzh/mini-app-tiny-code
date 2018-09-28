@@ -18,14 +18,14 @@ function _Parent(type = "未传入值") {
   this.arr = [1, 2, 3];
   this.type = type;
   this.getName = function () {
-    return this.name
+    return this.name;
   }
 }
 
 _Parent.prototype.age = "18";
 _Parent.prototype.Arr = [3, 2, 1];
 _Parent.prototype.getAge = function () {
-  return this.age
+  return this.age;
 }
 
 function _Parents(types = "未传入值 s") {
@@ -33,14 +33,14 @@ function _Parents(types = "未传入值 s") {
   this.arrs = [1, 2, 3, 4];
   this.types = types;
   this.getNames = function () {
-    return this.names
+    return this.names;
   }
 }
 
 _Parents.prototype.ages = "18 s";
 _Parents.prototype.Arrs = [4, 3, 2, 1];
 _Parents.prototype.getAges = function () {
-  return this.ages
+  return this.ages;
 }
 
 // DONE
