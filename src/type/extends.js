@@ -194,10 +194,10 @@ _Parents.prototype.getAges = function () {
  * 寄生组合继承
  */
 
-// function Create(_prototype)) {
-//   function F() {}
-//   F.prototype = _prototype;
-//   return new F();
+// function Create(proto)) {
+//   function ctor() {}
+//   ctor.prototype = proto;
+//   return new ctor();
 // }
 
 // function ChildSix() {
@@ -225,6 +225,24 @@ _Parents.prototype.getAges = function () {
  *  类的声明不可提升
  *  在代码上看 函数调用即使在函数声明之前 也是可以使用的
  *  但是 class 不会提升
+ *  关于 this 由于 class 都是默认在严格模式下的 所以只会指向到 undefined
+ *  
+ * class Parent() {
+ *    getName() { return this; }
+ *  }
+ *  let obj = new Parent();
+ *  obj.getName(); // Parent {}
+ *  let getName = obj.getName;
+ *  getName(); // undefined
+ * 
+ *  function _Parent() {
+ *    this._getName = function() { return this; }
+ *  }
+ * 
+ *  let _obj = new _Parent();
+ *  _obj._getName(); // _Parent {}
+ *  let _getName = _obj._getName;
+ *  _getName(); // global object
  * 
  * constructor() {}
  *  是一个类似 function _Parent() {} 的存在 也就是构造函数
@@ -283,6 +301,48 @@ _Parents.prototype.getAges = function () {
  * 
  *  一般用来创建工具函数
  */
+
+// 在调用函数的过程中，this的值取决于我们怎么样调用函数.  在通常情况下，我们通过一个表达式person1.sayHello()来调用函数：即从一个对象的属性中得到所调用的函数。此时this被设置为我们取得函数的对象（即person1）。这就是为什么person1.sayHello() 使用了姓名“Alice”而person2.sayHello()使用了姓名“bob”的原因。 
+
+// 然而我们使用不同的调用方法时, this的值也就不同了。当从变量 helloFunction()中调用的时候， this就被设置成了全局对象 (在浏览器中即window)。由于该对象 (非常可能地) 没有firstName 属性, 我们得到的结果便是"Hello, I'm undefined". (这是松散模式下的结果， 在 严格模式中，结果将不同（此时会产生一个error）。 但是为了避免混淆，我们在这里不涉及细节) 。另外，我们可以像上例末尾那样，使用Function#call (或者Function#apply)显式的设置this的值。
+
+// 也可以扩展传统的基于函数的“类”
+function Animal(name) {
+  this.name = name;
+}
+Animal.prototype.speak = function () {
+  console.log(this.name + ' makes a noise.');
+}
+
+class Dog extends Animal {
+  speak() {
+    super.speak();
+    console.log(this.name + ' barks.');
+  }
+}
+
+var d = new Dog('Mitzie');
+d.speak();
+
+
+// 请注意，类不能继承常规（非可构造）对象。如果要继承常规对象，可以改用Object.setPrototypeOf()
+
+var Animal = {
+  speak() {
+    console.log(this.name + ' makes a noise.');
+  }
+};
+
+class Dog {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+Object.setPrototypeOf(Dog.prototype, Animal); // If you do not do this you will get a TypeError when you invoke speak
+
+var d = new Dog('Mitzie');
+d.speak(); // Mitzie makes a noise.
 
 // class Animal {
 //   speak() {
