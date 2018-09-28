@@ -220,89 +220,311 @@ _Parents.prototype.getAges = function () {
  * ES6 Class extends
  */
 
-class ClassParent {
-  constructor(type) {
-    this.name = "someOne";
-    this.arr = [1, 2, 3];
-    this.type = type;
-    this.getName = function () {
-      return this.name
-    }
-  }
-  getAge() {
-    return this.age
-  }
+/**
+ * class
+ *  类的声明不可提升
+ *  在代码上看 函数调用即使在函数声明之前 也是可以使用的
+ *  但是 class 不会提升
+ * 
+ * constructor() {}
+ *  是一个类似 function _Parent() {} 的存在 也就是构造函数
+ *  在函数体内部使用 this 也就如同 构造函数中的 this 声明的是私有属性
+ * MDN
+ *  在一个类中只能有一个 constructor() {} 存在
+ * 
+ *  在普通的类中 constructor 默认为 constructor() {}
+ *  在继承的类中 constructor 默认为 constructor(...args) { super(...args) }
+ * 
+ * sayName() {}
+ *  在 class {} 函数体内声明的方法 就类似于 function _Parent() {} 上声明 prototype 一样
+ * 
+ * extends
+ *  同样 class 也可以继承 值得注意的是 如果想要在子类的 constructor 中使用 this 的话
+ *  就必须先运行 super()
+ *    super()
+ *      可以理解成被继承的那个构造函数
+ *      在以前的继承方法中很多见的 _Parent.call(this, Array.prototype.slice.call(arguments, 1)) 表达的意思相同
+ *      并且这可以向父类传递参数 super(type) 然后在父类的 constructor(type) 接收即可
+ *
+ *      另外 可以使用 super.sayName() 直接使用父类的方法
+ *      但是 不能使用 super.name 去直接访问父类的私有属性
+ *        由于 extends 的时候 子类已经运行了一次父类的构造函数
+ *        所以子类也有和父类相同的私有属性 也就是说可以直接使用 this.name 访问
+ * 
+ *      MDN
+ *        不能使用 delete 去删除父类的属性
+ *        当使用 Object.defineProperty 定义一个属性为不可写时 super 不可以复写这个属性的值
+ *        继承的 prototype 必须是一个 object 或者是 null
+ * 
+ * get area(){}
+ * set area(){}
+ *  这两对类似于 _Parent.prototype.area = xxx 也就是在构造函数原型上的属性
+ *  由子类生成的构造函数可以直接访问父类的 prototype 的属性
+ *  比较神奇的一点是即使是父类的 prototype 是引用属性 当子类的一个实例更改了该引用属性（push）
+ *  但另外一个子类的实例却没有被影响 是否意味着这并不是 prototype 类似的实现？
+ * 
+ * static
+ *  有点特殊的一个玩意儿 和 function _Parent() {} 作比较的话 又不是私有属性 又不是原型属性
+ *  刚才试了一下 可以通过 _Parent.getName() {} 来获得 static getName() {} 一样的效果
+ *  其实说到底函数也是对象 对象就可以添加属性和方法
+ * 
+ *  另外 值得注意的是若子类继承父类 子类声明 static 相同的方法名会覆盖父类
+ *  但也不妨碍我们使用父类的 static 方法 只要使用 super.getName() 即可
+ *  
+ *  还有一点值得注意 不管是父类还是子类 生成的实例都不可以使用 static 方法
+ *  使用只能是 _Parent.getName() 或者 _Child.getName()
+ * 
+ *  在同一个类中 如果想调用该类的静态方法 可以直接使用 类名.静态方法名 来调用
+ * 
+ * 更改内置对象（似乎在 babel-stage-2 下不能正常运行 但是新版的 chrome 浏览器下可以运行 应该是编译之后导致的错误）
+ *  class MyDate extends Date {} 即可
+ *    在函数体内部可以自定义一些方法 方法内可以用父类也就是内置函数 Date 的一些方法
+ *    只要使用 super.getDate() super.getMonth() super.getFullYear() 等 即可
+ * 
+ *  一般用来创建工具函数
+ */
 
-}
+// class Animal {
+//   speak() {
+//     return this;
+//   }
+//   static eat() {
+//     return this;
+//   }
+// }
 
-class ClassChild extends ClassParent {
-  constructor() {
-    super();
-  }
-}
+// let obj = new Animal();
+// obj.speak(); // Animal {}
+// let speak = obj.speak;
+// speak(); // undefined
 
-let fooSeven = new ClassChild("ClassChild 传入了 type");
-let barSeven = new ClassChild("ClassChild 传入了 type");
+// Animal.eat() // class Animal
+// let eat = Animal.eat;
+// eat(); // undefined
 
-extendsLog(fooSeven, barSeven);
+// function Animal() {}
 
-let ChromeSamples = console;
+// Animal.prototype.speak = function () {
+//   return this;
+// }
 
-class Polygon {
-  constructor(height, width) {
-    this.name = 'Polygon';
-    this.height = height;
-    this.width = width;
-  }
+// Animal.eat = function () {
+//   return this;
+// }
 
-  sayName() {
-    console.log('Hi, I am a ', this.name + '.');
-  }
+// let obj = new Animal();
+// let speak = obj.speak;
+// speak(); // global object
 
-  sayHistory() {
-    console.log('"Polygon" is derived from the Greek polus (many) ' + 'and gonia (angle).');
-  }
-}
+// let eat = Animal.eat;
+// eat(); // global object
 
-let p = new Polygon(300, 400);
-p.sayName();
-console.log('The width of this polygon is ' + p.width);
 
-class Square extends Polygon {
-  constructor(length) {
-    super(length, length);
-    this.name = 'Square';
-  }
-  get area() {
-    return this.height * this.width;
-  }
-  set area(value) {
-    this.area = value;
-  }
-}
+// class One {
+//   constructor() {
+//     this.name = "One";
+//   }
+// }
 
-let s = new Square(5);
+// class Two extends One {
+//   constructor() {
+//     super();
+//   }
+// }
 
-s.sayName();
-console.log('The area of this square is ' + s.area);
+// class Three {}
 
-class Triple {
-  static triple(n) {
-    n = n || 1;
-    return n * 3;
-  }
-}
+// // 将 Two 的原型指向了 Three
+// Object.setPrototypeOf(Two.prototype, Three.prototype);
 
-class BiggerTriple extends Triple {
-  static triple(n) {
-    return super.triple(n) * super.triple(n);
-  }
-}
+// console.log(Object.getPrototypeOf(Two.prototype) === One.prototype);
+// // false
+// console.log(Object.getPrototypeOf(Two.prototype) === Three.prototype);
+// // true
 
-ChromeSamples.log(Triple.triple());
-ChromeSamples.log(Triple.triple(6));
-ChromeSamples.log(BiggerTriple.triple(3));
+// let foo = new Two();
+// // 发现仍旧是 One
+// console.log(foo.name);
 
+// let foo = new demo();
+// _log(foo.name);
+
+// function demo() {
+//   this.name = "123"
+// }
+
+// let bar = new One();
+// _log(bar.name);
+
+// class One {
+//   constructor() {
+//     this.name = "321"
+//   }
+// }
+
+
+// class ClassParent {
+//   constructor(type) {
+//     this.name = "someOne";
+//     this.arr = [1, 2, 3];
+//     this.type = type;
+//     this.getName = function () {
+//       return this.name
+//     }
+//   }
+//   getAge() {
+//     return this.age
+//   }
+
+// }
+
+// class ClassChild extends ClassParent {
+//   constructor() {
+//     super();
+//   }
+// }
+
+// let fooSeven = new ClassChild("ClassChild 传入了 type");
+// let barSeven = new ClassChild("ClassChild 传入了 type");
+
+// extendsLog(fooSeven, barSeven);
+
+// 'use strict';
+// // Example 1: Creating a new class (declaration-form)
+// // ===============================================================
+
+// // A base class is defined using the new reserved 'class' keyword
+// class Polygon {
+//   // ..and an (optional) custom class constructor. If one is
+//   // not supplied, a default constructor is used instead:
+//   // constructor() { }
+//   constructor(height, width) {
+//     this.name = 'Polygon';
+//     this.height = height;
+//     this.width = width;
+//   }
+
+//   // Simple class instance methods using short-hand method
+//   // declaration
+//   sayName() {
+//     console.log('Hi, I am a ', this.name + '.');
+//   }
+
+//   sayHistory() {
+//     console.log('"Polygon" is derived from the Greek polus (many) ' + 'and gonia (angle).' + this.name);
+//   }
+
+//   // We will look at static and subclassed methods shortly
+// }
+
+// // Classes are used just like ES5 constructor functions:
+// let p = new Polygon(300, 400);
+// p.sayName();
+// console.log('The width of this polygon is ' + p.width);
+
+// // Example 2: Creating a new class (expression-form)
+// // ===============================================================
+
+// // Our Polygon class above is an example of a Class declaration.
+// // ES6 classes also support Class expressions - just another way
+// // of defining a new class. For example:
+// const MyPoly = class Poly {
+//   getPolyName() {
+//     console.log('Hi. I was created with a Class expression. My name is ' + Poly.name);
+//   }
+// };
+
+// let inst = new MyPoly();
+// inst.getPolyName();
+
+// // Example 3: Extending an existing class
+// // ===============================================================
+
+// // Classes support extending other classes, but can also extend
+// // other objects. Whatever you extend must be a constructor.
+// //
+// // Let's extend the Polygon class to create a new derived class
+// // called Square.
+// class Square extends Polygon {
+//   constructor(length) {
+//     // The reserved 'super' keyword is for making super-constructor
+//     // calls and allows access to parent methods.
+//     //
+//     // Here, it will call the parent class' constructor with lengths
+//     // provided for the Polygon's width and height
+//     super(length, length);
+//     // Note: In derived classes, super() must be called before you
+//     // can use 'this'. Leaving this out will cause a reference error.
+//     this.name = 'Square';
+//   }
+
+//   // Getter/setter methods are supported in classes,
+//   // similar to their ES5 equivalents
+//   get area() {
+//     return this.height * this.width;
+//   }
+
+//   set area(value) {
+//     this.area = value;
+//   }
+// }
+
+// let s = new Square(5);
+
+// s.sayName();
+// console.log('The area of this square is ' + s.area);
+
+// // Example 4: Subclassing methods of a parent class
+// // ===============================================================
+
+// class Rectangle extends Polygon {
+//   constructor(height, width) {
+//     super(height, width);
+//     this.name = 'Rectangle';
+//   }
+//   // Here, sayName() is a subclassed method which
+//   // overrides their superclass method of the same name.
+//   sayName() {
+//     console.log('Sup! My name is ', this.name + '.');
+//     super.sayHistory();
+//   }
+// }
+
+// let r = new Rectangle(50, 60);
+// r.sayName();
+
+// // Example 5: Defining static methods
+// // ===============================================================
+
+// // Classes support static members which can be accessed without an
+// // instance being present.
+// class Triple {
+//   // Using the 'static' keyword creates a method which is associated
+//   // with a class, but not with an instance of the class.
+//   static triple(n) {
+//     n = n || 1;
+//     return n * 3;
+//   }
+// }
+
+// // super.prop in this example is used for accessing super-properties from
+// // a parent class. This works fine in static methods too:
+// class BiggerTriple extends Triple {
+//   static triple(n) {
+//     return super.triple(n) * super.triple(n);
+//   }
+// }
+// console.log("!!!");
+// console.log(Triple.triple());
+// console.log(Triple.triple(6));
+// console.log(BiggerTriple.triple(3));
+// // var tp = new Triple();
+// // console.log(tp.triple()); tp.triple is not a function
+
+// // Example 6: Subclassing built-in classes and DOM
+// // ===============================================================
+
+// // Extend Date built-in
 // class MyDate extends Date {
 //   constructor() {
 //     super();
@@ -310,24 +532,25 @@ ChromeSamples.log(BiggerTriple.triple(3));
 
 //   getFormattedDate() {
 //     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-//     return this.getDate() + '-' + months[this.getMonth()] + '-' + this.getFullYear();
+//     return super.getDate() + '-' + months[super.getMonth()] + '-' + super.getFullYear();
 //   }
 // }
 
 // var aDate = new MyDate();
-// ChromeSamples.log(aDate.getTime());
-// ChromeSamples.log(aDate.getFormattedDate());
+// console.log(aDate.getTime());
+// console.log(aDate.getFormattedDate());
 
-// class ExtendedUint8Array extends Uint8Array {
-//   constructor() {
-//     super(10);
-//     this[0] = 255;
-//     this[1] = 0xFFA;
-//   }
-// }
+// // // Extend Uint8Array
+// // class ExtendedUint8Array extends Uint8Array {
+// //   constructor() {
+// //     super(10);
+// //     this[0] = 255;
+// //     this[1] = 0xFFA;
+// //   }
+// // }
 
-// var eua = new ExtendedUint8Array();
-// ChromeSamples.log(eua.byteLength);
+// // var eua = new ExtendedUint8Array();
+// // console.log(eua.byteLength);
 
 // // Extend DOM Audio element
 // class MyAudio extends Audio {
@@ -349,14 +572,17 @@ ChromeSamples.log(BiggerTriple.triple(3));
 // player.controls = true;
 // player.lyrics = 'Never gonna give you up';
 // document.querySelector('body').appendChild(player);
-// ChromeSamples.log(player.lyrics);
+// console.log(player.lyrics);
+
+// // Note: The V8 in Chrome 42 supports subclassing built-ins but Arrays.
+// // Subclassing arrays supported in Chrome 43.
 
 // class Stack extends Array {
 //   constructor() {
 //     super();
 //   }
 
-//   demo() {
+//   top() {
 //     return this[this.length - 1];
 //   }
 // }
@@ -364,5 +590,5 @@ ChromeSamples.log(BiggerTriple.triple(3));
 // var stack = new Stack();
 // stack.push('world');
 // stack.push('hello');
-// ChromeSamples.log(stack.demo());
-// ChromeSamples.log(stack.length);
+// console.log(stack.top());
+// console.log(stack.length);
