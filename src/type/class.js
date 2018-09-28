@@ -1,19 +1,16 @@
 import {
-  _log,
-  extendsLog
+  _log
 } from "util";
 
 class Parent {
   constructor(type = "未传入 type") {
-    this.name = "someone";
+    this.name = "Parent";
+    this.arr = [1, 2, 3, "我是引用属性"];
     this.type = type;
-    this.arr = [1, 2, 3];
     this.getName = function () {
       return this.name
     }
-
-    this._age = "18";
-    this._Arr = [3, 2, 1];
+    // this._age = [1, 1, 1];
   }
 
   get age() {
@@ -24,26 +21,36 @@ class Parent {
     this._age = val;
   }
 
-  get Arr() {
-    return this._Arr;
-  }
-
-  set Arr(val) {
-    this._Arr = val;
-  }
-
   getAge() {
     return this.age;
   }
+
+  static getType() {
+    return this.type;
+  }
 }
 
-class ChildOne extends Parent {
+class Child extends Parent {
   constructor(type) {
     super(type);
   }
 }
 
-let fooOne = new ChildOne("传入 type");
-let barOne = new ChildOne("传入 type");
+let foo = new Child("foo 传入 type");
+let bar = new Child("bar 传入 type");
 
-extendsLog(fooOne, barOne);
+// 私有属性 基本类型 数值相同 判断结果为 true
+_log(foo.name, bar.name);
+// 私有属性 引用类型 内存地址不同 判断结果为 false
+_log(foo.arr, bar.arr);
+// 私有属性 基本类型 数值不同 判断结果为 false
+_log(foo.type, bar.type);
+// 私有属性 引用类型 内存地址不同 判断结果为 false
+_log(foo.getName, bar.getName);
+// 不只是私有属性还是原型属性 基本类型 ???
+// 私认为不是原型属性
+_log(foo.age, bar.age);
+// 原型属性 引用类型 内存地址相同 判断结果为 true
+_log(foo.getAge, bar.getAge);
+// class 上 static 属性 引用类型 内存地址相同 判断结果为 true
+_log(Parent.getType, Child.getType);

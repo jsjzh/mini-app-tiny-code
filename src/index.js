@@ -41,5 +41,6 @@ import "type/class";
 
 // -------------
 if (module.hot) {
+  console.log("------------------------ 天了噜 (╯‵□′)╯︵ 热更新了 ------------------------");
   module.hot.accept();
 }
