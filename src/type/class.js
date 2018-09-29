@@ -63,9 +63,36 @@ _log(Parent.getType, Child.getType);
  * 共同点
  *  都可以声明私有属性 即使是引用类型 由子类生成的实例中该属性也不相同
  *  都可以声明原型方法 并且可以原型方法的内存地址相同
+ *  可以相互扩展 class 和 functionClass
  * 
  * 不同点
  *  class 中似乎不能设置 prototype 的属性 比如有个属性希望所有继承的子类都一样 class 就办不到
  *  functionClass 没有 static 方法继承这么一说 相比较 calss 中的 static 方法可以继承
  *  class 中不会自动挂载 this 的指向
+ *  class 的一些用法 babel-stage-2 不能正确的编译！
+ *  class 的声明不会提升
+ *  functionClass 可以同时继承多个父类 class 似乎不行
+ * 
+ *  发现在继承 javascript 内置对象方面 使用 functionClass 会报错 和 babel-stage-2 下报错相同 这也说明 babel-stage-2 编译的时候也是用的类似方法继承吧
  */
+
+
+function Demo() {
+  Date.call(this)
+}
+
+Demo.prototype = Date.prototype;
+Demo.prototype.constructor = Demo;
+
+let demo = new Demo();
+
+// console.log(demo.getTime());
+
+class MyDate extends Date {
+  constructor() {
+    super();
+  }
+}
+
+var aDate = new MyDate();
+// console.log(aDate.getTime());
