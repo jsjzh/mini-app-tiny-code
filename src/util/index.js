@@ -2,6 +2,18 @@ export function _log(first, second) {
   arguments.length === 1 ? (console.log(first, ` --- ${first}`)) : arguments.length === 2 ? (console.log(first === second, `${first} --- ${second}`)) : (console.log("err"));
 }
 
+export function ready(fn) {
+  if (document.readyState != 'loading') {
+    fn();
+  } else if (document.addEventListener) {
+    document.addEventListener('DOMContentLoaded', fn);
+  } else {
+    document.attachEvent('onreadystatechange', function () {
+      if (document.readyState != 'loading') fn();
+    });
+  }
+}
+
 export function extendsLog(foo, bar, flag = false) {
   _log(foo.name, bar.name);
   _log(foo.type, bar.type);

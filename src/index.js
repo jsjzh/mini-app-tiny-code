@@ -28,18 +28,17 @@ app.innerHTML = require("./index.html");
  * regexp
  *  Regexp 相关
  */
-
+import "plugin/cube";
 // import "type/prototype";
 // import "type/new";
 // import "type/extends";
-import "type/class";
+// import "type/class";
 // import "type/functionClass";
 // import "type/logic";
 // import "type/interview";
 // import "type/string";
 // import "type/array";
 // import "type/regexp";
-
 // -------------
 if (module.hot) {
   console.log("------------------------ 天了噜 (╯‵□′)╯︵ 热更新了 ------------------------");
