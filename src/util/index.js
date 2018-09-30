@@ -3,13 +3,13 @@ export function _log(first, second) {
 }
 
 export function ready(fn) {
-  if (document.readyState != 'loading') {
+  if (document.readyState !== "loading") {
     fn();
   } else if (document.addEventListener) {
-    document.addEventListener('DOMContentLoaded', fn);
+    document.addEventListener("DOMContentLoaded", fn);
   } else {
-    document.attachEvent('onreadystatechange', function () {
-      if (document.readyState != 'loading') fn();
+    document.attachEvent("onreadystatechange", function() {
+      document.readyState !== "loading" && fn();
     });
   }
 }
