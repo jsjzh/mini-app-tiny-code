@@ -29,7 +29,7 @@ app.innerHTML = require("./index.html");
  *  Regexp 相关
  */
 // import "plugin/cube";
-// import "type/prototype";
+import "type/prototype";
 // import "type/new";
 // import "type/extends";
 // import "type/class";

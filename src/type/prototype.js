@@ -58,45 +58,45 @@ import {
 function Fun() {};
 let fn = new Fun();
 
-// _log(fn.constructor, Fun)
-// _log(Fun.constructor, Function)
-// _log(Function.constructor, Function)
-// _log(Object.constructor, Function)
+_log(fn.constructor, Fun)
+_log(Fun.constructor, Function)
+_log(Function.constructor, Function)
+_log(Object.constructor, Function)
 
-// _log(fn.__proto__, Fun.prototype)
-// _log(Fun.__proto__, Function.prototype)
-// _log(Function.__proto__, Function.prototype)
-// _log(Object.__proto__, Function.prototype)
+_log(fn.__proto__, Fun.prototype)
+_log(Fun.__proto__, Function.prototype)
+_log(Function.__proto__, Function.prototype)
+_log(Object.__proto__, Function.prototype)
 
-// _log(Fun.prototype.__proto__, Object.prototype)
-// _log(Function.prototype.__proto__, Object.prototype)
-// _log(Object.prototype.__proto__, null)
+_log(Fun.prototype.__proto__, Object.prototype)
+_log(Function.prototype.__proto__, Object.prototype)
+_log(Object.prototype.__proto__, null)
 
 // -----
 
-function New(Parent) {
-  let obj = {};
-  obj.__proto__ = Parent.prototype;
-  return Parent.apply(obj, Array.prototype.slice.call(arguments, 1)) || obj;
-}
+// function New(Parent) {
+//   let obj = {};
+//   obj.__proto__ = Parent.prototype;
+//   return Parent.apply(obj, Array.prototype.slice.call(arguments, 1)) || obj;
+// }
 
-_log(typeof Function);
-_log(typeof Object);
+// _log(typeof Function);
+// _log(typeof Object);
 
-_log("---");
+// _log("---");
 
-_log(typeof Function.prototype);
-_log(typeof Object.prototype);
+// _log(typeof Function.prototype);
+// _log(typeof Object.prototype);
 
-_log("---");
+// _log("---");
 
-let _Function = New(Function);
-let _Object = New(Object);
+// let _Function = New(Function);
+// let _Object = New(Object);
 
-_log(typeof _Function.prototype);
-_log(typeof _Object.prototype);
+// _log(typeof _Function.prototype);
+// _log(typeof _Object.prototype);
 
-_log(Function.prototype.__proto__, Object.prototype);
+// _log(Function.prototype.__proto__, Object.prototype);
 
 // _log(Function instanceof Object);
 // _log(Object instanceof Function);
