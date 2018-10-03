@@ -28,7 +28,7 @@ app.innerHTML = require("./index.html");
  * regexp
  *  Regexp 相关
  */
-import "plugin/cube";
+// import "plugin/cube";
 // import "type/prototype";
 // import "type/new";
 // import "type/extends";
