@@ -29,13 +29,14 @@ app.innerHTML = require("./index.html");
  *  Regexp 相关
  */
 // import "plugin/cube";
-import "type/prototype";
+// import "type/prototype";
 // import "type/new";
 // import "type/extends";
 // import "type/class";
 // import "type/functionClass";
 // import "type/logic";
-// import "type/interview";
+// import "type/interview/render";
+import "type/interview/listToTree";
 // import "type/string";
 // import "type/array";
 // import "type/regexp";
