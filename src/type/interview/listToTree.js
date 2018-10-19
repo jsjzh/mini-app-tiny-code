@@ -25,22 +25,31 @@ const oldArr = [{
 }];
 
 function listToTree(list) {
-  console.log(list);
+  // console.log(list);
   let temp = [];
-  list.forEach(element => {
-    for (const key in element) {
-      if (element.hasOwnProperty(key)) {
-        const value = element[key];
 
-        let template = {
-          value: "",
-          label: "",
-          children: []
-        };
-        temp.push(template)
-      }
+  function transClass(obj) {
+    let arr = [];
+    let template = {
+      value: "",
+      label: "",
+      children: []
     }
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        let count = key.split("_")[0];
+        obj[`${count}_class`] && (template.value = obj[`${count}_id`]);
+        obj[`${count}_id`] && (template.label = obj[`${count}_class`]);
+      }
+      arr.push(template)
+    }
+    return arr
+  }
+
+  list.forEach(element => {
+    temp.push(...transClass(element))
   });
+
   console.log(temp);
 }
 
