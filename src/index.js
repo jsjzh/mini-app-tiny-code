@@ -28,6 +28,7 @@ app.innerHTML = require("./index.html");
  * regexp
  *  Regexp 相关
  */
+// -------------
 // import "plugin/cube";
 // import "type/prototype";
 // import "type/new";
@@ -35,11 +36,16 @@ app.innerHTML = require("./index.html");
 // import "type/class";
 // import "type/functionClass";
 // import "type/logic";
-// import "type/interview/render";
-import "type/interview/listToTree";
 // import "type/string";
 // import "type/array";
 // import "type/regexp";
+// -------------
+// import "type/interview/render";
+// 还未解决
+// import "type/interview/listToTree";
+// import "type/interview/twoSum";
+// import "type/interview/reverse";
+import "type/interview/isPalindrome";
 // -------------
 if (module.hot) {
   console.log("------------------------ 天了噜 (╯‵□′)╯︵ 热更新了 ------------------------");

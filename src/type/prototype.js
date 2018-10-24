@@ -1,6 +1,4 @@
-import {
-  _log
-} from "util";
+import { _log } from "util";
 
 // 浏览器底层对 JS 的实现的是基于 C/C++
 
