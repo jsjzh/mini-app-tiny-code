@@ -45,7 +45,12 @@ app.innerHTML = require("./index.html");
 // import "type/interview/listToTree";
 // import "type/interview/twoSum";
 // import "type/interview/reverse";
-import "type/interview/isPalindrome";
+// import "type/interview/isPalindrome";
+// import "type/interview/romanToInt";
+// import "type/interview/longestCommonPrefix";
+import "type/interview/isValid";
+
+
 // -------------
 if (module.hot) {
   console.log("------------------------ 天了噜 (╯‵□′)╯︵ 热更新了 ------------------------");
