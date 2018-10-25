@@ -1,20 +1,20 @@
 class Node {
-  constructor(target, element = {}) {
+  constructor(target, data = {}) {
     this.target = target;
-    this.element = element;
+    this.data = data;
     this.next = null;
   }
 }
 
 class LList {
 
-  constructor(newTarget, element) {
+  constructor(newTarget, data) {
     this.head = new Node("head");
-    this.insert("head", newTarget, element);
+    this.insert("head", newTarget, data);
   }
 
-  static newNode(newTarget, element = {}) {
-    return new Node(newTarget, element);
+  static newNode(newTarget, data = {}) {
+    return new Node(newTarget, data);
   }
 
   find(target) {
@@ -25,8 +25,8 @@ class LList {
     return currNode;
   }
 
-  push(newTarget, element) {
-    let newNode = LList.newNode(newTarget, element);
+  push(newTarget, data) {
+    let newNode = LList.newNode(newTarget, data);
     let currNode = this.head;
     while (currNode.next !== null) {
       currNode = currNode.next;
@@ -34,8 +34,8 @@ class LList {
     currNode.next = newNode;
   }
 
-  insert(target, newTarget, element) {
-    let newNode = LList.newNode(newTarget, element);
+  insert(target, newTarget, data) {
+    let newNode = LList.newNode(newTarget, data);
     let findNode = this.find(target);
     newNode.next = findNode.next;
     findNode.next = newNode;
@@ -63,6 +63,14 @@ class LList {
 
 const foo = new LList("one");
 
-foo.push("demo");
-foo.push("demo2");
+console.log("push three");
+foo.push("three");
+foo.display();
+
+console.log("insert two");
+foo.insert("one", "two");
+foo.display();
+
+console.log("remove three");
+foo.remove("three");
 foo.display();
