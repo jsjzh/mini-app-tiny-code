@@ -2,19 +2,18 @@ class Node {
   constructor(target, data = {}) {
     this.target = target;
     this.data = data;
-    this.next = null;
+    this.next = this.prev = null;
   }
 }
 
 class LList {
-
   constructor(newTarget, data) {
     this.head = new Node("head");
-    this.insert("head", newTarget, data);
+    this.push(newTarget, data);
   }
 
-  static newNode(newTarget, data = {}) {
-    return new Node(newTarget, data);
+  static newNode(target, data = {}) {
+    return new Node(target, data)
   }
 
   find(target) {
@@ -32,24 +31,17 @@ class LList {
       currNode = currNode.next;
     }
     currNode.next = newNode;
+    newNode.prev = currNode;
   }
 
-  insert(target, newTarget, data) {
+  // 不直接放入 head 前面 而是放入 head 后面
+  unshift(newTarget, data) {
     let newNode = LList.newNode(newTarget, data);
-    let findNode = this.find(target);
-    newNode.next = findNode.next;
-    findNode.next = newNode;
+    let currNode = this.head;
   }
 
-  remove(target) {
-    let currNode = this.head;
-    let preNode = null;
-    while (currNode.target !== target) {
-      currNode.next.target === target && (preNode = currNode);
-      currNode = currNode.next;
-    }
-    preNode.next = currNode.next;
-    currNode.next = null;
+  insert() {
+
   }
 
   display() {
@@ -58,19 +50,10 @@ class LList {
       currNode = currNode.next;
     }
   }
-
 }
 
-const foo = new LList("one");
+let foo = new LList("one");
 
-console.log("push three");
-foo.push("three");
-foo.display();
+foo.push("two");
 
-console.log("insert two");
-foo.insert("one", "two");
-foo.display();
-
-console.log("remove three");
-foo.remove("three");
 foo.display();

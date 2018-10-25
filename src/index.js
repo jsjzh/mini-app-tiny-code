@@ -39,7 +39,9 @@ app.innerHTML = require("./index.html");
 // import "type/string";
 // import "type/array";
 // import "type/regexp";
-import "type/linkedList";
+// import "type/OneWayLinkedList";
+// import "type/TwoWayLinkedList";
+import "type/binaryTree";
 // -------------
 // import "type/interview/render";
 // import "type/interview/twoSum";
