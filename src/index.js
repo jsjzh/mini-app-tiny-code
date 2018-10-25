@@ -39,6 +39,7 @@ app.innerHTML = require("./index.html");
 // import "type/string";
 // import "type/array";
 // import "type/regexp";
+import "type/linkedList";
 // -------------
 // import "type/interview/render";
 // import "type/interview/twoSum";
@@ -51,10 +52,8 @@ app.innerHTML = require("./index.html");
 // import "type/interview/listToTree";
 // import "type/interview/isValid";
 // import "type/interview/maxSubArray";
-
-import "type/interview/addBinary";
-
-
+// import "type/interview/addBinary";
+// import "type/interview/climbStairs";
 
 // -------------
 if (module.hot) {
