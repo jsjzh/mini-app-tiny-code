@@ -60,16 +60,3 @@ if (module.hot) {
   console.log("------------------------ 天了噜 (╯‵□′)╯︵ 热更新了 ------------------------");
   module.hot.accept();
 }
-
-console.log("(".charCodeAt(0));
-// 40
-console.log(")".charCodeAt(0));
-// 41
-console.log("[".charCodeAt(0));
-// 91
-console.log("]".charCodeAt(0));
-// 93
-console.log("{".charCodeAt(0));
-// 123
-console.log("}".charCodeAt(0));
-// 125
