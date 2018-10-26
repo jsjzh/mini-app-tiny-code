@@ -6,28 +6,7 @@ import "static/css/github-markdown.css";
 import "./index.scss";
 
 const app = document.getElementById("app");
-// app.innerHTML = require("./index.html");
-// -------------
-// 开始写项目代码
-/**
- * 说明
- * extends
- *  继承
- * new
- *  new 关键字
- * prototype
- *  原型链
- * logic
- *  逻辑
- * interview
- *  面试题
- * string
- *  String 相关
- * array
- *  Array 相关
- * regexp
- *  Regexp 相关
- */
+app.innerHTML = require("./index.html");
 // -------------
 // import "plugin/cube";
 import "type/prototype";
