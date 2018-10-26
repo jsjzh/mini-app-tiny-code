@@ -6,7 +6,7 @@ import "static/css/github-markdown.css";
 import "./index.scss";
 
 const app = document.getElementById("app");
-app.innerHTML = require("./index.html");
+// app.innerHTML = require("./index.html");
 // -------------
 // 开始写项目代码
 /**
@@ -30,7 +30,7 @@ app.innerHTML = require("./index.html");
  */
 // -------------
 // import "plugin/cube";
-// import "type/prototype";
+import "type/prototype";
 // import "type/new";
 // import "type/extends";
 // import "type/class";

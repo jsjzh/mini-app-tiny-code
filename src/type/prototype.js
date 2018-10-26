@@ -52,52 +52,26 @@ import { _log } from "util";
  * prototype 为一个对象，身为对象就代表其有 __proto__ 属性，__proto__ 又是指向构造该对象的构造函数的原型，也就是 Object.prototype
  */
 
-
-function Fun() {};
+let Fun = function() {}
+let obj = {}
 let fn = new Fun();
 
 _log(fn.constructor, Fun)
 _log(Fun.constructor, Function)
-_log(Function.constructor, Function)
+_log(obj.constructor, Object)
 _log(Object.constructor, Function)
+_log(Function.constructor, Function)
 
 _log(fn.__proto__, Fun.prototype)
 _log(Fun.__proto__, Function.prototype)
-_log(Function.__proto__, Function.prototype)
+_log(obj.__proto__, Object.prototype)
 _log(Object.__proto__, Function.prototype)
+_log(Function.__proto__, Function.prototype)
+
+_log(Fun.prototype.constructor, Fun)
+_log(Function.prototype.constructor, Function)
+_log(Object.prototype.constructor, Object)
 
 _log(Fun.prototype.__proto__, Object.prototype)
 _log(Function.prototype.__proto__, Object.prototype)
 _log(Object.prototype.__proto__, null)
-
-// -----
-
-// function New(Parent) {
-//   let obj = {};
-//   obj.__proto__ = Parent.prototype;
-//   return Parent.apply(obj, Array.prototype.slice.call(arguments, 1)) || obj;
-// }
-
-// _log(typeof Function);
-// _log(typeof Object);
-
-// _log("---");
-
-// _log(typeof Function.prototype);
-// _log(typeof Object.prototype);
-
-// _log("---");
-
-// let _Function = New(Function);
-// let _Object = New(Object);
-
-// _log(typeof _Function.prototype);
-// _log(typeof _Object.prototype);
-
-// _log(Function.prototype.__proto__, Object.prototype);
-
-// _log(Function instanceof Object);
-// _log(Object instanceof Function);
-
-// _log(Function instanceof Function);
-// _log(Object instanceof Object);
