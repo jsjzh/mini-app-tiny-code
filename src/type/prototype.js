@@ -62,6 +62,12 @@ _log(obj.constructor, Object)
 _log(Object.constructor, Function)
 _log(Function.constructor, Function)
 
+_log(fn.__proto__.constructor, Fun)
+_log(Fun.__proto__.constructor, Function)
+_log(obj.__proto__.constructor, Object)
+_log(Object.__proto__.constructor, Function)
+_log(Function.__proto__.constructor, Function)
+
 _log(fn.__proto__, Fun.prototype)
 _log(Fun.__proto__, Function.prototype)
 _log(obj.__proto__, Object.prototype)
