@@ -1,6 +1,4 @@
-import {
-  _log
-} from "util";
+import { _log } from "util";
 
 /**
  * new 关键字

@@ -1,7 +1,4 @@
-import {
-  _log,
-  extendsLog
-} from "util";
+import { _log, extendsLog } from "util";
 
 /**
  * 继承
@@ -17,14 +14,14 @@ function _Parent(type = "未传入值") {
   this.name = "someOne";
   this.arr = [1, 2, 3];
   this.type = type;
-  this.getName = function () {
+  this.getName = function() {
     return this.name;
   }
 }
 
 _Parent.prototype.age = "18";
 _Parent.prototype.Arr = [3, 2, 1];
-_Parent.prototype.getAge = function () {
+_Parent.prototype.getAge = function() {
   return this.age;
 }
 
@@ -32,14 +29,14 @@ function _Parents(types = "未传入值 s") {
   this.names = "someOne s";
   this.arrs = [1, 2, 3, 4];
   this.types = types;
-  this.getNames = function () {
+  this.getNames = function() {
     return this.names;
   }
 }
 
 _Parents.prototype.ages = "18 s";
 _Parents.prototype.Arrs = [4, 3, 2, 1];
-_Parents.prototype.getAges = function () {
+_Parents.prototype.getAges = function() {
   return this.ages;
 }
 

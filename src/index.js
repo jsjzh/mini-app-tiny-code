@@ -41,7 +41,6 @@ app.innerHTML = require("./index.html");
 // import "type/regexp";
 // import "type/OneWayLinkedList";
 // import "type/TwoWayLinkedList";
-import "type/binaryTree";
 // -------------
 // import "type/interview/render";
 // import "type/interview/twoSum";

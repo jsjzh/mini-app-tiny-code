@@ -1,23 +1,21 @@
-import {
-  _log
-} from "util";
+import { _log } from "util";
 
 function Parent(type = "未传入 type") {
   this.name = "Parent";
   this.arr = [1, 2, 3, "我是引用属性"];
   this.type = type;
-  this.getName = function () {
+  this.getName = function() {
     return this.name
   }
 }
 
-Parent.getType = function () {
+Parent.getType = function() {
   return this.type;
 }
 
 Parent.prototype.Arr = [3, 2, 1];
 
-Parent.prototype.getArr = function () {
+Parent.prototype.getArr = function() {
   return this.Arr
 }
 
