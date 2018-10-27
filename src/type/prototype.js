@@ -165,3 +165,5 @@ _log(Function.prototype.prototype, undefined) // 非构造函数，没有 protot
 // _log(null.__proto__, ) // 
 // _log(null.constructor, ) // 
 // _log(null.prototype, ) //
+
+// function 的 prototype 不是由 new Object 生成？或者说生成了之后更改了 constructor
