@@ -72,6 +72,8 @@ _log(Parent.getType, Child.getType);
  *  class 的一些用法 babel-stage-2 不能正确的编译！
  *  class 的声明不会提升
  *  functionClass 可以同时继承多个父类 class 似乎不行
+ *  toString方法是Point类内部定义的方法，它是不可枚举的。这一点与 ES5 的行为不一致。
+ *  class 默认为严格模式
  * 
  *  发现在继承 javascript 内置对象方面 使用 functionClass 会报错 和 babel-stage-2 下报错相同 这也说明 babel-stage-2 编译的时候也是用的类似方法继承吧
  */
