@@ -9,7 +9,7 @@ const app = document.getElementById("app");
 app.innerHTML = require("./index.html");
 // -------------
 // import "plugin/cube";
-import "type/prototype";
+// import "type/prototype";
 // import "type/new";
 // import "type/extends";
 // import "type/class";
@@ -20,6 +20,7 @@ import "type/prototype";
 // import "type/regexp";
 // import "type/OneWayLinkedList";
 // import "type/TwoWayLinkedList";
+import "type/observable";
 // -------------
 // import "type/interview/render";
 // import "type/interview/twoSum";
