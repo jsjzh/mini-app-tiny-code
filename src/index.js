@@ -20,7 +20,7 @@ app.innerHTML = require("./index.html");
 // import "type/regexp";
 // import "type/OneWayLinkedList";
 // import "type/TwoWayLinkedList";
-import "type/observable";
+// import "type/observable";
 // -------------
 // import "type/interview/render";
 // import "type/interview/twoSum";
