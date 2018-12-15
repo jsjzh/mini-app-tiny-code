@@ -9,7 +9,7 @@ const app = document.getElementById("app");
 app.innerHTML = require("./index.html");
 // -------------
 // import "plugin/cube";
-import "type/prototype";
+// import "type/prototype";
 // import "type/new";
 // import "type/extends";
 // import "type/class";
@@ -34,6 +34,8 @@ import "type/prototype";
 // import "type/interview/maxSubArray";
 // import "type/interview/addBinary";
 // import "type/interview/climbStairs";
+
+import "type/another";
 
 // -------------
 if (module.hot) {
