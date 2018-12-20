@@ -36,7 +36,8 @@ app.innerHTML = require("./index.html");
 // import "type/interview/addBinary";
 // import "type/interview/climbStairs";
 
-import "type/another";
+// import "type/another";
+import "type/immutable";
 
 // -------------
 if (module.hot) {
