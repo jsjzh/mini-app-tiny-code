@@ -36,61 +36,28 @@ let curry = require('lodash').curry;
 //   }
 // }
 
-let match = curry(function(what, str) {
+let arr = ["tori spelling", "tori amos", "hello world"];
+
+let match = curry(function (what, str) {
   return str.match(what);
-});
-
-let replace = curry(function(what, replacement, str) {
-  return str.replace(what, replacement);
-});
-
-let filter = curry(function(f, ary) {
-  return ary.filter(f);
-});
-
-let map = curry(function(f, ary) {
-  return ary.map(f);
-});
-
-match(/\s+/g, "hello world")
-// [ ' ' ]
-
-match(/\s+/g)("hello world")
-// [ ' ' ]
-
-let hasSpaces = match(/\s+/g);
-// function(x) { return x.match(/\s+/g) }
-
-hasSpaces("hello world")
-// [ ' ' ]
-
-hasSpaces("spaceless")
-// null
-
-filter(hasSpaces, ["tori_spelling", "tori amos"])
-// ["tori amos"]
-
-let findSpaces = filter(hasSpaces);
-// function(xs) { return xs.filter(function(x) { return x.match(/\s+/g) }) }
-
-findSpaces(["tori_spelling", "tori amos"])
-// ["tori amos"]
-
-let noVowels = replace(/[aeiou]/ig);
-// function(replacement, x) { return x.replace(/[aeiou]/ig, replacement) }
-
-let censored = noVowels("*");
-// function(x) { return x.replace(/[aeiou]/ig, "*") }
-
-censored("Chocolate Rain")
-// 'Ch*c*l*t* R**n'
-
-let split = curry(function(what, replacement, str) {
-  return str.split(what, replacement);
 })
 
-var words = function(str) {
-  return split(' ', "demo", str);
-};
+let replace = curry(function (what, replacement, str) {
+  return str.replace(what, replacement)
+})
 
-console.log(words("qwer qwer wqer"));
+let filter = curry(function (fn, arr) {
+  return arr.filter(fn);
+})
+
+let map = curry(function (fn, arr) {
+  return arr.map(fn)
+})
+
+let split = curry(function (what, x) {
+  return x.split(what);
+});
+
+var splitSpaces = split(' ');
+
+console.log(map(splitSpaces, arr));
