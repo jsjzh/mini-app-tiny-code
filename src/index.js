@@ -37,7 +37,7 @@ app.innerHTML = require("./index.html");
 // import "type/interview/climbStairs";
 
 // import "type/another";
-import "type/immutable";
+import "type/functional";
 
 // -------------
 if (module.hot) {
