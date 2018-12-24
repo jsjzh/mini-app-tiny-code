@@ -21,7 +21,7 @@
 
 // console.log(punch(jobe, michael).get("hp"));
 
-let curry = require('lodash').curry;
+// let curry = require('lodash').curry;
 
 // function curry(fn) {
 //   let len = fn.length;
@@ -36,28 +36,42 @@ let curry = require('lodash').curry;
 //   }
 // }
 
-let arr = ["tori spelling", "tori amos", "hello world"];
+function inspect(x) {
+  return (typeof x === 'function') ? inspectFn(x) : inspectArgs(x);
+}
 
-let match = curry(function (what, str) {
-  return str.match(what);
-})
+function inspectFn(f) {
+  return (f.name) ? f.name : f.toString();
+}
 
-let replace = curry(function (what, replacement, str) {
-  return str.replace(what, replacement)
-})
+function inspectArgs(args) {
+  return args.reduce(function(acc, x) {
+    return acc += inspect(x);
+  }, '(') + ')';
+}
 
-let filter = curry(function (fn, arr) {
-  return arr.filter(fn);
-})
+// let arr = ["tori spelling", "tori amos", "hello world"];
 
-let map = curry(function (fn, arr) {
-  return arr.map(fn)
-})
+// let match = curry(function(what, str) {
+//   return str.match(what);
+// })
 
-let split = curry(function (what, x) {
-  return x.split(what);
-});
+// let replace = curry(function(what, replacement, str) {
+//   return str.replace(what, replacement)
+// })
 
-var splitSpaces = split(' ');
+// let filter = curry(function(fn, arr) {
+//   return arr.filter(fn);
+// })
 
-console.log(map(splitSpaces, arr));
+// let map = curry(function(fn, arr) {
+//   return arr.map(fn)
+// })
+
+// let split = curry(function(what, x) {
+//   return x.split(what);
+// });
+
+// var splitSpaces = split(' ');
+
+// console.log(map(splitSpaces, arr));
