@@ -38,7 +38,8 @@ app.innerHTML = require("./index.html");
 
 // import "type/another";
 // import "type/functional_curry";
-import "type/functional_compose";
+// import "type/functional_compose";
+import "type/functional_example";
 
 // -------------
 if (module.hot) {
