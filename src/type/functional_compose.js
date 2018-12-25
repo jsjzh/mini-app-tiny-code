@@ -4,7 +4,7 @@ const { curry, compose } = R;
 
 // let toUpperCase = function(x) { return x.toUpperCase(); };
 // let exclaim = function(x) { return x + "!"; };
-// let map = curry(function(fn, arr) { return arr.map(fn); })
+let map = curry(function(fn, arr) { return arr.map(fn); })
 // let shout = compose(toUpperCase, exclaim);
 // let shouts = map(shout);
 
@@ -13,7 +13,7 @@ const { curry, compose } = R;
 // console.log(shouts(arr));
 
 // let head = function(x) { return x[0]; };
-// let reduce = curry(function(fn, init, arr) { return arr.reduce(fn, init) })
+let reduce = curry(function(fn, init, arr) { return arr.reduce(fn, init) })
 // let reverse = curry(function(arr) { return arr.reverse() });
 // let last = compose(head, reverse);
 
@@ -50,10 +50,10 @@ const { curry, compose } = R;
 
 // console.log(latin(["frog", "eyes"]));
 
-// let trace = curry(function(tag, x) {
-//   console.log(tag, x);
-//   return x;
-// });
+let trace = curry(function(tag, x) {
+  console.log(tag, x);
+  return x;
+});
 
 // var dasherize = compose(join('-'), map(toLowerCase), split(' '), trace("after replace"), replace(/\s{2,}/ig, ' '));
 
@@ -78,29 +78,28 @@ const CARS = [
 // ============
 // use R.compose() to rewrite the function below. Hint: R.prop() is curried.
 
-let isLastInStock = function(cars) {
-  let reversed_cars = R.last(cars);
-  return R.prop('in_stock', reversed_cars)
-};
+let isLastInStock = compose(R.prop("in_stock"), R.last)
+
+console.log(isLastInStock(CARS));
 
 // Exercise 2:
 // ============
 // use R.compose(), R.prop() and R.head() to retrieve the name of the first car
 
-let nameOfFirstCar = undefined;
+let nameOfFirstCar = compose(R.prop("name"), R.head);
 
+console.log(nameOfFirstCar(CARS));
 
 // Exercise 3:
 // ============
 // Use the helper function _average to refactor averageDollarValue as a composition
 
-let _average = function(xs) { return reduce(add, 0, xs) / xs.length; }; // <- leave be
+// LEAVE BE
+let _average = function(xs) { return reduce(R.add, 0, xs) / xs.length; };
 
-let averageDollarValue = function(cars) {
-  let dollar_values = map(function(c) { return c.dollar_value; }, cars);
-  return _average(dollar_values);
-};
+let averageDollarValue = compose(_average, R.map(R.prop("dollar_value")))
 
+console.log(averageDollarValue(CARS));
 
 // Exercise 4:
 // ============
@@ -108,27 +107,33 @@ let averageDollarValue = function(cars) {
 
 // let _underscore = replace(/\W+/g, '_'); //<-- leave this alone and use to sanitize
 
-let sanitizeNames = undefined;
+let sanitizeNames = compose(R.map(R.prop("name")));
 
+console.log(sanitizeNames(CARS));
 
 // Bonus 1:
 // ============
 // Refactor availablePrices with compose.
 
-let availablePrices = function(cars) {
-  let available_cars = R.filter(R.prop('in_stock'), cars);
-  return available_cars.map(function(x) {
-    return accounting.formatMoney(x.dollar_value)
-  }).join(', ');
-};
+// let availablePrices = function(cars) {
+//   let available_cars = R.filter(R.prop('in_stock'), cars);
+//   return available_cars.map(function(x) {
+//     return accounting.formatMoney(x.dollar_value)
+//   }).join(', ');
+// };
 
+let headAdd$ = function(x) { return "$" + x }
+
+let availablePrices = compose(R.join(","), R.map(compose(headAdd$, R.prop("dollar_value"))), R.filter(R.prop("in_stock")))
+
+console.log(availablePrices(CARS));
 
 // Bonus 2:
 // ============
 // Refactor to pointfree. Hint: you can use R.flip()
 
-let fastestCar = function(cars) {
-  let sorted = R.sortBy(function(car) { return car.horsepower }, cars);
-  let fastest = R.last(sorted);
-  return fastest.name + ' is the fastest';
-};
+let fastest = curry(function(x) { return x + ' is the fastest' })
+
+let fastestCar = compose(fastest, R.prop("name"), R.last, R.sortBy(R.prop("horsepower")))
+
+console.log(fastestCar(CARS));
