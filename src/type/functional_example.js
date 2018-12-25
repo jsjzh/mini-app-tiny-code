@@ -31,16 +31,18 @@ $(document).ready(function() {
 
   let img = function(url) { return $('<img />', { src: url }) }
 
-  let notEmpty = function(x) { return x != null }
+  let notEmpty = curry(function(x) { return x != null })
 
-  let render = compose(Impure.setHtml("#container"))
+  let imageUrl = compose(R.prop("data"))
 
-  let targets = compose(render, R.map(img))
+  let images = compose(R.map(img), R.filter(notEmpty), R.map(R.prop("thumbURL")), imageUrl)
 
-  let srcs = compose(targets, R.filter(notEmpty), R.map(R.prop("thumbURL")), R.prop("data"))
+  let renderImages = compose(Impure.setHtml("#container"), images)
 
-  let app = compose(Impure.getJSON(srcs), url)
+  let app = compose(Impure.getJSON(renderImages), url)
 
   app("cats")
+
+  // $.getJSON("/static/data/cat.json", function({ data }) { $("#container").html(data.map(item => img(item.thumbURL))) })
 
 })
