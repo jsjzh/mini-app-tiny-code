@@ -37,11 +37,11 @@ app.innerHTML = require("./index.html");
 // import "type/interview/climbStairs";
 
 // import "type/another";
-import "type/functional_curry";
+// import "type/functional_curry";
 import "type/functional_compose";
 
 // -------------
 if (module.hot) {
-  console.log("------------------------ 天了噜 (╯‵□′)╯︵ 热更新了 ------------------------");
+  console.log("------------------------ 天了噜 (╯‵□′)╯︵ 更新了 ------------------------");
   module.hot.accept();
 }
