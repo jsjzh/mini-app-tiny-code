@@ -46,15 +46,11 @@ $(document).ready(function() {
 
   // $.getJSON("/static/data/cat.json", function({ data }) { $("#container").html(data.map(item => img(item.thumbURL))) })
 
-  const Container = function(x) {
-    this.__value = x
-  }
+  // ------------------------------------------------------------------------------------------------------------------------
 
+  const Container = function(x) { this.__value = x }
   Container.of = function(x) { return new Container(x) }
-
-  Container.prototype.map = function(f) {
-    return Container.of(f(this.__value))
-  }
+  Container.prototype.map = function(f) { return Container.of(f(this.__value)) }
 
   let fooOne = Container.of(2).map(function(two) { return two + 2 })
   // console.log(fooOne)
@@ -65,23 +61,10 @@ $(document).ready(function() {
   let fooThree = Container.of("bombs").map(R.concat(" away")).map(R.prop("length"))
   // console.log(fooThree)
 
-  let i = 0
-  const Maybe = function(x) {
-    this.i = i++
-    this.__value = x
-  }
-
-  Maybe.of = function(x) {
-    return new Maybe(x)
-  }
-
-  Maybe.prototype.isNothing = function() {
-    return this.__value == null
-  }
-
-  Maybe.prototype.map = function(f) {
-    return this.isNothing() ? Maybe.of(null) : Maybe.of(f(this.__value))
-  }
+  const Maybe = function(x) { this.__value = x }
+  Maybe.of = function(x) { return new Maybe(x) }
+  Maybe.prototype.isNothing = function() { return this.__value == null }
+  Maybe.prototype.map = function(f) { return this.isNothing() ? Maybe.of(null) : Maybe.of(f(this.__value)) }
 
   let barOne = Maybe.of("Malkovich Malkovich").map(R.match(/a/ig))
   // console.log(barOne)
