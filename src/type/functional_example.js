@@ -153,6 +153,39 @@ $(document).ready(function() {
 
   let zoltar = compose(R.map(console.log), R.map(fortune), getAge(moment()))
 
-  zoltar({ birthdate: 'balloons!' })
-  zoltar({ birthdate: '2005-12-12' })
+  // zoltar({ birthdate: 'balloons!' })
+  // zoltar({ birthdate: '1995-04-10' })
+
+  let either = curry(function(f, g, e) {
+    switch (e.constructor) {
+      case Left:
+        return f(e.__value)
+      case Right:
+        return g(e.__value)
+    }
+  })
+
+  let zoltarPro = compose(console.log, either(R.identity, fortune), getAge(moment()))
+
+  zoltarPro({ birthdate: '2005-12-12' })
+  zoltarPro({ birthdate: 'balloons!' })
+
+  let IO = function(f) {
+    this.__value = f
+  }
+
+  IO.of = function(x) {
+    return new IO(function() {
+      return x
+    })
+  }
+
+  IO.prototype.map = function(f) {
+    return new IO(compose(f, this.__value))
+  }
+
+  let io_window = new IO(function() { return window })
+  console.log(io_window.map(function(win) { return win.innerWidth }))
+  console.log(io_window.map(R.prop('location')).map(R.prop('href')).map(R.split('/')))
+
 })
