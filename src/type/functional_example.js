@@ -152,21 +152,11 @@ $(document).ready(function() {
   // zoltarPro({ birthdate: '2005-12-12' })
   // zoltarPro({ birthdate: 'balloons!' })
 
-  let IO = function(f) {
-    this.__value = f
-  }
+  let IO = function(f) { this.__value = f }
+  IO.of = function(x) { return new IO(function() { return x }) }
+  IO.prototype.map = function(f) { return new IO(compose(f, this.__value)) }
 
-  IO.of = function(x) {
-    return new IO(function() {
-      return x
-    })
-  }
-
-  IO.prototype.map = function(f) {
-    return new IO(compose(f, this.__value))
-  }
-
-  let io_window = new IO(function() { return window })
+  // let io_window = new IO(function() { return window })
   // console.log(io_window.map(function(win) { return win.innerWidth }))
   // console.log(io_window.map(R.prop('location')).map(R.prop('href')).map(R.split('/')))
 
