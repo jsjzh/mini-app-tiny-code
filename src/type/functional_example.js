@@ -100,8 +100,8 @@ $(document).ready(function() {
 
   let getTwentyPro = compose(maybe("You're broke!", finishTransaction), withdraw(20))
 
-  console.log(getTwentyPro({ balance: 200.00 }))
-  console.log(getTwentyPro({ balance: 10.00 }))
+  // console.log(getTwentyPro({ balance: 200.00 }))
+  // console.log(getTwentyPro({ balance: 10.00 }))
 
   const Left = function(x) { this.__value = x }
   Left.of = function(x) { return new Left(x) }
@@ -111,11 +111,17 @@ $(document).ready(function() {
   Right.of = function(x) { return new Right(x) }
   Right.prototype.map = function(f) { return Right.of(f(this.__value)) }
 
-  // console.log(Right.of("rain").map(function(str) { return "b" + str }))
-  // console.log(Left.of("rain").map(function(str) { return "b" + str }))
+  let RightOne = compose(map(R.concat("b")), Right.of)
+  // console.log(RightOne("rain"))
 
-  // console.log(Right.of({ host: "localhost", port: 80 }).map(R.prop("host")))
-  // console.log(Left.of("rolls eyes...").map(R.prop("host")))
+  let RightTwo = Right.of({ host: "localhost", port: 80 }).map(R.prop("host"))
+  // console.log(RightTwo)
+
+  let LeftOne = Left.of("rain").map(R.concat("b"))
+  // console.log(LeftOne)
+
+  let LeftTwo = Left.of("rolls eyes...").map(R.prop("host"))
+  // console.log(LeftTwo)
 
   let getAge = curry(function(now, user) {
     let birthdate = moment(user.birthdate, 'YYYY-MM-DD')
@@ -127,8 +133,7 @@ $(document).ready(function() {
   // console.log(getAge(moment(), { birthdate: '1995-04-10' }))
 
   let fortune = compose(R.concat("If you survive, you will be "), R.toString, R.add(1))
-
-  let zoltar = compose(R.map(console.log), R.map(fortune), getAge(moment()))
+  let zoltar = compose(map(console.log), map(fortune), getAge(moment()))
 
   // zoltar({ birthdate: 'balloons!' })
   // zoltar({ birthdate: '1995-04-10' })
