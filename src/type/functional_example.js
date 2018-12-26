@@ -1,5 +1,6 @@
 import * as R from "ramda"
 import $ from "jquery"
+import moment from "moment"
 
 $(document).ready(function() {
   const { curry, compose } = R
@@ -41,7 +42,7 @@ $(document).ready(function() {
 
   let app = compose(Impure.getJSON(renderImages), url)
 
-  app("cats")
+  // app("cats")
 
   // $.getJSON("/static/data/cat.json", function({ data }) { $("#container").html(data.map(item => img(item.thumbURL))) })
 
@@ -97,8 +98,8 @@ $(document).ready(function() {
   let safeHead = function(xs) { return Maybe.of(xs[0]) }
 
   // let map = curry(function(f, any_functor_at_all) {
-  //   return any_functor_at_all.map(f);
-  // });
+  //   return any_functor_at_all.map(f)
+  // })
 
   let streetName = compose(R.map(R.prop("street")), safeHead, R.prop("addresses"))
 
@@ -109,9 +110,49 @@ $(document).ready(function() {
     return account.balance >= amount ? Maybe.of({ balance: account.balance - amount }) : Maybe.of(null)
   })
 
-  let getTwenty = withdraw(20)
+  let finishTransaction = compose(R.identity)
 
-  console.log(getTwenty({ balance: 200.00 }))
+  let getTwenty = compose(R.map(finishTransaction), withdraw(20))
 
-  console.log(getTwenty({ balance: 10.00 }))
+  getTwenty({ balance: 200.00 })
+  getTwenty({ balance: 10.00 })
+
+  let maybe = curry(function(x, f, m) {
+    return m.isNothing() ? x : f(m.__value)
+  })
+
+  let getTwentyPro = compose(trace("data"), maybe("You're broke!", finishTransaction), withdraw(20))
+
+  // getTwentyPro({ balance: 200.00 })
+  // getTwentyPro({ balance: 10.00 })
+
+  const Left = function(x) { this.__value = x }
+  Left.of = function(x) { return new Left(x) }
+  Left.prototype.map = function(f) { return this }
+
+  const Right = function(x) { this.__value = x }
+  Right.of = function(x) { return new Right(x) }
+  Right.prototype.map = function(f) { return Right.of(f(this.__value)) }
+
+  // console.log(Right.of("rain").map(function(str) { return "b" + str }))
+  // console.log(Left.of("rain").map(function(str) { return "b" + str }))
+
+  // console.log(Right.of({ host: "localhost", port: 80 }).map(R.prop("host")))
+  // console.log(Left.of("rolls eyes...").map(R.prop("host")))
+
+  let getAge = curry(function(now, user) {
+    let birthdate = moment(user.birthdate, 'YYYY-MM-DD')
+    if (!birthdate.isValid()) return Left.of("Birth date could not be parsed")
+    return Right.of(now.diff(birthdate, 'years'))
+  })
+
+  // console.log(getAge(moment(), { birthdate: 'balloons!' }))
+  // console.log(getAge(moment(), { birthdate: '1995-04-10' }))
+
+  let fortune = compose(R.concat("If you survive, you will be "), R.toString, R.add(1))
+
+  let zoltar = compose(R.map(console.log), R.map(fortune), getAge(moment()))
+
+  zoltar({ birthdate: 'balloons!' })
+  zoltar({ birthdate: '2005-12-12' })
 })
