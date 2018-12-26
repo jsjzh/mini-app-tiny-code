@@ -52,62 +52,56 @@ $(document).ready(function() {
   Container.of = function(x) { return new Container(x) }
   Container.prototype.map = function(f) { return Container.of(f(this.__value)) }
 
-  let fooOne = Container.of(2).map(function(two) { return two + 2 })
-  // console.log(fooOne)
+  let containerOne = Container.of(2).map(R.add(253))
+  // console.log(containerOne)
 
-  let fooTwo = Container.of("flamethrowers").map(function(s) { return s.toUpperCase() })
-  // console.log(fooTwo)
+  let containerTwo = Container.of("flamethrowers").map(R.toUpper)
+  // console.log(containerTwo)
 
-  let fooThree = Container.of("bombs").map(R.concat(" away")).map(R.prop("length"))
-  // console.log(fooThree)
+  let containerThree = Container.of("hello").map(R.concat(" world")).map(R.prop("length"))
+  // console.log(containerThree)
 
   const Maybe = function(x) { this.__value = x }
   Maybe.of = function(x) { return new Maybe(x) }
   Maybe.prototype.isNothing = function() { return this.__value == null }
   Maybe.prototype.map = function(f) { return this.isNothing() ? Maybe.of(null) : Maybe.of(f(this.__value)) }
 
-  let barOne = Maybe.of("Malkovich Malkovich").map(R.match(/a/ig))
-  // console.log(barOne)
+  let maybeOne = Maybe.of("Malkovich Malkovich").map(R.match(/a/ig))
+  // console.log(maybeOne)
 
-  let barTwo = Maybe.of(null).map(R.match(/a/ig))
-  // console.log(barTwo)
+  let maybeTwo = Maybe.of(null).map(R.match(/a/ig))
+  // console.log(maybeTwo)
 
-  let barThree = Maybe.of({ name: "King" }).map(R.prop("age")).map(R.add(10))
-  // console.log(barThree)
+  let maybeThree = Maybe.of({ name: "King" }).map(R.prop("age")).map(R.add(10))
+  // console.log(maybeThree)
 
-  let barFour = Maybe.of({ name: "Dinah", age: 14 }).map(R.prop("age")).map(R.add(10))
-  // console.log(barFour)
+  let maybeFour = Maybe.of({ name: "King", age: 14 }).map(R.prop("age")).map(R.add(10))
+  // console.log(maybeFour)
 
   let safeHead = function(xs) { return Maybe.of(xs[0]) }
 
-  // let map = curry(function(f, any_functor_at_all) {
-  //   return any_functor_at_all.map(f)
-  // })
+  let map = curry(function(f, functor) { return functor.map(f) })
 
-  let streetName = compose(R.map(R.prop("street")), safeHead, R.prop("addresses"))
+  let streetName = compose(map(R.add(1)), map(R.prop("number")), safeHead, R.prop("addresses"))
 
   // console.log(streetName({ addresses: [] }))
   // console.log(streetName({ addresses: [{ street: "Shady Ln.", number: 4201 }] }))
 
-  let withdraw = curry(function(amount, account) {
-    return account.balance >= amount ? Maybe.of({ balance: account.balance - amount }) : Maybe.of(null)
-  })
+  let withdraw = curry(function(amount, account) { return account.balance >= amount ? Maybe.of({ balance: account.balance - amount }) : Maybe.of(null) })
 
-  let finishTransaction = compose(R.identity)
+  let finishTransaction = compose(R.concat("your balance is "), R.toString, R.prop("balance"))
 
-  let getTwenty = compose(R.map(finishTransaction), withdraw(20))
+  let getTwenty = compose(map(finishTransaction), withdraw(20))
 
-  getTwenty({ balance: 200.00 })
-  getTwenty({ balance: 10.00 })
+  // console.log(getTwenty({ balance: 200.00 }))
+  // console.log(getTwenty({ balance: 10.00 }))
 
-  let maybe = curry(function(x, f, m) {
-    return m.isNothing() ? x : f(m.__value)
-  })
+  let maybe = curry(function(x, f, m) { return m.isNothing() ? x : f(m.__value) })
 
-  let getTwentyPro = compose(trace("data"), maybe("You're broke!", finishTransaction), withdraw(20))
+  let getTwentyPro = compose(maybe("You're broke!", finishTransaction), withdraw(20))
 
-  // getTwentyPro({ balance: 200.00 })
-  // getTwentyPro({ balance: 10.00 })
+  console.log(getTwentyPro({ balance: 200.00 }))
+  console.log(getTwentyPro({ balance: 10.00 }))
 
   const Left = function(x) { this.__value = x }
   Left.of = function(x) { return new Left(x) }
@@ -150,8 +144,8 @@ $(document).ready(function() {
 
   let zoltarPro = compose(console.log, either(R.identity, fortune), getAge(moment()))
 
-  zoltarPro({ birthdate: '2005-12-12' })
-  zoltarPro({ birthdate: 'balloons!' })
+  // zoltarPro({ birthdate: '2005-12-12' })
+  // zoltarPro({ birthdate: 'balloons!' })
 
   let IO = function(f) {
     this.__value = f
@@ -168,7 +162,7 @@ $(document).ready(function() {
   }
 
   let io_window = new IO(function() { return window })
-  console.log(io_window.map(function(win) { return win.innerWidth }))
-  console.log(io_window.map(R.prop('location')).map(R.prop('href')).map(R.split('/')))
+  // console.log(io_window.map(function(win) { return win.innerWidth }))
+  // console.log(io_window.map(R.prop('location')).map(R.prop('href')).map(R.split('/')))
 
 })
