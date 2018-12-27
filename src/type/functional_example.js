@@ -63,7 +63,10 @@ $(document).ready(function() {
 
   const Maybe = function(x) { this.__value = x }
   Maybe.of = function(x) { return new Maybe(x) }
-  Maybe.prototype.isNothing = function() { return this.__value == null }
+  Maybe.prototype.isNothing = function() {
+    if (this.__value instanceof Array) return this.__value.length === 0
+    return this.__value == null
+  }
   Maybe.prototype.map = function(f) { return this.isNothing() ? Maybe.of(null) : Maybe.of(f(this.__value)) }
 
   let maybeOne = Maybe.of("Malkovich Malkovich").map(R.match(/a/ig))
@@ -168,8 +171,46 @@ $(document).ready(function() {
   IO.of = function(x) { return new IO(function() { return x }) }
   IO.prototype.map = function(f) { return new IO(compose(f, this.__value)) }
 
-  // let io_window = new IO(function() { return window })
-  // console.log(io_window.map(function(win) { return win.innerWidth }))
-  // console.log(io_window.map(R.prop('location')).map(R.prop('href')).map(R.split('/')))
+  let io = function(functor) {
+    return functor.__value()
+  }
+
+  let io_localStorage = IO.of(localStorage)
+  let io_window = IO.of(window)
+
+  let demoOne = io_window.map(R.prop("innerWidth"))
+  let demoTwo = io_window.map(R.prop("location")).map(R.prop("href")).map(R.split("/"))
+  let getLocation = compose(R.split("/"), R.prop("href"), R.prop("location"))
+  let demoThree = io_window.map(getLocation)
+
+  // console.log(getLocation(window))
+  // console.log(demoThree.__value())
+
+  let _$ = function(selector) {
+    return new IO(function() {
+      return document.querySelectorAll(selector)
+    })
+  }
+
+  let demo = compose(function(div) { return div.innerHTML }, io, map(R.head), _$)
+
+  // console.log(demo("#app"))
+
+  let str = "http://www.baidu.com/page?dept_id=123&type=4&s_date=0&e_date=0&_t=1545891198258"
+
+  let href = IO.of(str)
+
+  let toPairs = compose(map(R.split("=")), R.split("&"))
+
+  let params = compose(toPairs, R.last, R.split("?"))
+
+  let findParam = function(key) {
+    return href.map(compose(maybe("no data", R.identity), Maybe.of, R.filter(compose(R.equals(key), R.head)), params))
+  }
+
+  // console.log(findParam("type").__value())
+  // console.log(findParam("name").__value())
+
+  
 
 })
