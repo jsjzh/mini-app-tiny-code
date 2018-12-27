@@ -205,12 +205,24 @@ $(document).ready(function() {
   let params = compose(toPairs, R.last, R.split("?"))
 
   let findParam = function(key) {
-    return href.map(compose(maybe("no data", R.identity), Maybe.of, R.filter(compose(R.equals(key), R.head)), params))
+    return href.map(compose(maybe("oops ! no data", R.identity), Maybe.of, R.filter(compose(R.equals(key), R.head)), params))
   }
 
   // console.log(findParam("type").__value())
   // console.log(findParam("name").__value())
 
-  
+  let idLaw1 = R.map(R.identity)
+  let idLaw2 = R.identity
 
+  console.log(idLaw1)
+  console.log(idLaw2)
+  console.log(idLaw1(Container.of(2)))
+  console.log(idLaw2(Container.of(2)))
+
+  var compLaw1 = compose(map(R.concat(" world")), map(R.concat(" cruel")))
+  var compLaw2 = map(compose(R.concat(" world"), R.concat(" cruel")))
+  console.log(compLaw1)
+  console.log(compLaw2)
+  console.log(compLaw1(Container.of("Goodbye")))
+  console.log(compLaw2(Container.of("Goodbye")))
 })
