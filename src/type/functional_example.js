@@ -87,7 +87,9 @@ $(document).ready(function() {
   // console.log(streetName({ addresses: [] }))
   // console.log(streetName({ addresses: [{ street: "Shady Ln.", number: 4201 }] }))
 
-  let withdraw = curry(function(amount, account) { return account.balance >= amount ? Maybe.of({ balance: account.balance - amount }) : Maybe.of(null) })
+  let withdraw = curry(function(amount, account) {
+    return account.balance >= amount ? Maybe.of({ balance: account.balance - amount }) : Maybe.of(null)
+  })
 
   let finishTransaction = compose(R.concat("your balance is "), R.toString, R.prop("balance"))
 
@@ -151,6 +153,16 @@ $(document).ready(function() {
 
   // zoltarPro({ birthdate: '2005-12-12' })
   // zoltarPro({ birthdate: 'balloons!' })
+
+  let withdrawPro = curry(function(amount, account) {
+    return account.balance >= amount ? Right.of({ balance: account.balance - amount }) : Left.of("balance error")
+  })
+
+  let getTwentyEx = compose(console.log, either(R.identity, R.identity), withdrawPro(20))
+  let getTwentyExTwo = compose(map(console.log), withdrawPro(20))
+
+  // getTwentyExTwo({ balance: 200.00 })
+  // getTwentyExTwo({ balance: 10.00 })
 
   let IO = function(f) { this.__value = f }
   IO.of = function(x) { return new IO(function() { return x }) }
