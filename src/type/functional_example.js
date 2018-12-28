@@ -69,6 +69,8 @@ $(document).ready(function() {
     if (this.__value instanceof Array) return this.__value.length === 0
     return this.__value == null
   }
+  Maybe.prototype.join = function() { return this.isNothing() ? Maybe.of(null) : this.__value }
+  Maybe.prototype.chain = function(f) { return this.map(f).join() }
   Maybe.prototype.map = function(f) { return this.isNothing() ? Maybe.of(null) : Maybe.of(f(this.__value)) }
 
   let maybeOne = Maybe.of("Malkovich Malkovich").map(R.match(/a/ig))
@@ -110,7 +112,7 @@ $(document).ready(function() {
   // console.log(getTwentyPro({ balance: 200.00 }))
   // console.log(getTwentyPro({ balance: 10.00 }))
 
-  const Either = function() {}
+  const Either = function() { }
   Either.of = function(x) { return new Right(x) }
 
   const Left = function(x) { this.__value = x }
@@ -175,6 +177,8 @@ $(document).ready(function() {
   let IO = function(f) { this.__value = f }
   IO.of = function(x) { return new IO(function() { return x }) }
   IO.prototype.map = function(f) { return new IO(compose(f, this.__value)) }
+  IO.prototype.join = function() { return this.__value() }
+  IO.prototype.chain = function(f) { return this.map(f).join() }
 
   let io = function(functor) {
     return functor.__value()
@@ -239,18 +243,28 @@ $(document).ready(function() {
   // console.log(yyy("123"))
   // console.log(zzz([{ id: 2 }, { id: 3 }]))
 
+  let join = function(x) { return x.join() }
+  let chain = curry(function(f, m) { return m.map(f).join() })
   let safeProp = curry(function(x, obj) { return new Maybe(obj[x]) })
   let safeTop = safeProp(0)
-
   let firstAddressStreet = compose(
-    map(map(safeProp("street"))),
-    map(safeTop),
+    chain(safeProp("street")),
+    chain(safeTop),
     safeProp("addresses")
   )
-
   let demoData = { addresses: [{ street: { name: 'Mulburry', number: 8402 }, postcode: "WC2N" }] }
   // console.log(firstAddressStreet(demoData))
 
-  
+  // console.log(Maybe.of(3).map(R.add(1)));
+
+  let maybeChain = Maybe.of(3).chain(function(num) {
+    return Maybe.of(2).map(R.add(num))
+  })
+
+  let maybeChainPro = Maybe.of(3).chain(compose(Maybe.of, Maybe.of(2).chain(R.add)))
+  let ddd = compose(chain(safeProp('street')), chain(safeProp('address')))
+  // console.log(ddd(Maybe.of({ address: { street: 123 } })));
+  // console.log(Maybe.of({ address: { street: 123 } }).chain(safeProp('address')).chain(safeProp('street')));
+
 
 })
