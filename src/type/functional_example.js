@@ -110,6 +110,9 @@ $(document).ready(function() {
   // console.log(getTwentyPro({ balance: 200.00 }))
   // console.log(getTwentyPro({ balance: 10.00 }))
 
+  const Either = function() {}
+  Either.of = function(x) { return new Right(x) }
+
   const Left = function(x) { this.__value = x }
   Left.of = function(x) { return new Left(x) }
   Left.prototype.map = function(f) { return this }
@@ -225,5 +228,15 @@ $(document).ready(function() {
   let bottomRoute = compose(map(R.reverse), Maybe.of)
 
   let nested = Task.of(Right.of("pillows"), Left.of("no sleep for you"))
+
+  // ------------------------------------------------------------------------------------------------------------------------
+
+  let xxx = compose(map(R.concat("master ")), IO.of)
+  let yyy = compose(map(compose(R.add(1), parseInt)), Maybe.of)
+  let getIds = map(R.prop("id"))
+  let zzz = compose(map(getIds), Container.of)
+  console.log(xxx("tetris").__value())
+  console.log(yyy("123"))
+  console.log(zzz([{ id: 2 }, { id: 3 }]))
 
 })
