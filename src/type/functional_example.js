@@ -1,4 +1,5 @@
 import * as R from "ramda"
+import Task from "data.task"
 import $ from "jquery"
 import moment from "moment"
 
@@ -51,6 +52,7 @@ $(document).ready(function() {
   const Container = function(x) { this.__value = x }
   Container.of = function(x) { return new Container(x) }
   Container.prototype.map = function(f) { return Container.of(f(this.__value)) }
+  let container = function(x) { return x.__value }
 
   let containerOne = Container.of(2).map(R.add(253))
   // console.log(containerOne)
@@ -211,18 +213,17 @@ $(document).ready(function() {
   // console.log(findParam("type").__value())
   // console.log(findParam("name").__value())
 
+  // ------------------------------------------------------------------------------------------------------------------------
+
   let idLaw1 = R.map(R.identity)
   let idLaw2 = R.identity
 
-  console.log(idLaw1)
-  console.log(idLaw2)
-  console.log(idLaw1(Container.of(2)))
-  console.log(idLaw2(Container.of(2)))
+  let compLaw1 = compose(container, map(R.join(" ")), map(R.reverse), map(R.concat(["world"])), map(R.concat(["cruel"])))
+  let compLaw2 = compose(container, map(compose(R.join(" "), R.reverse, R.concat(["world"]), R.concat(["cruel"]))))
 
-  var compLaw1 = compose(map(R.concat(" world")), map(R.concat(" cruel")))
-  var compLaw2 = map(compose(R.concat(" world"), R.concat(" cruel")))
-  console.log(compLaw1)
-  console.log(compLaw2)
-  console.log(compLaw1(Container.of("Goodbye")))
-  console.log(compLaw2(Container.of("Goodbye")))
+  let topRoute = compose(Maybe.of, R.reverse)
+  let bottomRoute = compose(map(R.reverse), Maybe.of)
+
+  let nested = Task.of(Right.of("pillows"), Left.of("no sleep for you"))
+
 })
