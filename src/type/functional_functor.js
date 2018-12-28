@@ -48,7 +48,6 @@ Right.prototype.map = function(f) { return Right.of(f(this.__value)) }
 Right.prototype.join = function() { return this.__value }
 Right.prototype.chain = function(f) { return f(this.__value) }
 Right.prototype.ap = function(other) { return this.chain(function(f) { return other.map(f) }) }
-Right.prototype.join = function() { return this.__value }
 Right.prototype.chain = function(f) { return f(this.__value) }
 Right.prototype.inspect = function() { return "Right(" + inspect(this.__value) + ")" }
 

@@ -235,8 +235,22 @@ $(document).ready(function() {
   let yyy = compose(map(compose(R.add(1), parseInt)), Maybe.of)
   let getIds = map(R.prop("id"))
   let zzz = compose(map(getIds), Container.of)
-  console.log(xxx("tetris").__value())
-  console.log(yyy("123"))
-  console.log(zzz([{ id: 2 }, { id: 3 }]))
+  // console.log(xxx("tetris").__value())
+  // console.log(yyy("123"))
+  // console.log(zzz([{ id: 2 }, { id: 3 }]))
+
+  let safeProp = curry(function(x, obj) { return new Maybe(obj[x]) })
+  let safeTop = safeProp(0)
+
+  let firstAddressStreet = compose(
+    map(map(safeProp("street"))),
+    map(safeTop),
+    safeProp("addresses")
+  )
+
+  let demoData = { addresses: [{ street: { name: 'Mulburry', number: 8402 }, postcode: "WC2N" }] }
+  // console.log(firstAddressStreet(demoData))
+
+  
 
 })
