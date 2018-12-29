@@ -40,8 +40,10 @@ app.innerHTML = require("./index.html")
 // import "type/functional_curry"
 // import "type/functional_compose"
 // import "type/functional_functor"
+import "type/functionnal_monad"
 
-import "type/functional_example"
+
+// import "type/functional_example"
 // -------------
 if (module.hot) {
   console.log("------------------------ 天了噜 (╯‵□′)╯︵ 更新了 ------------------------")

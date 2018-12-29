@@ -112,7 +112,7 @@ $(document).ready(function() {
   // console.log(getTwentyPro({ balance: 200.00 }))
   // console.log(getTwentyPro({ balance: 10.00 }))
 
-  const Either = function() { }
+  const Either = function() {}
   Either.of = function(x) { return new Right(x) }
 
   const Left = function(x) { this.__value = x }
@@ -255,7 +255,7 @@ $(document).ready(function() {
   let demoData = { addresses: [{ street: { name: 'Mulburry', number: 8402 }, postcode: "WC2N" }] }
   // console.log(firstAddressStreet(demoData))
 
-  // console.log(Maybe.of(3).map(R.add(1)));
+  // console.log(Maybe.of(3).map(R.add(1)))
 
   let maybeChain = Maybe.of(3).chain(function(num) {
     return Maybe.of(2).map(R.add(num))
@@ -263,8 +263,7 @@ $(document).ready(function() {
 
   let maybeChainPro = Maybe.of(3).chain(compose(Maybe.of, Maybe.of(2).chain(R.add)))
   let ddd = compose(chain(safeProp('street')), chain(safeProp('address')))
-  // console.log(ddd(Maybe.of({ address: { street: 123 } })));
-  // console.log(Maybe.of({ address: { street: 123 } }).chain(safeProp('address')).chain(safeProp('street')));
-
+  // console.log(ddd(Maybe.of({ address: { street: 123 } })))
+  // console.log(Maybe.of({ address: { street: 123 } }).chain(safeProp('address')).chain(safeProp('street')))
 
 })
