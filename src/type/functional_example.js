@@ -52,6 +52,7 @@ $(document).ready(function() {
   const Container = function(x) { this.__value = x }
   Container.of = function(x) { return new Container(x) }
   Container.prototype.map = function(f) { return Container.of(f(this.__value)) }
+  Container.prototype.ap = function(other_container) { return other_container.map(this.__value) }
   let container = function(x) { return x.__value }
 
   let containerOne = Container.of(2).map(R.add(253))
@@ -178,6 +179,7 @@ $(document).ready(function() {
   IO.of = function(x) { return new IO(function() { return x }) }
   IO.prototype.map = function(f) { return new IO(compose(f, this.__value)) }
   IO.prototype.join = function() { return this.__value() }
+  IO.prototype.ap = function(a) { return this.chain(function(f) { return a.map(f) }) }
   IO.prototype.chain = function(f) { return this.map(f).join() }
 
   let io = function(functor) {
@@ -195,11 +197,7 @@ $(document).ready(function() {
   // console.log(getLocation(window))
   // console.log(demoThree.__value())
 
-  let _$ = function(selector) {
-    return new IO(function() {
-      return document.querySelectorAll(selector)
-    })
-  }
+  let _$ = function(selector) { return new IO(function() { return document.querySelectorAll(selector) }) }
 
   let demo = compose(function(div) { return div.innerHTML }, io, map(R.head), _$)
 
@@ -266,4 +264,15 @@ $(document).ready(function() {
   // console.log(ddd(Maybe.of({ address: { street: 123 } })))
   // console.log(Maybe.of({ address: { street: 123 } }).chain(safeProp('address')).chain(safeProp('street')))
 
+  // ------------------------------------------------------------------------------------------------------------------------
+
+  // console.log(Container.of(R.add(2)).ap(Container.of(3)))
+  // console.log(Container.of(2).map(R.add).ap(Container.of(3)))
+
+  let getVal = compose(map(R.prop('html')), _$)
+
+  var signIn = curry(function(username) { console.log(username) })
+  let xxxxxx = IO.of(signIn).ap(IO.of(123))
+  console.log(xxxxxx)
+  xxxxxx.__value()
 })
