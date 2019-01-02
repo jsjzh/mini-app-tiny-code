@@ -53,7 +53,7 @@ $(document).ready(function() {
 
   // console.log(latin(["frog", "eyes"]))
 
-  var dasherize = compose(R.join('-'), map(toLowerCase), R.split(' '), trace("after replace"), R.replace(/\s{2,}/ig, ' '))
+  let dasherize = compose(R.join('-'), map(toLowerCase), R.split(' '), trace("after replace"), R.replace(/\s{2,}/ig, ' '))
 
   // console.log(dasherize('The world is a vampire'))
 
@@ -253,10 +253,28 @@ $(document).ready(function() {
   // console.log(Identity.of(R.add(2)).ap(Identity.of(3)))
   // console.log(Identity.of(2).map(R.add).ap(Identity.of(3)))
 
-  // let getVal = compose(map(R.prop('html')), _$)
+  let liftA2 = curry(function(f, functor1, functor2) { return functor1.map(f).ap(functor2) })
+  let liftA3 = curry(function(f, functor1, functor2, functor3) { return functor1.map(f).ap(functor2).ap(functor3) })
 
-  var signIn = curry(function(username) { console.log(username) })
-  let xxxxxx = IO.of(signIn).ap(IO.of(123))
-  console.log(xxxxxx)
-  xxxxxx.unsafePerformIO()
+  let renderPage = curry(function(data1, data2) { return { data1, data2 } })
+  let asyncFn1 = function(i) { return new Task(function(rej, res) { setTimeout(function() { res(i) }, 0) }) }
+  let asyncFn2 = function(i) { return new Task(function(rej, res) { setTimeout(function() { res(i) }, 1000) }) }
+  let tasks = Task.of(renderPage).ap(asyncFn1(1)).ap(asyncFn2(2))
+  // tasks = liftA2(renderPage, asyncFn1(3), asyncFn2(4))
+
+  // tasks.fork(console.log, console.log)
+
+  let createUser = curry(function(email, name) {
+    console.log(email)
+    console.log(name)
+  })
+
+  let checkEmail = function(user) { return user.email ? Right.of(user.email) : Left.of("error") }
+  let checkName = function(user) { return user.name ? Right.of(user.name) : Left.of("error") }
+  let user = { email: "email", name: "name" }
+
+  // Either.of(createUser).ap(checkEmail(user)).ap(checkName(user))
+
+  // liftA2(createUser, checkEmail(user), checkName(user))
+
 })

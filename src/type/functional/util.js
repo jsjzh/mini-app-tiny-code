@@ -62,6 +62,8 @@ _IO.prototype.chain = function(f) { return this.map(f).join() }
 _IO.prototype.ap = function(a) { return this.chain(function(f) { return a.map(f) }) }
 _IO.prototype.inspect = function() { return "IO(" + inspect(this.unsafePerformIO) + ")" }
 
+export const log = _curry(function(target, data) { console.log(target, data) })
+
 export const R = _R
 export const Task = _Task
 
@@ -88,7 +90,6 @@ export const unsafePerformIO = _unsafePerformIO
 export const IO = _IO
 
 // use
-
 // import {
 //   R,
 //   Task,
