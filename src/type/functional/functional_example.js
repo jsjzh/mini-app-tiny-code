@@ -276,8 +276,11 @@ $(document).ready(function() {
   // Either.of(createUser).ap(checkEmail(user)).ap(checkName(user))
   // liftA2(createUser, checkEmail(user), checkName(user))
 
-  var tOfM = compose(Task.of, Maybe.of)
+  let tOfM = compose(Task.of, Maybe.of)
 
   let xsx = liftA2(R.concat, tOfM('Rainy Days and Mondays'), tOfM(' always get me down'))
+
+  let v = Maybe.of("Pillow Pets")
+  // console.log(Maybe.of(R.identity).ap(v))
 
 })
