@@ -7,21 +7,25 @@ import "./index.scss"
 
 const app = document.getElementById("app")
 app.innerHTML = require("./index.html")
-// -------------
+
+// ------------- default -------------
+// import "type/default/prototype"
+// import "type/default/new"
+// import "type/default/extends"
+// import "type/default/class"
+// import "type/default/functionClass"
+// import "type/default/logic"
+// import "type/default/string"
+// import "type/default/array"
+// import "type/default/regexp"
+// import "type/default/OneWayLinkedList"
+// import "type/default/TwoWayLinkedList"
+// import "type/default/observable"
+
+// import "type/default/another"
+// ------------- plugin -------------
 // import "plugin/cube"
-// import "type/prototype"
-// import "type/new"
-// import "type/extends"
-// import "type/class"
-// import "type/functionClass"
-// import "type/logic"
-// import "type/string"
-// import "type/array"
-// import "type/regexp"
-// import "type/OneWayLinkedList"
-// import "type/TwoWayLinkedList"
-// import "type/observable"
-// -------------
+// ------------- interview -------------
 // import "type/interview/render"
 // import "type/interview/twoSum"
 // import "type/interview/reverse"
@@ -35,17 +39,16 @@ app.innerHTML = require("./index.html")
 // import "type/interview/maxSubArray"
 // import "type/interview/addBinary"
 // import "type/interview/climbStairs"
-
-// import "type/another"
-
-import "type/functional/functional_curry"
+// ------------- functional -------------
+// import "type/functional/functional_curry"
 // import "type/functional/functional_compose"
 // import "type/functional/functional_functor"
 // import "type/functional/functional_monad"
 
-// import "type/functional/functional_example"
-// -------------
+import "type/functional/functional_example"
+// ------------- end -------------
+
 if (module.hot) {
-  console.log("------------------------ 天了噜 (╯‵□′)╯︵ 更新了 ------------------------")
+  // console.log("------------------------ 天了噜 (╯‵□′)╯︵ 更新了 ------------------------")
   module.hot.accept()
 }

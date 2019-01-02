@@ -1,69 +1,11 @@
-import * as R from "ramda"
-import Task from "data.task"
-
-const { curry, compose, map } = R
-
-const trace = curry(function(tag, x) {
-  console.log(tag, x)
-  return x
-})
-
-const Identity = function(x) { this.__value = x }
-Identity.of = function(x) { return new Identity(x) }
-Identity.prototype.map = function(f) { return Identity.of(f(this.__value)) }
-Identity.prototype.inspect = function() { return "Identity(" + inspect(this.__value) + ")" }
-
-const Maybe = function(x) { this.__value = x }
-Maybe.of = function(x) { return new Maybe(x) }
-Maybe.prototype.isNothing = function(f) { return (this.__value === null || this.__value === undefined) }
-Maybe.prototype.map = function(f) { return this.isNothing() ? Maybe.of(null) : Maybe.of(f(this.__value)) }
-Maybe.prototype.chain = function(f) { return this.map(f).join() }
-Maybe.prototype.ap = function(other) { return this.isNothing() ? Maybe.of(null) : other.map(this.__value) }
-Maybe.prototype.join = function() { return this.isNothing() ? Maybe.of(null) : this.__value }
-Maybe.prototype.inspect = function() { return "Maybe(" + inspect(this.__value) + ")" }
-
-const Either = function() {}
-Either.of = function(x) { return new Right(x) }
-
-const either = curry(function(f, g, e) {
-  switch (e.constructor) {
-    case Left:
-      return f(e.__value)
-    case Right:
-      return g(e.__value)
-  }
-})
-
-const Left = function(x) { this.__value = x }
-Left.of = function(x) { return new Left(x) }
-Left.prototype.map = function(f) { return this }
-Left.prototype.ap = function(other) { return this }
-Left.prototype.join = function() { return this }
-Left.prototype.chain = function() { return this }
-Left.prototype.inspect = function() { return "Left(" + inspect(this.__value) + ")" }
-
-const Right = function(x) { this.__value = x }
-Right.of = function(x) { return new Right(x) }
-Right.prototype.map = function(f) { return Right.of(f(this.__value)) }
-Right.prototype.join = function() { return this.__value }
-Right.prototype.chain = function(f) { return f(this.__value) }
-Right.prototype.ap = function(other) { return this.chain(function(f) { return other.map(f) }) }
-Right.prototype.inspect = function() { return "Right(" + inspect(this.__value) + ")" }
-
-const IO = function(f) { this.unsafePerformIO = f }
-IO.of = function(x) { return new IO(function() { return x }) }
-IO.prototype.map = function(f) { return new IO(compose(f, this.unsafePerformIO)) }
-IO.prototype.join = function() { return this.unsafePerformIO() }
-IO.prototype.chain = function(f) { return this.map(f).join() }
-IO.prototype.ap = function(a) { return this.chain(function(f) { return a.map(f) }) }
-IO.prototype.inspect = function() { return "IO(" + inspect(this.unsafePerformIO) + ")" }
+import { R, Task, compose, Identity, Maybe, either, Left, Right, IO, trace, map } from "./util"
 
 
 // Exercise 1
 // ==========
 // Use R.add(x,y) and R.map(f,x) to make a function that increments a value inside a functor
 
-let ex1 = map(R.add(1))
+let ex1 = R.map(R.add(1))
 
 // console.log(ex1(Identity.of(2)))
 
@@ -71,8 +13,8 @@ let ex1 = map(R.add(1))
 // ==========
 // Use R.head to get the first element of the list
 
+let ex2 = R.map(R.head)
 let xs = Identity.of(["do", "ray", "me", "fa", "so", "la", "ti", "do"])
-let ex2 = map(R.head)
 
 // console.log(ex2(xs))
 
@@ -81,8 +23,8 @@ let ex2 = map(R.head)
 // Use safeProp and R.head to find the first initial of the user
 
 let safeProp = R.curry(function(x, o) { return Maybe.of(o[x]) })
+let ex3 = compose(R.map(R.head), safeProp("name"))
 let user = { id: 2, name: "Albert" }
-let ex3 = compose(map(R.head), safeProp("name"))
 
 // console.log(ex3(user))
 
@@ -90,8 +32,7 @@ let ex3 = compose(map(R.head), safeProp("name"))
 // ==========
 // Use Maybe to rewrite ex4 without an if statement
 
-let _ex4 = function(n) { if (n) { return parseInt(n) } }
-let ex4 = compose(map(parseInt), Maybe.of)
+let ex4 = compose(R.map(parseInt), Maybe.of)
 
 // console.log(ex4("4"))
 
@@ -110,7 +51,11 @@ let getPost = function(i) {
 }
 let ex5 = compose(map(compose(R.toUpper, R.prop("title"))), getPost)
 
-// ex5(13).fork(trace("err"), trace("success"))
+// ex5(13).fork(function(err) {
+//   console.log("err", err)
+// }, function(success) {
+//   console.log("success", success)
+// })
 
 // Exercise 6
 // ==========
@@ -118,7 +63,7 @@ let ex5 = compose(map(compose(R.toUpper, R.prop("title"))), getPost)
 
 let showWelcome = compose(R.concat("Welcome "), R.prop("name"))
 let checkActive = function(user) { return user.active ? Right.of(user) : Left.of("Your account is not active") }
-let ex6 = compose(map(showWelcome), checkActive)
+let ex6 = compose(R.map(showWelcome), checkActive)
 
 // console.log(ex6({ active: false, name: "Gary" }))
 // console.log(ex6({ active: true, name: "Theresa" }))

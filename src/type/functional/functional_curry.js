@@ -1,18 +1,11 @@
-import * as R from "ramda"
-
-const { curry, compose } = R
+import { curry, compose } from "./util"
 
 // Exercise 1
 //==============
 // Refactor to remove all arguments by partially applying the function
 
-let split = curry(function(what, str) {
-  return str.split(what)
-})
-
-let words = function(str) {
-  return split(" ", str)
-}
+let split = curry(function(what, str) { return str.split(what) })
+let words = function(str) { return split(" ", str) }
 
 // console.log(words("Jingle bells Batman smells"))
 
@@ -20,10 +13,7 @@ let words = function(str) {
 //==============
 // Use map to make a new words fn that works on an array of strings.
 
-let map = curry(function(fn, arr) {
-  return arr.map(fn)
-})
-
+let map = curry(function(fn, arr) { return arr.map(fn) })
 let sentences = map(words)
 
 // console.log(sentences(["Jingle bells Batman smells", "Robin laid an egg"]))
@@ -32,19 +22,10 @@ let sentences = map(words)
 //==============
 // Refactor to remove all arguments by partially applying the functions
 
-let filter = curry(function(fn, arr) {
-  return arr.filter(fn)
-})
-
-let match = curry(function(what, str) {
-  return str.match(what)
-})
-
-// let filterQs = function(xs) {
-//   return filter(function(x) { return match(/q/i, x) }, xs)
-// }
-
+let filter = curry(function(fn, arr) { return arr.filter(fn) })
+let match = curry(function(what, str) { return str.match(what) })
 let filterQs = compose(filter(match(/q/i)))
+// let filterQs = function(xs) { return filter(function(x) { return match(/q/i, x) }, xs) }
 
 // console.log(filterQs(['quick', 'camels', 'quarry', 'over', 'quails']))
 
@@ -52,19 +33,19 @@ let filterQs = compose(filter(match(/q/i)))
 //==============
 // Use the helper function _keepHighest to refactor max to not reference any arguments
 
-let reduce = curry(function(fn, init, arr) {
-  return arr.reduce(fn, init)
-})
+let reduce = curry(function(fn, init, arr) { return arr.reduce(fn, init) })
 
 // LEAVE BE:
 let _keepHighest = function(x, y) { return x >= y ? x : y }
 
 // REFACTOR THIS ONE:
-let max = function(xs) {
-  return reduce(function(acc, x) {
-    return _keepHighest(acc, x)
-  }, 0, xs)
-}
+// let max = function(xs) {
+//   return reduce(function(acc, x) {
+//     return _keepHighest(acc, x)
+//   }, 0, xs)
+// }
+
+let max = compose(reduce(_keepHighest, -Infinity))
 
 // console.log(max([323, 523, 554, 123, 5234]))
 
@@ -73,9 +54,7 @@ let max = function(xs) {
 // wrap array"s slice to be functional and curried.
 // //[1,2,3].slice(0, 2)
 
-let slice = curry(function(start, end, arr) {
-  return arr.slice(start, end)
-})
+let slice = curry(function(start, end, arr) { return arr.slice(start, end) })
 
 // console.log(slice(1)(3)(['a', 'b', 'c']))
 

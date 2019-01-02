@@ -20,6 +20,67 @@ $(document).ready(function() {
     return x
   })
 
+
+
+  // let toUpperCase = function(x) { return x.toUpperCase() }
+  // let exclaim = function(x) { return x + "!" }
+  // let map = curry(function(fn, arr) { return arr.map(fn) })
+  // let shout = compose(toUpperCase, exclaim)
+  // let shouts = map(shout)
+
+  // let arr = ["hello", "hello", "hello", "hello", "hello", "hello"]
+
+  // console.log(shouts(arr))
+
+  // let head = function(x) { return x[0] }
+  // let reduce = curry(function(fn, init, arr) { return arr.reduce(fn, init) })
+  // let reverse = curry(function(arr) { return arr.reverse() })
+  // let last = compose(head, reverse)
+
+  // console.log(last(['jumpkick', 'roundhouse', 'uppercut']))
+
+  // let lastUpper = compose(toUpperCase, head, reverse)
+
+  // console.log(lastUpper(['jumpkick', 'roundhouse', 'uppercut']))
+
+  // let loudLastUpper = compose(exclaim, toUpperCase, head, reverse)
+
+  // console.log(loudLastUpper(['jumpkick', 'roundhouse', 'uppercut']))
+
+  // let replace = curry(function(what, to, str) { return str.replace(what, to) })
+  // let toLowerCase = function(x) { return x.toLowerCase() }
+
+  // let snakeCase = compose(replace(/\s+/ig, "_"), toLowerCase)
+
+  // let snakeCases = map(snakeCase)
+
+  // console.log(snakeCases(['jumpk ick', 'rou ndhouse', 'upp ercut']))
+
+  // let join = curry(function(what, arr) { return arr.join(what) })
+
+  // let split = curry(function(what, str) { return str.split(what) })
+
+  // let initials = compose(join(". "), map(compose(toUpperCase, head)), split(" "))
+
+  // console.log(initials("hunter stockton thompson"))
+
+  // let angry = compose(exclaim, toUpperCase)
+
+  // let latin = compose(map(angry), reverse)
+
+  // console.log(latin(["frog", "eyes"]))
+
+  // var dasherize = compose(join('-'), map(toLowerCase), split(' '), trace("after replace"), replace(/\s{2,}/ig, ' '))
+
+  // console.log(dasherize('The world is a vampire'))
+
+  // let g = function(x) { return x.length }
+  // let f = function(x) { return x === 4 }
+  // let isFourLetterWord = compose(f, g)
+
+  // let id = function(x) { return x }
+
+
   let Impure = {
     getJSON: curry(function(callback, url) {
       $.getJSON(url, callback)
