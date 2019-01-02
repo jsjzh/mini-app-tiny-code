@@ -37,12 +37,13 @@ app.innerHTML = require("./index.html")
 // import "type/interview/climbStairs"
 
 // import "type/another"
-import "type/functional_curry"
-// import "type/functional_compose"
-// import "type/functional_functor"
-// import "type/functionnal_monad"
 
-// import "type/functional_example"
+import "type/functional/functional_curry"
+// import "type/functional/functional_compose"
+// import "type/functional/functional_functor"
+// import "type/functional/functional_monad"
+
+// import "type/functional/functional_example"
 // -------------
 if (module.hot) {
   console.log("------------------------ 天了噜 (╯‵□′)╯︵ 更新了 ------------------------")
