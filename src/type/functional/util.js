@@ -17,6 +17,7 @@ const _Identity = function(x) { this.__value = x }
 _Identity.of = function(x) { return new _Identity(x) }
 _Identity.prototype.map = function(f) { return _Identity.of(f(this.__value)) }
 _Identity.prototype.inspect = function() { return "Identity(" + inspect(this.__value) + ")" }
+_Identity.prototype.ap = function(other) { return other.map(this.__value) }
 
 const _maybe = _curry(function(x, f, m) { return m.isNothing() ? x : f(m.__value) })
 const _Maybe = function(x) { this.__value = x }

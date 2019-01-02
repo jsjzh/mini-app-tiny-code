@@ -1,85 +1,63 @@
-import * as R from "ramda"
-import Task from "data.task"
+import { R, Task, curry, compose, map, chain, join, trace, identity, Identity, maybe, Maybe, either, Either, Left, Right, unsafePerformIO, IO } from "./util"
 import $ from "jquery"
 import moment from "moment"
 
+const CARS = [
+  { name: "Ferrari FF", horsepower: 660, dollar_value: 700000, in_stock: true },
+  { name: "Spyker C12 Zagato", horsepower: 650, dollar_value: 648000, in_stock: false },
+  { name: "Jaguar XKR-S", horsepower: 550, dollar_value: 132000, in_stock: false },
+  { name: "Audi R8", horsepower: 525, dollar_value: 114200, in_stock: false },
+  { name: "Aston Martin One-77", horsepower: 750, dollar_value: 1850000, in_stock: true },
+  { name: "Pagani Huayra", horsepower: 700, dollar_value: 1300000, in_stock: false }
+]
+
 $(document).ready(function() {
-  const { curry, compose } = R
 
-  const CARS = [
-    { name: "Ferrari FF", horsepower: 660, dollar_value: 700000, in_stock: true },
-    { name: "Spyker C12 Zagato", horsepower: 650, dollar_value: 648000, in_stock: false },
-    { name: "Jaguar XKR-S", horsepower: 550, dollar_value: 132000, in_stock: false },
-    { name: "Audi R8", horsepower: 525, dollar_value: 114200, in_stock: false },
-    { name: "Aston Martin One-77", horsepower: 750, dollar_value: 1850000, in_stock: true },
-    { name: "Pagani Huayra", horsepower: 700, dollar_value: 1300000, in_stock: false }
-  ]
+  let exclaim = function(x) { return x + "!" }
+  let shout = compose(R.toUpper, exclaim)
+  let shouts = map(shout)
 
-  const trace = curry(function(tag, x) {
-    console.log(tag, x)
-    return x
-  })
-
-
-
-  // let toUpperCase = function(x) { return x.toUpperCase() }
-  // let exclaim = function(x) { return x + "!" }
-  // let map = curry(function(fn, arr) { return arr.map(fn) })
-  // let shout = compose(toUpperCase, exclaim)
-  // let shouts = map(shout)
-
-  // let arr = ["hello", "hello", "hello", "hello", "hello", "hello"]
+  let arr = ["hello", "world", "my", "friend", "hello", "hello"]
 
   // console.log(shouts(arr))
 
-  // let head = function(x) { return x[0] }
-  // let reduce = curry(function(fn, init, arr) { return arr.reduce(fn, init) })
-  // let reverse = curry(function(arr) { return arr.reverse() })
-  // let last = compose(head, reverse)
+  let head = function(x) { return x[0] }
+  let reverse = curry(function(arr) { return arr.reverse() })
+  let last = compose(head, reverse)
 
   // console.log(last(['jumpkick', 'roundhouse', 'uppercut']))
 
-  // let lastUpper = compose(toUpperCase, head, reverse)
+  let lastUpper = compose(R.toUpper, head, reverse)
 
   // console.log(lastUpper(['jumpkick', 'roundhouse', 'uppercut']))
 
-  // let loudLastUpper = compose(exclaim, toUpperCase, head, reverse)
+  let loudLastUpper = compose(exclaim, R.toUpper, head, reverse)
 
   // console.log(loudLastUpper(['jumpkick', 'roundhouse', 'uppercut']))
 
-  // let replace = curry(function(what, to, str) { return str.replace(what, to) })
-  // let toLowerCase = function(x) { return x.toLowerCase() }
+  let toLowerCase = function(x) { return x.toLowerCase() }
 
-  // let snakeCase = compose(replace(/\s+/ig, "_"), toLowerCase)
+  let snakeCase = compose(R.replace(/\s+/ig, "_"), toLowerCase)
 
-  // let snakeCases = map(snakeCase)
+  let snakeCases = map(snakeCase)
 
   // console.log(snakeCases(['jumpk ick', 'rou ndhouse', 'upp ercut']))
 
-  // let join = curry(function(what, arr) { return arr.join(what) })
-
-  // let split = curry(function(what, str) { return str.split(what) })
-
-  // let initials = compose(join(". "), map(compose(toUpperCase, head)), split(" "))
+  let initials = compose(R.join(". "), map(compose(R.toUpper, head)), R.split(" "))
 
   // console.log(initials("hunter stockton thompson"))
 
-  // let angry = compose(exclaim, toUpperCase)
+  let angry = compose(exclaim, R.toUpper)
 
-  // let latin = compose(map(angry), reverse)
+  let latin = compose(map(angry), reverse)
 
   // console.log(latin(["frog", "eyes"]))
 
-  // var dasherize = compose(join('-'), map(toLowerCase), split(' '), trace("after replace"), replace(/\s{2,}/ig, ' '))
+  var dasherize = compose(R.join('-'), map(toLowerCase), R.split(' '), trace("after replace"), R.replace(/\s{2,}/ig, ' '))
 
   // console.log(dasherize('The world is a vampire'))
 
-  // let g = function(x) { return x.length }
-  // let f = function(x) { return x === 4 }
-  // let isFourLetterWord = compose(f, g)
-
-  // let id = function(x) { return x }
-
+  // ------------------------------------------------------------------------------------------------------------------------
 
   let Impure = {
     getJSON: curry(function(callback, url) {
@@ -108,32 +86,14 @@ $(document).ready(function() {
 
   // $.getJSON("/static/data/cat.json", function({ data }) { $("#container").html(data.map(item => img(item.thumbURL))) })
 
-  // ------------------------------------------------------------------------------------------------------------------------
-
-  const Container = function(x) { this.__value = x }
-  Container.of = function(x) { return new Container(x) }
-  Container.prototype.map = function(f) { return Container.of(f(this.__value)) }
-  Container.prototype.ap = function(other_container) { return other_container.map(this.__value) }
-  let container = function(x) { return x.__value }
-
-  let containerOne = Container.of(2).map(R.add(253))
+  let containerOne = Identity.of(2).map(R.add(253))
   // console.log(containerOne)
 
-  let containerTwo = Container.of("flamethrowers").map(R.toUpper)
+  let containerTwo = Identity.of("flamethrowers").map(R.toUpper)
   // console.log(containerTwo)
 
-  let containerThree = Container.of("hello").map(R.concat(" world")).map(R.prop("length"))
+  let containerThree = Identity.of("hello").map(R.concat(" world")).map(R.prop("length"))
   // console.log(containerThree)
-
-  const Maybe = function(x) { this.__value = x }
-  Maybe.of = function(x) { return new Maybe(x) }
-  Maybe.prototype.isNothing = function() {
-    if (this.__value instanceof Array) return this.__value.length === 0
-    return this.__value == null
-  }
-  Maybe.prototype.join = function() { return this.isNothing() ? Maybe.of(null) : this.__value }
-  Maybe.prototype.chain = function(f) { return this.map(f).join() }
-  Maybe.prototype.map = function(f) { return this.isNothing() ? Maybe.of(null) : Maybe.of(f(this.__value)) }
 
   let maybeOne = Maybe.of("Malkovich Malkovich").map(R.match(/a/ig))
   // console.log(maybeOne)
@@ -148,8 +108,6 @@ $(document).ready(function() {
   // console.log(maybeFour)
 
   let safeHead = function(xs) { return Maybe.of(xs[0]) }
-
-  let map = curry(function(f, functor) { return functor.map(f) })
 
   let streetName = compose(map(R.add(1)), map(R.prop("number")), safeHead, R.prop("addresses"))
 
@@ -174,17 +132,6 @@ $(document).ready(function() {
   // console.log(getTwentyPro({ balance: 200.00 }))
   // console.log(getTwentyPro({ balance: 10.00 }))
 
-  const Either = function() {}
-  Either.of = function(x) { return new Right(x) }
-
-  const Left = function(x) { this.__value = x }
-  Left.of = function(x) { return new Left(x) }
-  Left.prototype.map = function(f) { return this }
-
-  const Right = function(x) { this.__value = x }
-  Right.of = function(x) { return new Right(x) }
-  Right.prototype.map = function(f) { return Right.of(f(this.__value)) }
-
   let RightOne = compose(map(R.concat("b")), Right.of)
   // console.log(RightOne("rain"))
 
@@ -202,24 +149,13 @@ $(document).ready(function() {
     if (!birthdate.isValid()) return Left.of("Birth date could not be parsed")
     return Right.of(now.diff(birthdate, 'years'))
   })
-
   // console.log(getAge(moment(), { birthdate: 'balloons!' }))
   // console.log(getAge(moment(), { birthdate: '1995-04-10' }))
 
   let fortune = compose(R.concat("If you survive, you will be "), R.toString, R.add(1))
   let zoltar = compose(map(console.log), map(fortune), getAge(moment()))
-
   // zoltar({ birthdate: 'balloons!' })
   // zoltar({ birthdate: '1995-04-10' })
-
-  let either = curry(function(f, g, e) {
-    switch (e.constructor) {
-      case Left:
-        return f(e.__value)
-      case Right:
-        return g(e.__value)
-    }
-  })
 
   let zoltarPro = compose(console.log, either(R.identity, fortune), getAge(moment()))
 
@@ -232,20 +168,8 @@ $(document).ready(function() {
 
   let getTwentyEx = compose(console.log, either(R.identity, R.identity), withdrawPro(20))
   let getTwentyExTwo = compose(map(console.log), withdrawPro(20))
-
   // getTwentyExTwo({ balance: 200.00 })
   // getTwentyExTwo({ balance: 10.00 })
-
-  let IO = function(f) { this.__value = f }
-  IO.of = function(x) { return new IO(function() { return x }) }
-  IO.prototype.map = function(f) { return new IO(compose(f, this.__value)) }
-  IO.prototype.join = function() { return this.__value() }
-  IO.prototype.ap = function(a) { return this.chain(function(f) { return a.map(f) }) }
-  IO.prototype.chain = function(f) { return this.map(f).join() }
-
-  let io = function(functor) {
-    return functor.__value()
-  }
 
   let io_localStorage = IO.of(localStorage)
   let io_window = IO.of(window)
@@ -256,13 +180,13 @@ $(document).ready(function() {
   let demoThree = io_window.map(getLocation)
 
   // console.log(getLocation(window))
-  // console.log(demoThree.__value())
+  // console.log(demoThree.unsafePerformIO())
 
   let _$ = function(selector) { return new IO(function() { return document.querySelectorAll(selector) }) }
 
-  let demo = compose(function(div) { return div.innerHTML }, io, map(R.head), _$)
+  let getHtml = compose(function(div) { return div.innerHTML }, unsafePerformIO, map(R.head), _$)
 
-  // console.log(demo("#app"))
+  // console.log(getHtml("#app"))
 
   let str = "http://www.baidu.com/page?dept_id=123&type=4&s_date=0&e_date=0&_t=1545891198258"
 
@@ -276,8 +200,8 @@ $(document).ready(function() {
     return href.map(compose(maybe("oops ! no data", R.identity), Maybe.of, R.filter(compose(R.equals(key), R.head)), params))
   }
 
-  // console.log(findParam("type").__value())
-  // console.log(findParam("name").__value())
+  // console.log(findParam("type").unsafePerformIO())
+  // console.log(findParam("name").unsafePerformIO())
 
   // ------------------------------------------------------------------------------------------------------------------------
 
@@ -297,18 +221,17 @@ $(document).ready(function() {
   let xxx = compose(map(R.concat("master ")), IO.of)
   let yyy = compose(map(compose(R.add(1), parseInt)), Maybe.of)
   let getIds = map(R.prop("id"))
-  let zzz = compose(map(getIds), Container.of)
-  // console.log(xxx("tetris").__value())
+  let zzz = compose(map(getIds), Identity.of)
+  // console.log(xxx("tetris").unsafePerformIO())
   // console.log(yyy("123"))
   // console.log(zzz([{ id: 2 }, { id: 3 }]))
 
-  let join = function(x) { return x.join() }
   let chain = curry(function(f, m) { return m.map(f).join() })
   let safeProp = curry(function(x, obj) { return new Maybe(obj[x]) })
   let safeTop = safeProp(0)
   let firstAddressStreet = compose(
     chain(safeProp("street")),
-    chain(safeTop),
+    chain(safeProp(0)),
     safeProp("addresses")
   )
   let demoData = { addresses: [{ street: { name: 'Mulburry', number: 8402 }, postcode: "WC2N" }] }
@@ -327,13 +250,13 @@ $(document).ready(function() {
 
   // ------------------------------------------------------------------------------------------------------------------------
 
-  // console.log(Container.of(R.add(2)).ap(Container.of(3)))
-  // console.log(Container.of(2).map(R.add).ap(Container.of(3)))
+  // console.log(Identity.of(R.add(2)).ap(Identity.of(3)))
+  // console.log(Identity.of(2).map(R.add).ap(Identity.of(3)))
 
-  let getVal = compose(map(R.prop('html')), _$)
+  // let getVal = compose(map(R.prop('html')), _$)
 
   var signIn = curry(function(username) { console.log(username) })
   let xxxxxx = IO.of(signIn).ap(IO.of(123))
   console.log(xxxxxx)
-  xxxxxx.__value()
+  xxxxxx.unsafePerformIO()
 })
