@@ -283,4 +283,7 @@ $(document).ready(function() {
   let v = Maybe.of("Pillow Pets")
   // console.log(Maybe.of(R.identity).ap(v))
 
+  // console.log(Either.of(R.toUpper).ap(Either.of("oreos")))
+  // console.log(Either.of(R.toUpper("oreos")))
+
 })

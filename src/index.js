@@ -44,8 +44,9 @@ app.innerHTML = require("./index.html")
 // import "type/functional/functional_compose"
 // import "type/functional/functional_functor"
 // import "type/functional/functional_monad"
+import "type/functional/functional_applicative"
 
-import "type/functional/functional_example"
+// import "type/functional/functional_example"
 // ------------- end -------------
 
 if (module.hot) {
