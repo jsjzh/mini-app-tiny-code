@@ -26,7 +26,9 @@ let ex2 = R.lift(R.add)
 
 function getPost(i) {
   return new Task(function(rej, res) {
-    setTimeout(function() { res({ id: i, title: 'Love them futures' }) }, 300)
+    setTimeout(function() {
+      res({ id: i, title: 'Love them futures' })
+    }, 300)
   })
 }
 
@@ -42,15 +44,16 @@ let makeComments = R.reduce(function(acc, c) { return acc + "<li>" + c + "</li>"
 let render = curry(function(p, cs) { return "<div>" + p.title + "</div>" + makeComments(cs) })
 
 //  ex3 :: Task Error HTML
-let ex3 = R.lift(render)(getPost(2), getComments(2))
+let ex3 = R.lift(render)(getPost(1), getComments(2))
 
-ex3.fork(console.log, function(html) {
-  console.log(html)
-})
+// ex3.fork(console.log, function(html) {
+//   console.log(html)
+// })
 
 // Exercise 4
 // ==========
 // Write an IO that gets both player1 and player2 from the cache and starts the game
+
 localStorage.player1 = "toby"
 localStorage.player2 = "sally"
 
@@ -60,4 +63,6 @@ let getCache = function(x) {
 let game = R.curry(function(p1, p2) { return p1 + ' vs ' + p2 })
 
 //  ex4 :: IO String
-let ex4 = undefined
+let ex4 = R.lift(game)(getCache("player1"), getCache("player2"))
+
+// console.log(ex4.unsafePerformIO())

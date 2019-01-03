@@ -9,6 +9,7 @@ const _trace = _curry(function(tag, x) {
 })
 
 const _chain = _curry(function(f, m) { return m.chain(f) })
+const _log = _curry(function(target, data) { console.log(target, data) })
 const _join = function(x) { return x.join() }
 
 
@@ -62,8 +63,6 @@ _IO.prototype.chain = function(f) { return this.map(f).join() }
 _IO.prototype.ap = function(a) { return this.chain(function(f) { return a.map(f) }) }
 _IO.prototype.inspect = function() { return "IO(" + inspect(this.unsafePerformIO) + ")" }
 
-export const log = _curry(function(target, data) { console.log(target, data) })
-
 export const R = _R
 export const Task = _Task
 
@@ -72,6 +71,7 @@ export const compose = _compose
 export const map = _map
 export const chain = _chain
 export const join = _join
+export const log = _log
 
 export const trace = _trace
 
