@@ -13,14 +13,13 @@ let sortByTime = curry(function(key) { return (a, b) => moment(a[key]) - moment(
 
 let getIncompleteTaskSummaries = curry(name => {
   return compose(
-    R.sortBy(R.prop("id")),
+    R.sortBy(R.prop("dueDate")),
     R.map(R.pick(["id", "dueDate", "title", "priority"])),
-    R.reject(R.propEq("complete", true)),
-    R.filter(R.propEq("username", name)),
+    R.filter(R.both(R.propEq("complete", false), R.propEq("username", name))),
     R.prop("tasks")
   )
 })
 
-let Scott = getIncompleteTaskSummaries("Scott")
+let Punam = getIncompleteTaskSummaries("Punam")
 
-console.log("Scott", Scott(postData))
+console.log("Punam", Punam(postData))
