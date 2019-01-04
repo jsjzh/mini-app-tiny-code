@@ -93,12 +93,12 @@ const incCount = R.ifElse(
 // console.log(incCount({ count: 1 }))
 
 // constants
-const forever21 = age => ifElse(gte(__, 21), always(21), inc)(age)
+const forever21 = age => R.ifElse(R.gte(R.__, 21), R.always(21), R.inc)(age)
 // T F
 // () => true () => false
 
 // identity
-const alwaysDrivingAge = age => ifElse(lt(__, 16), always(16), identity)(age)
+const alwaysDrivingAge = age => R.ifElse(R.lt(R.__, 16), R.always(16), R.identity)(age)
 
 // when
 const truncate = R.when(
@@ -117,10 +117,28 @@ let safeInc = R.unless(R.isNil, R.inc)
 const fn = R.cond([
   [R.equals(0), R.always('water freezes at 0°C')],
   [R.equals(100), R.always('water boils at 100°C')],
-  [R.T, temp => 'nothing special happens at ' + temp + '°C']
+  [R.T, R.identity]
 ])
 // console.log(fn(0))
 // console.log(fn(50))
 // console.log(fn(100))
 
-const _forever21 = R.ifElse(R.gte(R.__, 21), R.always(21), R.inc)
+// prop pick has path
+
+// propOr pathOr
+// 如果找不到属性，则使用提供的默认值
+
+// keys values
+
+// assoc / assocPath
+// 替代 person.name = "some name"
+// 因为函数式、数据不变，可以使用 assoc 替代
+
+// dissoc / dissocPath / omit
+// 删除对象的一个属性 嵌套属性 多个属性
+
+let demo = { x: 1, y: 2 }
+R.set(R.lensProp("x"), 4, demo)
+console.log(demo)
+
+console.log(R.indexOf("小", "小驹物联71张2G月包移动卡间共享流量池"));
