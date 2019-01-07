@@ -1,28 +1,33 @@
-const oldArr = [{
-  '1_class': '工具',
-  '2_class': '备忘录',
-  '1_id': 1,
-  '2_id': 2
-}, {
-  '1_class': '教育',
-  '2_class': '学历教育',
-  '3_class': '中等',
-  '1_id': 3,
-  '2_id': 4,
-  '3_id': 6
-}, {
-  '1_class': '教育',
-  '2_class': '学历教育',
-  '3_class': '高等',
-  '1_id': 3,
-  '2_id': 4,
-  '3_id': 5
-}, {
-  '1_class': '教育',
-  '2_class': '成人教育',
-  '1_id': 3,
-  '2_id': 7
-}];
+const oldArr = [
+  {
+    "1_class": "工具",
+    "2_class": "备忘录",
+    "1_id": 1,
+    "2_id": 2
+  },
+  {
+    "1_class": "教育",
+    "2_class": "学历教育",
+    "3_class": "中等",
+    "1_id": 3,
+    "2_id": 4,
+    "3_id": 6
+  },
+  {
+    "1_class": "教育",
+    "2_class": "学历教育",
+    "3_class": "高等",
+    "1_id": 3,
+    "2_id": 4,
+    "3_id": 5
+  },
+  {
+    "1_class": "教育",
+    "2_class": "成人教育",
+    "1_id": 3,
+    "2_id": 7
+  }
+];
 
 function listToTree(list) {
   // console.log(list);
@@ -34,20 +39,20 @@ function listToTree(list) {
       value: "",
       label: "",
       children: []
-    }
+    };
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         let count = key.split("_")[0];
         obj[`${count}_class`] && (template.value = obj[`${count}_id`]);
         obj[`${count}_id`] && (template.label = obj[`${count}_class`]);
       }
-      arr.push(template)
+      arr.push(template);
     }
-    return arr
+    return arr;
   }
 
   list.forEach(element => {
-    temp.push(...transClass(element))
+    temp.push(...transClass(element));
   });
 
   console.log(temp);

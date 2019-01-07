@@ -13,7 +13,7 @@ class LList {
   }
 
   static newNode(target, data = {}) {
-    return new Node(target, data)
+    return new Node(target, data);
   }
 
   find(target) {
@@ -40,9 +40,7 @@ class LList {
     let currNode = this.head;
   }
 
-  insert() {
-
-  }
+  insert() {}
 
   display() {
     let currNode = this.head;

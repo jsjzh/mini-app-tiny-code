@@ -42,10 +42,12 @@ module.exports = merge(webpackBaseConfig, {
     // 但是，当你刷新页面的时候，浏览器会去向服务器请求 www.demo.com/list 的资源，这想当然是找不到的
     // 这个中间件就是会自动捕获这个错误，然后将它重新定位到 index.html
     historyApiFallback: {
-      rewrites: [{
-        from: /.*/,
-        to: path.posix.join(devConfig.assetsPublicPath, "index.html")
-      }]
+      rewrites: [
+        {
+          from: /.*/,
+          to: path.posix.join(devConfig.assetsPublicPath, "index.html")
+        }
+      ]
     },
     // webpack 最有用的功能之一，热更新装填启动
     hot: true,
@@ -64,10 +66,12 @@ module.exports = merge(webpackBaseConfig, {
     // 在 webpack-dev-server 的源码里面就是直接用了 opn 这个插件实现功能
     open: devConfig.autoOpenBrowser,
     // 是否打开发现错误之后在浏览器全屏幕显示错误信息功能
-    overlay: devConfig.errorOverlay ? {
-      warnings: false,
-      errors: true
-    } : false,
+    overlay: devConfig.errorOverlay
+      ? {
+          warnings: false,
+          errors: true
+        }
+      : false,
     // 此路径下的打包文件可在浏览器中访问
     // 假设服务器运行在 http://localhost:8080 并且 output.filename 被设置为 bundle.js
     // 默认 publicPath 是 "/"，所以 bundle.js 可以通过 http://localhost:8080/bundle.js 访问
@@ -111,4 +115,4 @@ module.exports = merge(webpackBaseConfig, {
       inject: true
     })
   ]
-})
+});

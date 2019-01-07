@@ -7,7 +7,6 @@ class Node {
 }
 
 class LList {
-
   constructor(newTarget, data) {
     this.head = new Node("head");
     this.push(newTarget, data);
@@ -58,7 +57,6 @@ class LList {
       currNode = currNode.next;
     }
   }
-
 }
 
 const foo = new LList("one");

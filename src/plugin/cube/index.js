@@ -5,8 +5,6 @@ import { RED, GREEN, YELLOW, BLUE, ORANGE, GREY } from "./cube";
 
 // window.onload = main;
 
-
-
 class Cube {
   constructor() {
     this.canvas = undefined;

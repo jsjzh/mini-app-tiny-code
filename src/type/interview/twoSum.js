@@ -4,7 +4,7 @@ function twoSum(nums, target) {
     const num = nums[index];
     let n = target - num;
     let ind = nums.findIndex(nu => nu === n);
-    if (ind !== -1 && index !== ind) return [index, ind]
+    if (ind !== -1 && index !== ind) return [index, ind];
   }
 }
 
@@ -18,7 +18,7 @@ function twoSum_best(nums, target) {
     if (find !== undefined) return [find, i];
     else map[nums[i]] = i;
   }
-};
+}
 
-console.log(twoSum([3, 2, 4], 6))
-console.log(twoSum_best([3, 2, 4], 6))
+console.log(twoSum([3, 2, 4], 6));
+console.log(twoSum_best([3, 2, 4], 6));

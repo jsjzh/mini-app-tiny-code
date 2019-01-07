@@ -117,7 +117,6 @@
 
 // console.log('1 script start')
 
-
 // new Promise(function(resolve) {
 //   console.log('2 promise1')
 //   resolve();
@@ -192,7 +191,6 @@
 
 // console.log(Object.getOwnPropertyDescriptor(obj, "name"));
 
-
 // var dep = new Dep();
 
 // var property = Object.getOwnPropertyDescriptor(obj, key);
@@ -248,7 +246,6 @@
 // function add(a, b) {
 //   return a + b
 // }
-
 
 // function curry(fn) {
 //   let len = fn.length;

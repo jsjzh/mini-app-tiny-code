@@ -2,7 +2,7 @@ import { _log } from "util";
 
 /**
  * new 关键字
- * 
+ *
  * 当代码 new Parent(...) 执行时，会发生以下事情：
  * 一个继承自 Parent.prototype 的新对象被创建。
  * 使用指定的参数调用构造函数 Parent，并将 this 绑定到新创建的对象。new Parent 等同于 new Parent()，也就是没有指定参数列表，Parent 不带任何参数调用的情况。

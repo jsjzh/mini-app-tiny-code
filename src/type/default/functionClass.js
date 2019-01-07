@@ -5,25 +5,25 @@ function Parent(type = "未传入 type") {
   this.arr = [1, 2, 3, "我是引用属性"];
   this.type = type;
   this.getName = function() {
-    return this.name
-  }
+    return this.name;
+  };
 }
 
 Parent.getType = function() {
   return this.type;
-}
+};
 
 Parent.prototype.Arr = [3, 2, 1];
 
 Parent.prototype.getArr = function() {
-  return this.Arr
-}
+  return this.Arr;
+};
 
 function Child(type) {
-  Parent.call(this, type)
+  Parent.call(this, type);
 }
 
-Child.prototype = Object.create(Parent.prototype)
+Child.prototype = Object.create(Parent.prototype);
 Child.prototype.constructor = Child;
 
 let foo = new Child("foo");

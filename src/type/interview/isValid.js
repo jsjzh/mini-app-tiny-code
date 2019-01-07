@@ -1,4 +1,4 @@
-const map = { "(": ")", "{": "}", "[": "]" }
+const map = { "(": ")", "{": "}", "[": "]" };
 
 function isValid(s) {
   if (s.length % 2 !== 0 || s.length === 0) return false;

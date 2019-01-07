@@ -11,9 +11,7 @@ function longestCommonPrefix(arr) {
       }
     }
     return str;
-  })
+  });
 }
-
-
 
 console.log(longestCommonPrefix(["aca", "cba"]));

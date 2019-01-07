@@ -23,19 +23,23 @@ module.exports = {
     extensions: [".js", ".json"],
     alias: {
       "@": utils.resolve("src"),
-      "static": utils.resolve("static"),
-      "type": utils.resolve("src/type"),
-      "plugin": utils.resolve("src/plugin"),
-      "util": utils.resolve("src/util"),
+      static: utils.resolve("static"),
+      type: utils.resolve("src/type"),
+      plugin: utils.resolve("src/plugin"),
+      util: utils.resolve("src/util")
     }
   },
   module: {
-    rules: [{
+    rules: [
+      {
         test: /\.(html)$/,
-        use: [{
-          loader: "raw-loader"
-        }]
-      }, {
+        use: [
+          {
+            loader: "raw-loader"
+          }
+        ]
+      },
+      {
         test: /\.(js)$/,
         loader: "babel-loader",
         exclude: /node_modules/,
@@ -89,4 +93,4 @@ module.exports = {
       onErrors: utils.createNotifierCallback()
     })
   ]
-}
+};

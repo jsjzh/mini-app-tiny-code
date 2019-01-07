@@ -1,5 +1,5 @@
 function observe(ctx, value, cb) {
-  Object.keys(value).forEach((key) => defineReactive(ctx, value, key, value[key], cb))
+  Object.keys(value).forEach(key => defineReactive(ctx, value, key, value[key], cb));
 }
 
 function defineReactive(ctx, obj, key, val, cb) {
@@ -7,13 +7,13 @@ function defineReactive(ctx, obj, key, val, cb) {
     enumerable: true,
     configurable: true,
     get: () => {
-      return val
+      return val;
     },
     set: newVal => {
       val = newVal;
-      cb.call(ctx)
+      cb.call(ctx);
     }
-  })
+  });
 }
 
 function _proxy(data) {
@@ -28,29 +28,29 @@ function _proxy(data) {
       set: function proxySetter(val) {
         that._data[key] = val;
       }
-    })
+    });
   });
 }
 
 class Vue {
   constructor(options) {
     this._data = options.data;
-    observe(this, this._data, options.render)
-    _proxy.call(this, options.data)
+    observe(this, this._data, options.render);
+    _proxy.call(this, options.data);
   }
 }
 
 let data = {
-  text: 'textsss',
-  text2: 'text2'
+  text: "textsss",
+  text2: "text2"
 };
 
 let app = new Vue({
-  el: '#app',
+  el: "#app",
   data,
   render() {
     console.log(this);
   }
-})
+});
 
 app.text = 123;

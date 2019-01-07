@@ -1,5 +1,5 @@
-var utils = require("./utils")
-var config = require("../config")
+var utils = require("./utils");
+var config = require("../config");
 
 module.exports = {
   // webpack 处理打包文件的时候的初始目录
@@ -21,8 +21,7 @@ module.exports = {
   output: {
     path: config.build.assetsRoot,
     filename: "[name].js",
-    publicPath: process.env.NODE_ENV === "production" ?
-      config.build.assetsPublicPath : config.dev.assetsPublicPath
+    publicPath: process.env.NODE_ENV === "production" ? config.build.assetsPublicPath : config.dev.assetsPublicPath
   },
   // 根据语法生成 AST 树，用于描述当前的语句，方便 babel 进行转换
   // babel-core
@@ -35,45 +34,50 @@ module.exports = {
   // 包含了很多 ES6 的语法
   // babel-polyfill
   module: {
-    rules: [{
+    rules: [
+      {
         test: /\.js$/,
         loader: "babel-loader",
-        include: [utils.resolve('src'), utils.resolve('node_modules/webpack-dev-server/client')]
+        include: [utils.resolve("src"), utils.resolve("node_modules/webpack-dev-server/client")]
       },
       {
         test: /\.css$/,
-        use: [{
-          loader: "style-loader"
-        }, {
-          loader: "css-loader",
-        }, {
-          loader: "postcss-loader"
-        }]
+        use: [
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: "css-loader"
+          },
+          {
+            loader: "postcss-loader"
+          }
+        ]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url-loader',
+        loader: "url-loader",
         options: {
           limit: 10000,
-          name: utils.assetsPath('img/[name].[hash:7].[ext]')
+          name: utils.assetsPath("img/[name].[hash:7].[ext]")
         }
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-        loader: 'url-loader',
+        loader: "url-loader",
         options: {
           limit: 10000,
-          name: utils.assetsPath('media/[name].[hash:7].[ext]')
+          name: utils.assetsPath("media/[name].[hash:7].[ext]")
         }
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader',
+        loader: "url-loader",
         options: {
           limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+          name: utils.assetsPath("fonts/[name].[hash:7].[ext]")
         }
       }
     ]
   }
-}
+};

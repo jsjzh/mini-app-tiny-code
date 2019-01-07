@@ -23,16 +23,20 @@ module.exports = {
     extensions: [".js", ".json"],
     alias: {
       "@": utils.resolve("src"),
-      "static": utils.resolve("static")
+      static: utils.resolve("static")
     }
   },
   module: {
-    rules: [{
+    rules: [
+      {
         test: /\.(html)$/,
-        use: [{
-          loader: "raw-loader"
-        }]
-      }, {
+        use: [
+          {
+            loader: "raw-loader"
+          }
+        ]
+      },
+      {
         test: /\.(js)$/,
         loader: "babel-loader",
         exclude: /node_modules/,
@@ -86,4 +90,4 @@ module.exports = {
       onErrors: utils.createNotifierCallback()
     })
   ]
-}
+};

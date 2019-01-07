@@ -16,14 +16,14 @@ function _Parent(type = "未传入值") {
   this.type = type;
   this.getName = function() {
     return this.name;
-  }
+  };
 }
 
 _Parent.prototype.age = "18";
 _Parent.prototype.Arr = [3, 2, 1];
 _Parent.prototype.getAge = function() {
   return this.age;
-}
+};
 
 function _Parents(types = "未传入值 s") {
   this.names = "someOne s";
@@ -31,14 +31,14 @@ function _Parents(types = "未传入值 s") {
   this.types = types;
   this.getNames = function() {
     return this.names;
-  }
+  };
 }
 
 _Parents.prototype.ages = "18 s";
 _Parents.prototype.Arrs = [4, 3, 2, 1];
 _Parents.prototype.getAges = function() {
   return this.ages;
-}
+};
 
 // DONE
 /**
@@ -70,7 +70,6 @@ _Parents.prototype.getAges = function() {
 // // 由该子类生成的各实例中该属性也改变了
 // // 方法进行了复用 两个子类的方法指向相同
 // extendsLog(fooOne, BarOne);
-
 
 // // 为了验证即使方法做的事情相同 但是内存地址不一样
 // let demoOne = function () { return this; }
@@ -138,7 +137,7 @@ _Parents.prototype.getAges = function() {
  */
 
 function ChildFour() {
-  _Parent.call(this, Array.prototype.slice.call(arguments, 0))
+  _Parent.call(this, Array.prototype.slice.call(arguments, 0));
 }
 
 ChildFour.prototype = Object.create(_Parent.prototype);
@@ -223,7 +222,7 @@ extendsLog(fooFour, barFour);
  *  在代码上看 函数调用即使在函数声明之前 也是可以使用的
  *  但是 class 不会提升
  *  关于 this 由于 class 都是默认在严格模式下的 所以只会指向到 undefined
- *  
+ *
  * class Parent() {
  *    getName() { return this; }
  *  }
@@ -231,28 +230,28 @@ extendsLog(fooFour, barFour);
  *  obj.getName(); // Parent {}
  *  let getName = obj.getName;
  *  getName(); // undefined
- * 
+ *
  *  function _Parent() {
  *    this._getName = function() { return this; }
  *  }
- * 
+ *
  *  let _obj = new _Parent();
  *  _obj._getName(); // _Parent {}
  *  let _getName = _obj._getName;
  *  _getName(); // global object
- * 
+ *
  * constructor() {}
  *  是一个类似 function _Parent() {} 的存在 也就是构造函数
  *  在函数体内部使用 this 也就如同 构造函数中的 this 声明的是私有属性
  * MDN
  *  在一个类中只能有一个 constructor() {} 存在
- * 
+ *
  *  在普通的类中 constructor 默认为 constructor() {}
  *  在继承的类中 constructor 默认为 constructor(...args) { super(...args) }
- * 
+ *
  * sayName() {}
  *  在 class {} 函数体内声明的方法 就类似于 function _Parent() {} 上声明 prototype 一样
- * 
+ *
  * extends
  *  同样 class 也可以继承 值得注意的是 如果想要在子类的 constructor 中使用 this 的话
  *  就必须先运行 super()
@@ -265,41 +264,41 @@ extendsLog(fooFour, barFour);
  *      但是 不能使用 super.name 去直接访问父类的私有属性
  *        由于 extends 的时候 子类已经运行了一次父类的构造函数
  *        所以子类也有和父类相同的私有属性 也就是说可以直接使用 this.name 访问
- * 
+ *
  *      MDN
  *        不能使用 delete 去删除父类的属性
  *        当使用 Object.defineProperty 定义一个属性为不可写时 super 不可以复写这个属性的值
  *        继承的 prototype 必须是一个 object 或者是 null
- * 
+ *
  * get area(){}
  * set area(){}
  *  这两对类似于 _Parent.prototype.area = xxx 也就是在构造函数原型上的属性
  *  由子类生成的构造函数可以直接访问父类的 prototype 的属性
  *  比较神奇的一点是即使是父类的 prototype 是引用属性 当子类的一个实例更改了该引用属性（push）
  *  但另外一个子类的实例却没有被影响 是否意味着这并不是 prototype 类似的实现？
- * 
+ *
  * static
  *  有点特殊的一个玩意儿 和 function _Parent() {} 作比较的话 又不是私有属性 又不是原型属性
  *  刚才试了一下 可以通过 _Parent.getName() {} 来获得 static getName() {} 一样的效果
  *  其实说到底函数也是对象 对象就可以添加属性和方法
- * 
+ *
  *  另外 值得注意的是若子类继承父类 子类声明 static 相同的方法名会覆盖父类
  *  但也不妨碍我们使用父类的 static 方法 只要使用 super.getName() 即可
- *  
+ *
  *  还有一点值得注意 不管是父类还是子类 生成的实例都不可以使用 static 方法
  *  使用只能是 _Parent.getName() 或者 _Child.getName()
- * 
+ *
  *  在同一个类中 如果想调用该类的静态方法 可以直接使用 类名.静态方法名 来调用
- * 
+ *
  * 更改内置对象（似乎在 babel-stage-2 下不能正常运行 但是新版的 chrome 浏览器下可以运行 应该是编译之后导致的错误）
  *  class MyDate extends Date {} 即可
  *    在函数体内部可以自定义一些方法 方法内可以用父类也就是内置函数 Date 的一些方法
  *    只要使用 super.getDate() super.getMonth() super.getFullYear() 等 即可
- * 
+ *
  *  一般用来创建工具函数
  */
 
-// 在调用函数的过程中，this的值取决于我们怎么样调用函数.  在通常情况下，我们通过一个表达式person1.sayHello()来调用函数：即从一个对象的属性中得到所调用的函数。此时this被设置为我们取得函数的对象（即person1）。这就是为什么person1.sayHello() 使用了姓名“Alice”而person2.sayHello()使用了姓名“bob”的原因。 
+// 在调用函数的过程中，this的值取决于我们怎么样调用函数.  在通常情况下，我们通过一个表达式person1.sayHello()来调用函数：即从一个对象的属性中得到所调用的函数。此时this被设置为我们取得函数的对象（即person1）。这就是为什么person1.sayHello() 使用了姓名“Alice”而person2.sayHello()使用了姓名“bob”的原因。
 
 // 然而我们使用不同的调用方法时, this的值也就不同了。当从变量 helloFunction()中调用的时候， this就被设置成了全局对象 (在浏览器中即window)。由于该对象 (非常可能地) 没有firstName 属性, 我们得到的结果便是"Hello, I'm undefined". (这是松散模式下的结果， 在 严格模式中，结果将不同（此时会产生一个error）。 但是为了避免混淆，我们在这里不涉及细节) 。另外，我们可以像上例末尾那样，使用Function#call (或者Function#apply)显式的设置this的值。
 
@@ -320,7 +319,6 @@ extendsLog(fooFour, barFour);
 
 // var d = new Dog('Mitzie');
 // d.speak();
-
 
 // // 请注意，类不能继承常规（非可构造）对象。如果要继承常规对象，可以改用Object.setPrototypeOf()
 
@@ -376,7 +374,6 @@ extendsLog(fooFour, barFour);
 // let eat = Animal.eat;
 // eat(); // global object
 
-
 // class One {
 //   constructor() {
 //     this.name = "One";
@@ -418,7 +415,6 @@ extendsLog(fooFour, barFour);
 //     this.name = "321"
 //   }
 // }
-
 
 // class ClassParent {
 //   constructor(type) {

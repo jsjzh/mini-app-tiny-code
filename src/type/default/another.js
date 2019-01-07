@@ -12,15 +12,13 @@
 
 // console.log(objectArray);
 
-
 // function foo () {
 //   bar();
 // }
 
 // function bar () {
 //   console.log(arguments.callee.caller === bar.caller);
-  
+
 // }
 
 // foo();
-

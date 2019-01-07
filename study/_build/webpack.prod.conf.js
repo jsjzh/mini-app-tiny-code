@@ -1,9 +1,9 @@
-var config = require("../config")
-var path = require("path")
+var config = require("../config");
+var path = require("path");
 var webpack = require("webpack");
 var merge = require("webpack-merge");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
-var webpackBaseConfig = require('./webpack.base.conf');
+var webpackBaseConfig = require("./webpack.base.conf");
 
 module.exports = merge(webpackBaseConfig, {
   mode: "production",
@@ -14,9 +14,9 @@ module.exports = merge(webpackBaseConfig, {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'index.html',
+      filename: "index.html",
       template: "index.html",
       inject: true
-    }),
+    })
   ]
-})
+});
