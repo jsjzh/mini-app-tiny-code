@@ -1,13 +1,13 @@
-console.log("-----------------------from string.js-----------------------");
+console.log('-----------------------from string.js-----------------------')
 /**
  * 展示展示 javascript 中 String 的一些方法的地方
  */
 
-const foo = "Hello";
-const bar = "King";
-const spaceStr = "    king    ";
-const longStr = "hello my name is king. =A=";
-const ABCDStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+const foo = 'Hello'
+const bar = 'King'
+const spaceStr = '    king    '
+const longStr = 'hello my name is king. =A='
+const ABCDStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 
 /**
  * charAt()
@@ -20,10 +20,10 @@ const ABCDStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
  * param
  *  index need 从 0 开始，若大于 string.length 则返回 NaN
  */
-console.log("charAt charCodeAt----------------------------------------------");
-console.log(foo.charAt(0));
-console.log(foo.charCodeAt(0));
-console.log("charAt charCodeAt----------------------------------------------");
+console.log('charAt charCodeAt----------------------------------------------')
+console.log(foo.charAt(0))
+console.log(foo.charCodeAt(0))
+console.log('charAt charCodeAt----------------------------------------------')
 /**
  * concat()
  *  用于连接两个或多个字符串
@@ -34,10 +34,10 @@ console.log("charAt charCodeAt----------------------------------------------");
  *  原字符串本身并没有被改变
  *  MDN 上强烈建议使用赋值操作符（+, +=）代替 concat
  */
-console.log("concat----------------------------------------------");
-console.log(foo.concat(bar));
-console.log(foo);
-console.log("concat----------------------------------------------");
+console.log('concat----------------------------------------------')
+console.log(foo.concat(bar))
+console.log(foo)
+console.log('concat----------------------------------------------')
 /**
  * indexOf()
  *  可返回某个指定的字符串在字符串中首次出现的位置
@@ -64,20 +64,20 @@ console.log("concat----------------------------------------------");
  *  searchValue need 需要被搜索的字符串
  *  fromIndex nope 字符串开始索引的位置
  */
-console.log("indexOf lastIndexOf includes----------------------------------------------");
-console.log(foo.indexOf("l"));
-console.log(foo.lastIndexOf("l"));
+console.log('indexOf lastIndexOf includes----------------------------------------------')
+console.log(foo.indexOf('l'))
+console.log(foo.lastIndexOf('l'))
 
-console.log(foo.indexOf("l", 1));
-console.log(foo.lastIndexOf("l", 1));
+console.log(foo.indexOf('l', 1))
+console.log(foo.lastIndexOf('l', 1))
 
-console.log(foo.includes("e"));
-console.log(foo.includes("e", 2));
+console.log(foo.includes('e'))
+console.log(foo.includes('e', 2))
 
 // 一般情况下 includes 可以用 indexOf 替代
-console.log(!!(foo.indexOf("e") !== -1));
-console.log(!!(foo.indexOf("e", 2) !== -1));
-console.log("indexOf lastIndexOf includes----------------------------------------------");
+console.log(!!(foo.indexOf('e') !== -1))
+console.log(!!(foo.indexOf('e', 2) !== -1))
+console.log('indexOf lastIndexOf includes----------------------------------------------')
 /**
  * padEnd()
  *  用一个指定的字符串将原字符串填充到指定的长度，从右侧开始填充
@@ -91,23 +91,23 @@ console.log("indexOf lastIndexOf includes---------------------------------------
  *  targetLength need 需要被填充到的长度，若小于当前字符串，则直接返回该字符串
  *  padString nope 指定填充进去的字符串，若不传入则默认为 " "
  */
-console.log("padEnd padStart----------------------------------------------");
-console.log(foo.padEnd("20") + "end");
-console.log(foo.padEnd("20", "k"));
+console.log('padEnd padStart----------------------------------------------')
+console.log(foo.padEnd('20') + 'end')
+console.log(foo.padEnd('20', 'k'))
 
-console.log("start" + foo.padStart("20"));
-console.log(foo.padStart("20", "k"));
-console.log("padEnd padStart----------------------------------------------");
+console.log('start' + foo.padStart('20'))
+console.log(foo.padStart('20', 'k'))
+console.log('padEnd padStart----------------------------------------------')
 /**
  * repeat()
  *  将一个制定的字符串重复指定次数并返回重复后的字符串
  * param
  *  count need 字符串需要被重复的次数
  */
-console.log("repeat----------------------------------------------");
-console.log(foo.repeat("10"));
-console.log(foo.repeat("10").match(/H/g).length);
-console.log("repeat----------------------------------------------");
+console.log('repeat----------------------------------------------')
+console.log(foo.repeat('10'))
+console.log(foo.repeat('10').match(/H/g).length)
+console.log('repeat----------------------------------------------')
 /**
  * slice()
  *  用于提取字符串的某个部分
@@ -145,28 +145,28 @@ console.log("repeat----------------------------------------------");
  *  若任一参数大于 string.length，则被当作 string.length
  *  若 indexStart 大于 indexEnd，则执行效果等同于两个参数对调
  */
-console.log("slice substr substring----------------------------------------------");
-console.log(foo.slice(1, 3));
-console.log(foo.slice(1, -1));
-console.log(foo.slice(-3, 3));
-console.log(foo.slice(-3, -1));
+console.log('slice substr substring----------------------------------------------')
+console.log(foo.slice(1, 3))
+console.log(foo.slice(1, -1))
+console.log(foo.slice(-3, 3))
+console.log(foo.slice(-3, -1))
 
-console.log(foo.substr(0, 3));
-console.log(foo.substr(3));
+console.log(foo.substr(0, 3))
+console.log(foo.substr(3))
 
-console.log(foo.substring(1, 3));
-console.log(foo.substring(3, 1));
-console.log(foo.substring(1, -1));
-console.log(foo.substring(-1, 1));
-console.log(foo.substring(-1, -1));
-console.log("slice substr substring----------------------------------------------");
+console.log(foo.substring(1, 3))
+console.log(foo.substring(3, 1))
+console.log(foo.substring(1, -1))
+console.log(foo.substring(-1, 1))
+console.log(foo.substring(-1, -1))
+console.log('slice substr substring----------------------------------------------')
 /**
  * trim()
  *  用于去除字符串前后的字符串，可去除 \s \uFEFF \xA0
  */
-console.log("trim----------------------------------------------");
-console.log(spaceStr.trim());
-console.log("trim----------------------------------------------");
+console.log('trim----------------------------------------------')
+console.log(spaceStr.trim())
+console.log('trim----------------------------------------------')
 /**
  * toLowerCase()
  *  字符串转为小写
@@ -174,10 +174,10 @@ console.log("trim----------------------------------------------");
  * toUpperCase()
  *  字符串转为大写
  */
-console.log("toLowerCase toUpperCase----------------------------------------------");
-console.log(foo.toLowerCase());
-console.log(foo.toUpperCase());
-console.log("toLowerCase toUpperCase----------------------------------------------");
+console.log('toLowerCase toUpperCase----------------------------------------------')
+console.log(foo.toLowerCase())
+console.log(foo.toUpperCase())
+console.log('toLowerCase toUpperCase----------------------------------------------')
 /**
  * 可传入正则表达式的方法
  * 正则可用下标
@@ -208,20 +208,20 @@ console.log("toLowerCase toUpperCase--------------------------------------------
  * -----
  * replace()
  */
-console.log("split search replace match----------------------------------------------");
-console.log(longStr.split(" "));
-console.log(longStr.split(" ", 3));
-console.log(longStr.split(/\s*[\., \s]\s*/));
-console.log(longStr.split(/(\s*[\., \s]\s*)/));
+console.log('split search replace match----------------------------------------------')
+console.log(longStr.split(' '))
+console.log(longStr.split(' ', 3))
+console.log(longStr.split(/\s*[\., \s]\s*/))
+console.log(longStr.split(/(\s*[\., \s]\s*)/))
 
-console.log(longStr.search(""));
-console.log(longStr.search("p"));
-console.log(longStr.search(/\d/));
-console.log(longStr.search(/\w/));
+console.log(longStr.search(''))
+console.log(longStr.search('p'))
+console.log(longStr.search(/\d/))
+console.log(longStr.search(/\w/))
 
-console.log(longStr.match(/\s*[\., \s]\s*/));
-console.log(longStr.match(/\s*[\., \s]\s*/g));
-console.log(longStr.match(/(my name (is))/));
+console.log(longStr.match(/\s*[\., \s]\s*/))
+console.log(longStr.match(/\s*[\., \s]\s*/g))
+console.log(longStr.match(/(my name (is))/))
 // 输出如下
 // {
 // 是正则匹配的值
@@ -236,6 +236,6 @@ console.log(longStr.match(/(my name (is))/));
 //   input: "hello my name is king. =A="
 // }
 
-console.log("split search replace match----------------------------------------------");
+console.log('split search replace match----------------------------------------------')
 
-console.log("-----------------------from string.js-----------------------");
+console.log('-----------------------from string.js-----------------------')

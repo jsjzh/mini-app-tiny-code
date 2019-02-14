@@ -1,4 +1,4 @@
-import { _log, extendsLog } from "util";
+import { _log, extendsLog } from 'util'
 
 /**
  * 继承
@@ -9,36 +9,36 @@ import { _log, extendsLog } from "util";
 
 // let i = 0;
 
-function _Parent(type = "未传入值") {
+function _Parent(type = '未传入值') {
   // _log("_Parent 调用次数 ===>", ++i);
-  this.name = "someOne";
-  this.arr = [1, 2, 3];
-  this.type = type;
+  this.name = 'someOne'
+  this.arr = [1, 2, 3]
+  this.type = type
   this.getName = function() {
-    return this.name;
-  };
+    return this.name
+  }
 }
 
-_Parent.prototype.age = "18";
-_Parent.prototype.Arr = [3, 2, 1];
+_Parent.prototype.age = '18'
+_Parent.prototype.Arr = [3, 2, 1]
 _Parent.prototype.getAge = function() {
-  return this.age;
-};
-
-function _Parents(types = "未传入值 s") {
-  this.names = "someOne s";
-  this.arrs = [1, 2, 3, 4];
-  this.types = types;
-  this.getNames = function() {
-    return this.names;
-  };
+  return this.age
 }
 
-_Parents.prototype.ages = "18 s";
-_Parents.prototype.Arrs = [4, 3, 2, 1];
+function _Parents(types = '未传入值 s') {
+  this.names = 'someOne s'
+  this.arrs = [1, 2, 3, 4]
+  this.types = types
+  this.getNames = function() {
+    return this.names
+  }
+}
+
+_Parents.prototype.ages = '18 s'
+_Parents.prototype.Arrs = [4, 3, 2, 1]
 _Parents.prototype.getAges = function() {
-  return this.ages;
-};
+  return this.ages
+}
 
 // DONE
 /**
@@ -137,18 +137,18 @@ _Parents.prototype.getAges = function() {
  */
 
 function ChildFour() {
-  _Parent.call(this, Array.prototype.slice.call(arguments, 0));
+  _Parent.call(this, Array.prototype.slice.call(arguments, 0))
 }
 
-ChildFour.prototype = Object.create(_Parent.prototype);
-ChildFour.prototype.constructor = ChildFour;
+ChildFour.prototype = Object.create(_Parent.prototype)
+ChildFour.prototype.constructor = ChildFour
 
-let fooFour = new ChildFour("ChildFour 传入了 type");
-let barFour = new ChildFour("ChildFour 传入了 type");
+let fooFour = new ChildFour('ChildFour 传入了 type')
+let barFour = new ChildFour('ChildFour 传入了 type')
 
 // 由子类生成的实例所对应的 父类私有属性 内存地址皆不相同
 // 由子类生成的实例所对应的 父类原型属性 内存地址仍旧相同
-extendsLog(fooFour, barFour);
+extendsLog(fooFour, barFour)
 
 // // 继承多个对象
 // function ChildFive() {

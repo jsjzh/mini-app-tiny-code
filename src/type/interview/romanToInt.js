@@ -6,8 +6,8 @@ const obj = {
   C: 100,
   D: 500,
   M: 1000
-};
+}
 
 function romanToInt(s) {}
 
-console.log(romanToInt("IV"));
+console.log(romanToInt('IV'))

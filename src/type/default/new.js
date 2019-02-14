@@ -1,4 +1,4 @@
-import { _log } from "util";
+import { _log } from 'util'
 
 /**
  * new 关键字
@@ -10,20 +10,20 @@ import { _log } from "util";
  */
 
 function Parent(name) {
-  this.name = name;
-  return this;
+  this.name = name
+  return this
 }
 
-var childOne = new Parent("cat");
+var childOne = new Parent('cat')
 
-_log(childOne);
+_log(childOne)
 
 function New(Parent) {
-  let obj = {};
-  obj.__proto__ = Parent.prototype;
-  return Parent.apply(obj, Array.prototype.slice.call(arguments, 1)) || obj;
+  let obj = {}
+  obj.__proto__ = Parent.prototype
+  return Parent.apply(obj, Array.prototype.slice.call(arguments, 1)) || obj
 }
 
-var childTwo = New(Parent, "dog");
+var childTwo = New(Parent, 'dog')
 
-_log(childTwo);
+_log(childTwo)

@@ -1,61 +1,61 @@
-import { _log } from "util";
+import { _log } from 'util'
 
 class Parent {
-  constructor(type = "未传入 type") {
-    this.name = "Parent";
-    this.arr = [1, 2, 3, "我是引用属性"];
-    this.type = type;
+  constructor(type = '未传入 type') {
+    this.name = 'Parent'
+    this.arr = [1, 2, 3, '我是引用属性']
+    this.type = type
     this.getName = function() {
-      return this.name;
-    };
-    this._Arr = [3, 2, 1];
+      return this.name
+    }
+    this._Arr = [3, 2, 1]
   }
 
   get Arr() {
-    return this._Arr;
+    return this._Arr
   }
 
   set Arr(val) {
-    this._Arr.push(`${this.type} push ${val}`);
+    this._Arr.push(`${this.type} push ${val}`)
   }
 
   getArr() {
-    return this._Arr;
+    return this._Arr
   }
 
   static getType() {
-    return this.type;
+    return this.type
   }
 }
 
 class Child extends Parent {
   constructor(type) {
-    super(type);
+    super(type)
   }
 }
 
-let foo = new Child("foo");
-let bar = new Child("bar");
+let foo = new Child('foo')
+let bar = new Child('bar')
 
 // 私有属性 基本类型 数值相同 判断结果为 true
-_log(foo.name, bar.name);
+_log(foo.name, bar.name)
 // 私有属性 引用类型 内存地址不同 判断结果为 false
-_log(foo.arr, bar.arr);
+_log(foo.arr, bar.arr)
 // 私有属性 基本类型 数值不同 判断结果为 false
-_log(foo.type, bar.type);
+_log(foo.type, bar.type)
 // 私有属性 引用类型 内存地址不同 判断结果为 false
-_log(foo.getName, bar.getName);
+_log(foo.getName, bar.getName)
 
 // 遂看起来像是原型属性 但其实仍旧访问私有属性 引用类型 内存地址不同 判断结果为 false
-_log(foo.Arr, bar.Arr);
+_log(foo.Arr, bar.Arr)
 // 证明如下 foo.Arr push 了 4 bar.Arr 不改变
-foo.Arr.push(4);
-_log(foo.Arr, bar.Arr);
+foo.Arr.push(4)
+_log(foo.Arr, bar.Arr)
 
 // 原型属性 引用类型 内存地址相同 判断结果为 true
-_log(foo.getArr, bar.getArr);
+_log(foo.getArr, bar.getArr)
 // class 上 static 属性 引用类型 内存地址相同 判断结果为 true
-_log(Parent.getType, Child.getType);
+_log(Parent.getType, Child.getType)
 
 /**
  * 共同点
@@ -77,21 +77,21 @@ _log(Parent.getType, Child.getType);
  */
 
 function Demo() {
-  Date.call(this);
+  Date.call(this)
 }
 
-Demo.prototype = Date.prototype;
-Demo.prototype.constructor = Demo;
+Demo.prototype = Date.prototype
+Demo.prototype.constructor = Demo
 
-let demo = new Demo();
+let demo = new Demo()
 
 // console.log(demo.getTime());
 
 class MyDate extends Date {
   constructor() {
-    super();
+    super()
   }
 }
 
-var aDate = new MyDate();
+var aDate = new MyDate()
 // console.log(aDate.getTime());
