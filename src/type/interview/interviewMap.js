@@ -223,12 +223,13 @@ function debounce(func, wait = 50) {
   return function() {
     if (timer) clearTimeout(timer)
     timer = setTimeout(() => {
-      func.apply(this, arguments)
+      func()
     }, wait)
   }
 }
-foo = debounce(function() {
+let foo = debounce(function() {
   console.log(123)
-}, 100)
+}, 50)
+
 foo()
 foo()
