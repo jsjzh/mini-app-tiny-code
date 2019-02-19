@@ -61,3 +61,146 @@
 // 如果是对象，就通过 toPrimitive 转换对象
 // 如果是字符串，就通过 unicode 字符串索引来比较
 
+// 原型 TODO
+
+// new
+// function create() {
+//   let obj = new Object()
+//   // 为什么要用这种方式而不是传参的方式，就是方便下面 apply 的时候获取其他参数
+//   let Con = [].shift.call(arguments)
+//   obj.__proto__ = Con.prototype
+//   let result = Con.apply(obj, arguments)
+//   return typeof result === 'object' ? result : obj
+// }
+// function Foo() {
+//   this.name = 123
+// }
+// // let demo = new Foo()
+// let demo = create(Foo)
+// console.log(demo.name)
+
+// function Foo() {
+//   return this
+// }
+// Foo.getName = function() {}
+// Foo.prototype.getName = function() {
+//   console.log(2)
+// }
+// new Foo.getName()
+// new Foo().getName()
+
+// instanceof
+// function _instanceof(left, right) {
+//   let prototype = right.prototype
+//   while (true) {
+//     if (left === null) return false
+//     if (prototype === left) return true
+//     left = left.__proto__
+//   }
+// }
+// _instanceof(Array, Object)
+
+// 这个有点特殊，在 webpack 的环境下，兜底儿对象不再是 window，所以找不到 this.a
+// 但是如果在浏览器环境下，this.a 就是 1
+// function foo() {
+//   console.log(this.a)
+// }
+// var a = 1
+// foo()
+
+// 当执行 JS 代码的时候，会产生三种执行上下文
+// 全局执行上下文
+// 函数执行上下文
+// eval 执行上下文
+// 每个执行上下文中有三个重要的属性
+// 变量对象（VO），包含变量、函数声明和函数的形参，该属性只能在全局上下文中访问
+// 作用域链（JS 采用词法作用域，也就是说变量的作用域是在定义时就决定了）
+// this
+
+// arguments 是函数独有的对象（箭头函数没有 arguments）
+// arguments.callee 属性代表函数本身
+// arguments.caller 属性代表函数的调用者
+
+// 在生成执行上下文时，有两个阶段
+// 第一个阶段
+// 创建阶段，JS 解释器找出需要提升的变量和函数，给他们提前在内存中开辟好空间，如果是函数，会将整个函数存入内存，变量的话只声明并赋值为 undefined，相同函数会覆盖上一个函数，并且函数优于变量提升
+// 第二个阶段
+// 执行阶段，代码执行
+
+// 临时死区
+// 在用 let 的时候，若提前使用一个之后定义的变量，由于临时死区，就会报 referenceError 的错误，若使用 var 则会提示 undefined
+
+// JS 解释器遇到非匿名的立即执行函数时，会创建一个辅助的特定对象，然后将函数名称作为这个对象的属性，因此函数内部才可以访问到 foo，但是这个值是只读的，对他的赋值不会生效
+// var foo = 1
+// ;(function foo() {
+//   foo = 10
+//   console.log(foo)
+//   // f foo(){foo = 10;console.log(foo)}
+// })()
+
+// 闭包
+// 一个函数内，使用了另一个函数的变量，这就叫闭包
+// for (var i = 1; i <= 5; i++) {
+//   setTimeout(function timer() {
+//     console.log(i)
+//   }, 10)
+// }
+
+// 浅拷贝
+// let a = { age: 1 }
+// let b = Object.assign({}, a)
+// // 或者
+// let bb = { ...a }
+
+// 深拷贝
+// let a = { age: 1, jobs: { first: 2 } }
+// let b = JSON.parse(JSON.stringify(a))
+// 但是该方法也有局限性
+// 会忽略 undefined
+// 会忽略 symbol
+// 会忽略 函数
+// 不能解决循环引用的对象
+// let obj = {
+//   a: 1,
+//   b: {
+//     c: 2,
+//     d: 3
+//   }
+// }
+// obj.c = obj.b
+// obj.e = obj.a
+// obj.b.c = obj.c
+// obj.b.d = obj.b
+// obj.b.e = obj.b.c
+// let newObj = JSON.parse(JSON.stringify(obj))
+// console.log(newObj)
+// 深拷贝 MessageChannel
+// 该方法为异步，可以解决 undefined 和循环引用对象，但是不能解决 Symbol 和函数
+// function structuralClone(obj) {
+//   return new Promise(resolve => {
+//     const { port1, port2 } = new MessageChannel()
+//     port2.onmessage = ev => resolve(ev.data)
+//     port1.postMessage(obj)
+//   })
+// }
+// let obj = { a: 1, b: { c: 2, d: 3 } }
+// obj.c = obj.b
+// obj.e = obj.a
+// obj.b.c = obj.c
+// obj.b.d = obj.b
+// obj.b.e = obj.b.c
+// ;(async () => {
+//   const clone = await structuralClone(obj)
+//   console.log(clone)
+// })()
+
+// 模块化
+// 在有 babel 的情况下，可以直接使用 ES6 的 export 和 import
+// // file a.js
+// export function a() {}
+// export function b() {}
+// // file b.js
+// export default function() {}
+// // file c.js
+// import { a, b } from 'a.js'
+// import XXX from 'b.js'
