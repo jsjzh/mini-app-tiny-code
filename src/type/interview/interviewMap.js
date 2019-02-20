@@ -217,19 +217,79 @@
 // 前者在导出时都是值拷贝，就算导出的值变了，导入的值也不会改变，所以如果想更新值，必须重新导入一次。但是后者采用实时绑定的方式，导入导出的值都指向同一个内存地址，所以导入值会跟随导出值变化
 // 后者会编译成 require/exports 来执行的
 
-// 防抖
-function debounce(func, wait = 50) {
-  let timer = 0
-  return function() {
-    if (timer) clearTimeout(timer)
-    timer = setTimeout(() => {
-      func()
-    }, wait)
-  }
-}
-let foo = debounce(function() {
-  console.log(123)
-}, 50)
+// simple 防抖
+// function debounce(func, wait = 50) {
+//   let timer = 0
+//   return function() {
+//     if (timer) clearTimeout(timer)
+//     timer = setTimeout(() => {
+//       func()
+//     }, wait)
+//   }
+// }
+// complete 防抖
+// function debounce(func, wait = 50, immediate = true) {
+//   let timer
+//   return function() {
+//     if (!timer) {
+//       timer = setTimeout(() => {
+//         timer = null
+//         if (!immediate) {
+//           func()
+//         }
+//       }, wait)
+//       if (immediate) {
+//         func()
+//       }
+//     } else {
+//       clearTimeout(timer)
+//       timer = setTimeout(() => {
+//         timer = null
+//         if (!immediate) {
+//           func()
+//         }
+//       }, wait)
+//     }
+//   }
+// }
 
-foo()
-foo()
+// 节流
+// function _now() {
+//   return +new Date()
+// }
+// function throttle(func, wait, options) {
+//   let context, args, result
+//   let timeout = null
+//   let previous = 0
+//   if (!options) options = {}
+//   let later = function() {
+//     previous = options.leading === false ? 0 : _now()
+//     timeout = null
+//     result = func.apply(context, args)
+//     if (!timeout) context = args = null
+//   }
+//   return function() {
+//     let now = _now()
+//     if (!previous && options.leading === false) previous = now
+//     let remaining = wait - (now - previous)
+//     context = this
+//     args = arguments
+//     if (remaining <= 0 || remaining > wait) {
+//       if (timeout) {
+//         clearTimeout(timeout)
+//         timeout = null
+//       }
+//       previous = now
+//       result = func.apply(context, args)
+//       if (!timeout) context = args = null
+//     } else if (!timeout && options.trailing !== false) {
+//       timeout = setTimeout(later, remaining)
+//     }
+//     return result
+//   }
+// }
+// let foo = throttle(function() {
+//   console.log('click')
+// }, 2000)
+// let app = document.querySelector('#app')
+// app.addEventListener('click', foo)
