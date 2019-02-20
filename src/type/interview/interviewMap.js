@@ -253,7 +253,7 @@
 //   }
 // }
 
-// 节流
+// TODO 节流
 // function _now() {
 //   return +new Date()
 // }
@@ -309,147 +309,234 @@
 // let su = new Super()
 // let s = new Sub()
 
-// Promise
-const PENDING = 'pending'
-const RESOLVED = 'resolved'
-const REJECTED = 'rejected'
-function MyPromise(fn) {
-  let _this = this
-  _this.currentState = PENDING
-  _this.value = undefined
-  _this.resolvedCallbacks = []
-  _this.rejectedCallbacks = []
+// TODO Promise
+// const PENDING = 'pending'
+// const RESOLVED = 'resolved'
+// const REJECTED = 'rejected'
+// function MyPromise(fn) {
+//   let _this = this
+//   _this.currentState = PENDING
+//   _this.value = undefined
+//   _this.resolvedCallbacks = []
+//   _this.rejectedCallbacks = []
 
-  _this.resolve = function(value) {
-    if (value instanceof MyPromise) {
-      return value.then(_this.resolve, _this.reject)
-    }
-    setTimeout(() => {
-      if (_this.currentState === PENDING) {
-        _this.currentState = RESOLVED
-        _this.value = value
-        _this.resolvedCallbacks.forEach(cb => cb())
-      }
-    })
+//   _this.resolve = function(value) {
+//     if (value instanceof MyPromise) {
+//       return value.then(_this.resolve, _this.reject)
+//     }
+//     setTimeout(() => {
+//       if (_this.currentState === PENDING) {
+//         _this.currentState = RESOLVED
+//         _this.value = value
+//         _this.resolvedCallbacks.forEach(cb => cb())
+//       }
+//     })
+//   }
+
+//   _this.reject = function(reason) {
+//     setTimeout(() => {
+//       if (_this.currentState === PENDING) {
+//         _this.currentState = REJECTED
+//         _this.value = reason
+//         _this.rejectedCallbacks.forEach(cb => cb())
+//       }
+//     })
+//   }
+
+//   try {
+//     fn(_this.resolve, _this.reject)
+//   } catch (e) {
+//     _this.reject(e)
+//   }
+// }
+
+// MyPromise.prototype.then = function(onResolved, onRejected) {
+//   var self = this
+//   var promise2
+//   onResolved = typeof onResolved === 'function' ? onResolved : v => v
+//   onRejected =
+//     typeof onRejected === 'function'
+//       ? onRejected
+//       : r => {
+//           throw r
+//         }
+
+//   if (self.currentState === RESOLVED) {
+//     return (promise2 = new MyPromise(function(resolve, reject) {
+//       setTimeout(function() {
+//         try {
+//           var x = onResolved(self.value)
+//           resolutionProcedure(promise2, x, resolve, reject)
+//         } catch (reason) {
+//           reject(reason)
+//         }
+//       })
+//     }))
+//   }
+
+//   if (self.currentState === REJECTED) {
+//     return (promise2 = new MyPromise(function(resolve, reject) {
+//       setTimeout(function() {
+//         try {
+//           var x = onRejected(self.value)
+//           resolutionProcedure(promise2, x, resolve, reject)
+//         } catch (reason) {
+//           reject(reason)
+//         }
+//       })
+//     }))
+//   }
+
+//   if (self.currentState === PENDING) {
+//     return (promise2 = new MyPromise(function(resolve, reject) {
+//       self.resolvedCallbacks.push(function() {
+//         try {
+//           var x = onResolved(self.value)
+//           resolutionProcedure(promise2, x, resolve, reject)
+//         } catch (r) {
+//           reject(r)
+//         }
+//       })
+
+//       self.rejectedCallbacks.push(function() {
+//         try {
+//           var x = onRejected(self.value)
+//           resolutionProcedure(promise2, x, resolve, reject)
+//         } catch (r) {
+//           reject(r)
+//         }
+//       })
+//     }))
+//   }
+// }
+// function resolutionProcedure(promise2, x, resolve, reject) {
+//   if (promise2 === x) {
+//     return reject(new TypeError('Error'))
+//   }
+//   if (x instanceof MyPromise) {
+//     if (x.currentState === PENDING) {
+//       x.then(function(value) {
+//         resolutionProcedure(promise2, value, resolve, reject)
+//       }, reject)
+//     } else {
+//       x.then(resolve, reject)
+//     }
+//     return
+//   }
+//   let called = false
+//   if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
+//     try {
+//       let then = x.then
+//       if (typeof then === 'function') {
+//         then.call(
+//           x,
+//           y => {
+//             if (called) return
+//             called = true
+//             resolutionProcedure(promise2, y, resolve, reject)
+//           },
+//           e => {
+//             if (called) return
+//             called = true
+//             reject(e)
+//           }
+//         )
+//       } else {
+//         resolve(x)
+//       }
+//     } catch (e) {
+//       if (called) return
+//       called = true
+//       reject(e)
+//     }
+//   } else {
+//     resolve(x)
+//   }
+// }
+
+let foo = {
+  a: { name: 'a' },
+  b: { name: 'b' },
+  c: { name: 'c' },
+  d: { name: 'd' },
+  e: { name: 'e' },
+  f: { name: 'f' }
+}
+
+let bar = [{ name: 'a' }, { name: 'b' }, { name: 'c' }, { name: 'd' }, { name: 'e' }, { name: 'f' }]
+
+let deno = [['a', 1], ['b', 2], ['c', 3]]
+
+let demo = new Set([1, 2, 3])
+
+let iterable = new Map([['a', 1], ['b', 2], ['c', 3]])
+
+function* func() {
+  yield function() {
+    123
   }
-
-  _this.reject = function(reason) {
-    setTimeout(() => {
-      if (_this.currentState === PENDING) {
-        _this.currentState = REJECTED
-        _this.value = reason
-        _this.rejectedCallbacks.forEach(cb => cb())
-      }
-    })
-  }
-
-  try {
-    fn(_this.resolve, _this.reject)
-  } catch (e) {
-    _this.reject(e)
+  yield function() {
+    321
   }
 }
 
-MyPromise.prototype.then = function(onResolved, onRejected) {
-  var self = this
-  var promise2
-  onResolved = typeof onResolved === 'function' ? onResolved : v => v
-  onRejected =
-    typeof onRejected === 'function'
-      ? onRejected
-      : r => {
-          throw r
-        }
+// 生成器不能重用
+let fibonacci = (function*() {
+  // 一个生成器函数
+  let [prev, curr] = [0, 1]
+  while (true) {
+    ;[prev, curr] = [curr, prev + curr]
+    yield curr
+  }
+})()
+// console.log(fibonacci)
+// for (let n of fibonacci) {
+//   console.log(n)
+//   // 当n大于1000时跳出循环
+//   if (n >= 1000) break
+// }
+// console.log(fibonacci)
+// for (let n of fibonacci) {
+//   console.log(n)
+//   // 当n大于1000时跳出循环
+//   if (n >= 1000) break
+// }
 
-  if (self.currentState === RESOLVED) {
-    return (promise2 = new MyPromise(function(resolve, reject) {
-      setTimeout(function() {
-        try {
-          var x = onResolved(self.value)
-          resolutionProcedure(promise2, x, resolve, reject)
-        } catch (reason) {
-          reject(reason)
+let _iterable = {
+  [Symbol.iterator]() {
+    return {
+      i: 0,
+      next() {
+        if (this.i < 3) {
+          return { value: this.i++, done: false }
         }
-      })
-    }))
-  }
-
-  if (self.currentState === REJECTED) {
-    return (promise2 = new MyPromise(function(resolve, reject) {
-      setTimeout(function() {
-        try {
-          var x = onRejected(self.value)
-          resolutionProcedure(promise2, x, resolve, reject)
-        } catch (reason) {
-          reject(reason)
-        }
-      })
-    }))
-  }
-
-  if (self.currentState === PENDING) {
-    return (promise2 = new MyPromise(function(resolve, reject) {
-      self.resolvedCallbacks.push(function() {
-        try {
-          var x = onResolved(self.value)
-          resolutionProcedure(promise2, x, resolve, reject)
-        } catch (r) {
-          reject(r)
-        }
-      })
-
-      self.rejectedCallbacks.push(function() {
-        try {
-          var x = onRejected(self.value)
-          resolutionProcedure(promise2, x, resolve, reject)
-        } catch (r) {
-          reject(r)
-        }
-      })
-    }))
-  }
-}
-function resolutionProcedure(promise2, x, resolve, reject) {
-  if (promise2 === x) {
-    return reject(new TypeError('Error'))
-  }
-  if (x instanceof MyPromise) {
-    if (x.currentState === PENDING) {
-      x.then(function(value) {
-        resolutionProcedure(promise2, value, resolve, reject)
-      }, reject)
-    } else {
-      x.then(resolve, reject)
-    }
-    return
-  }
-  let called = false
-  if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
-    try {
-      let then = x.then
-      if (typeof then === 'function') {
-        then.call(
-          x,
-          y => {
-            if (called) return
-            called = true
-            resolutionProcedure(promise2, y, resolve, reject)
-          },
-          e => {
-            if (called) return
-            called = true
-            reject(e)
-          }
-        )
-      } else {
-        resolve(x)
+        return { value: undefined, done: true }
       }
-    } catch (e) {
-      if (called) return
-      called = true
-      reject(e)
     }
-  } else {
-    resolve(x)
   }
 }
+for (let value of _iterable) {
+  console.log(value);
+}
+
+// for in 不能使用 return
+// break || throw == return
+// continue == continue
+// 遍历一个对象的可枚举属性 enumerable
+// 不能遍历 Symbol
+// Array Object String arguments
+// index key index index
+// for (const key in bar) {
+//   console.log(key)
+// }
+
+// for of 不能使用 return
+// break || throw == return
+// continue == continue
+// 在可迭代对象上创建一个迭代循环
+// Array Map Set String TypeedArray arguments Generator NodeList
+// for (const key of demo) {
+//   console.log(key)
+// }
+
+// classList.add('read')
