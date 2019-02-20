@@ -342,6 +342,7 @@ function MyPromise(fn) {
       }
     })
   }
+
   try {
     fn(_this.resolve, _this.reject)
   } catch (e) {
