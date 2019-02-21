@@ -704,11 +704,11 @@
 // 强缓存表示在缓存期间不需要请求，state code 为 200
 // 实现强缓存可以通过两种响应头：Expires 和 Cache-Control
 
-// 缓存 - 强缓存 - Expires: Wed, 22 Oct 2018 08:41:00 GMT
+// ↓ 缓存 - 强缓存 - Expires: Wed, 22 Oct 2018 08:41:00 GMT
 // Expires 是 http/1.0 的产物，表示资源会在何时后过期，需要再次请求
 // 为此，其受限于本地时间，如果修改了本地时间，可能会造成缓存丢失
 
-// 缓存 - 强缓存 - Cache-control: max-age=30
+// ↑ 缓存 - 强缓存 - Cache-control: max-age=30
 // Cache-Control 出现于 http/1.1 优先级高于 Expires
 // 该属性表示资源会在多少秒后过期，需要再次请求
 
@@ -717,13 +717,46 @@
 // 协商缓存需要请求，如果缓存有效 state code 为 304
 // 协商缓存需要客户端和服务端共同实现
 
-// 缓存 - 协商缓存 - Last-Modified 和 If-Modified-Since
+// ↓ 缓存 - 协商缓存 - Last-Modified 和 If-Modified-Since
 // Last-Modified 表示本地文件最后修改日期，If-Modified-Since 会将 Last-Modified 的值发送给服务器
 // 询问服务器在该日期后资源是否有更新，有更新的话就会将新的资源发送回来
 // 但是如果在本地打开缓存文件，就会造成 Last-Modified 被修改，所以在 http/1.1 出现了 ETag
 
-// 缓存 - 协商缓存 - ETag 和 If-None-Match
+// ↑ 缓存 - 协商缓存 - ETag 和 If-None-Match
 // ETag 类似于文件指纹，If-None-Match 会将当前 ETag 发送给服务器，询问该资源 ETag 是否变动
 // 有变动的话就将新的资源发送回来
 // 并且 ETag 优先级比 Last-Modified 高
 
+// 缓存策略
+// 对于某些不需要缓存的资源，可以使用 Cache-control: no-store，表示该资源不需要缓存
+// 对于频繁变动的资源，可以使用 Cache-control: no-cache 并配合 ETag 使用，表示该资源已被缓存，但是每次都会发送请求询问资源是否更新
+// 对于代码文件来说，通常使用 Cache-control: max-age=xxxxxx 并配合策略缓存使用，然后对文件进行指纹处理，一旦文件名变动就会立刻下载新的文件
+
+// 使用 http/2.0 加速
+// 因为浏览器有并发请求限制，在 http/1.1 时代，每个请求都要建立和断开，消耗了好几个 RTT 时间
+// 并且由于 TCP 慢启动的原因，加载体积大的文件会需要更多的时间
+// 在 http/2.0 中引入了多路复用，能够让多个请求使用同一个 tcp 链接
+// 加快了网页的加载速度，并且还支持 header 压缩，进一步减少了请求的数据大小
+
+// 使用预加载
+// 有些资源不需要马上用到，但是希望尽早获取，这时候可以用预加载
+// 预加载其实是声明式的 fetch，强制浏览器请求资源，并且不会阻塞 onload 事件
+// <link rel="preload" href="http://example.com" />
+// <link rel="preload" href="/docs/assets/css/0.styles.fc460d35.css" as="style">
+// <link rel="preload" href="/docs/assets/js/app.37710be5.js" as="script">
+// 预加载可以一定程度上降低首屏的加载时间，缺点就是兼容性不好
+
+// 使用预渲染
+// 可以通过预渲染将下载的文件预先在后台渲染
+// <link rel="prerender" href="http://example.com" />
+// 预渲染虽然可以提高页面的加载速度，但是要确保该页面会被使用，否就就是浪费资源去渲染
+
+// 懒执行
+// 将某些逻辑延迟到使用时再计算。一般通过定时器或者事件来唤醒
+
+// 懒加载
+// 原理就是只加载自定义区域（通常是可视区域，但也可以是即将进入可视区域）内需要加载的东西
+
+// 图片优化
+// 图片大小计算，对于一个 100 * 100 像素的图片来说，图像上有 10^4 个像素点，如果每个像素的值是 RGBA 存储的话，那么每个像素就有 4 个通道，每个通道 1 个字节（8 位 = 1 个字节），所以图片大概为 10^4 * 4 / 1024 kb
+// 那么优化就是两个思路，减少像素点；减少每个像素点能够显示的颜色
