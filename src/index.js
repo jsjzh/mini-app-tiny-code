@@ -52,6 +52,8 @@ import 'type/interview/interviewMap'
 // import 'type/functional/functional_example'
 // ------------- end -------------
 if (module.hot) {
-  console.log('------------------------ 天了噜 (╯‵□′)╯︵ 更新了 ------------------------')
+  setTimeout(() => {
+    console.log('------------------------ 天了噜 (╯‵□′)╯︵ 更新了 ------------------------')
+  }, 0)
   module.hot.accept()
 }

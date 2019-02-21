@@ -454,41 +454,35 @@
 //   }
 // }
 
-let foo = {
-  a: { name: 'a' },
-  b: { name: 'b' },
-  c: { name: 'c' },
-  d: { name: 'd' },
-  e: { name: 'e' },
-  f: { name: 'f' }
-}
-
-let bar = [{ name: 'a' }, { name: 'b' }, { name: 'c' }, { name: 'd' }, { name: 'e' }, { name: 'f' }]
-
-let deno = [['a', 1], ['b', 2], ['c', 3]]
-
-let demo = new Set([1, 2, 3])
-
-let iterable = new Map([['a', 1], ['b', 2], ['c', 3]])
-
-function* func() {
-  yield function() {
-    123
-  }
-  yield function() {
-    321
-  }
-}
-
+// let foo = {
+//   a: { name: 'a' },
+//   b: { name: 'b' },
+//   c: { name: 'c' },
+//   d: { name: 'd' },
+//   e: { name: 'e' },
+//   f: { name: 'f' }
+// }
+// let bar = [{ name: 'a' }, { name: 'b' }, { name: 'c' }, { name: 'd' }, { name: 'e' }, { name: 'f' }]
+// let deno = [['a', 1], ['b', 2], ['c', 3]]
+// let demo = new Set([1, 2, 3])
+// let iterable = new Map([['a', 1], ['b', 2], ['c', 3]])
+// function* func() {
+//   yield function() {
+//     123
+//   }
+//   yield function() {
+//     321
+//   }
+// }
 // 生成器不能重用
-let fibonacci = (function*() {
-  // 一个生成器函数
-  let [prev, curr] = [0, 1]
-  while (true) {
-    ;[prev, curr] = [curr, prev + curr]
-    yield curr
-  }
-})()
+// 一个生成器函数
+// let fibonacci = (function*() {
+//   let [prev, curr] = [0, 1]
+//   while (true) {
+//     ;[prev, curr] = [curr, prev + curr]
+//     yield curr
+//   }
+// })()
 // console.log(fibonacci)
 // for (let n of fibonacci) {
 //   console.log(n)
@@ -501,24 +495,22 @@ let fibonacci = (function*() {
 //   // 当n大于1000时跳出循环
 //   if (n >= 1000) break
 // }
-
-let _iterable = {
-  [Symbol.iterator]() {
-    return {
-      i: 0,
-      next() {
-        if (this.i < 3) {
-          return { value: this.i++, done: false }
-        }
-        return { value: undefined, done: true }
-      }
-    }
-  }
-}
-for (let value of _iterable) {
-  console.log(value);
-}
-
+// let _iterable = {
+//   [Symbol.iterator]() {
+//     return {
+//       i: 0,
+//       next() {
+//         if (this.i < 3) {
+//           return { value: this.i++, done: false }
+//         }
+//         return { value: undefined, done: true }
+//       }
+//     }
+//   }
+// }
+// for (let value of _iterable) {
+//   console.log(value);
+// }
 // for in 不能使用 return
 // break || throw == return
 // continue == continue
@@ -539,4 +531,138 @@ for (let value of _iterable) {
 //   console.log(key)
 // }
 
+// 添加一个 class
 // classList.add('read')
+
+// JSONP
+// 只限于 get 请求
+// function jsonp(url, jsonpCallback, success) {
+//   let script = document.createElement('script')
+//   script.src = url
+//   script.async = true
+//   script.type = 'text/javascript'
+//   window[jsonpCallback] = function(data) {
+//     success && success(data)
+//   }
+//   document.body.appendChild(script)
+// }
+// jsonp('http://xxx', 'callback', function(value) {
+//   console.log(value)
+// })
+
+// CORS
+// 需要浏览器和后端同时支持，IE 8 和 9 需要通过 XDomainRequest 来实现
+// 服务端设置 Access-Control-Allow-Origin 就可以开启 CORS
+
+// document.domain
+// a.test.com b.test.com
+// document.domain = 'test.com' 表示二级域名都相同就可以实现跨域
+
+// postMessage
+// 通常用于获取潜入页面中国你的第三方页面数据，一个页面发送消息，一个页面判断来源并接受消息
+// 发送消息端
+// window.parent.postMessage('message', 'http://test.com')
+// // 接收消息端
+// var mc = new MessageChannel()
+// mc.addEventListener('message', event => {
+//   var origin = event.origin || event.originalEvent.origin
+//   if (origin === 'http://test.com') {
+//     console.log('验证通过')
+//   }
+// })
+
+// Event Loop
+// JS 在执行的过程中，会产生执行环境，这些执行环境会被顺序的加入到执行栈中
+// 如果遇到异步的代码，会被挂起并加入到 Task 队列中
+// 一旦执行栈为空 Event Loop 就会从 Task 队列中拿出需要执行的代码放到执行栈中执行
+// 所以本质上来说 JS 中的异步还是同步行为
+// 顺序
+// 执行同步任务，这属于宏任务
+// 执行栈为空，查询是否有微任务需要执行
+// 执行所有微任务
+// 必要的话渲染 UI
+// 然后开始下一轮 Event Loop，执行宏任务中的异步代码
+
+// Task
+// 不同的任务源会被分配到不同的 Task 队列中
+// 任务源分为 微任务（microtask） 和 宏任务（macrotask）
+// 微任务 process.nextTick promise Object.observe MutationObserver
+// 宏任务 script setTimeout setInterval setImmediate I/O UI-rendering
+// console.log('1script start')
+// setTimeout(function() {
+//   console.log('6setTimeout')
+// }, 0)
+// new Promise(resolve => {
+//   console.log('2Promise')
+//   resolve()
+// })
+//   .then(function() {
+//     console.log('4promise1')
+//   })
+//   .then(function() {
+//     console.log('5promise2')
+//   })
+// console.log('3script end')
+
+// TODO nodeJs 中的 Event Loop
+
+// 存储
+// cookie 一般由服务器生成，可以设置过期时间 4K 每次都会携带在 header 中，对于请求性能影响
+// localStorage 除非被清理，否则一直在 5M 无
+// sessionStorage 页面关闭就清理 5M 无
+// indexDB 除非被清理，否则一直在 无限 无
+
+// cookie
+// value 如果用于保存用户登陆态，应该将值加密
+// http-only 不能通过 JS 访问 cookie，减少 XSS 攻击
+// secure 只能在协议为 HTTPS 的请求中携带
+// same-site 规定浏览器不能再跨域请求中携带 cookie，减少 CSRF 攻击
+
+// TODO Service Worker
+
+// 渲染机制 - 1
+// 处理 HTML 并构建 DOM 树
+// 处理 CSS 并构建 CSSOM 树
+// 将 DOM 与 CSSOM 合并成一个渲染树
+// 根据渲染树来布局，计算每个节点的位置
+// 调用 GPU 绘制，合成图层，显示在屏幕上
+
+// 渲染机制 - 2
+// 在构建 CSSOM 树时，会阻塞渲染，直至 CSSOM 树构建完成
+// 并且构建 CSSOM 树是一个十分消耗性能的过程
+// 应该尽量保持层级扁平，减少过渡层叠，越是具体的 CSS 选择器，执行速度越慢
+
+// 渲染机制 - 3
+// 当 HTML 解析到 script 标签，会暂停构建 DOM，完成后才会从暂停的地方重新开始
+// 也就是说，如果想首屏渲染的快，就不应该在首屏就加载 JS 文件
+// 并且，CSS 也会影响 JS 的执行，只有当解析完样式表才会执行 JS
+
+// Load 和 DOMContentLoaded 区别
+// Load 表示 DOM CSS JS 图片已经全部加载完毕
+// DOMContentLoaded 表示初始的 HTML 被完全加载和解析，不需要等待 CSS JS 图片加载
+
+// 图层
+// 一般来说，可以把普通文档流看成一个图层，特定的属性可以生成一个新图层
+// 不同的图层渲染互不影响
+// 对一些需要频繁需然的可以单独生成一个新图层，以此提高性能
+// 生成新图层
+// 3D 变换：translate3d translateZ
+// will-change
+// video iframe 标签
+// 通过动画实现的 opacity 动画转换
+// position: fixed
+
+// 重绘（Repaint）和回流（Reflow）
+// 重绘：当节点需要更改外观而不会影响布局的，比如改变 color
+// 回流：布局或者几何属性需要改变
+// 回流必定会发生重绘，重绘不一定会引发回流
+// 回流所需的成本比重绘高的多，改变深层次的节点很可能导致父节点的一系列回流
+
+// 可能会导致性能问题
+// 改变 window 大小
+// 改变字体
+// 添加或删除样式
+// 文字改变
+// 定位或者浮动
+// 盒模型
+

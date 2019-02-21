@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/index.css" />
+  </head>
+  <body>
+    <script>
+      if (navigator.serviceWorker) {
+        navigator.serviceWorker
+          .register('./js/serviceWorker.js')
+          .then(function(registration) {
+            console.log(registration)
+            console.log('service worker 注册成功')
+          })
+          .catch(function(err) {
+            console.log(err)
+            console.log('servcie worker 注册失败')
+          })
+      }
+    </script>
+    <!-- <div class="box container">
+      container
+      <div class="box parent">
+        parent
+        <div class="box children">children</div>
+      </div>
+    </div> -->
+
+    <!-- <ul class="ul-box">
+      <li class="li-box">001_li</li>
+      <li class="li-box">002_li</li>
+      <li class="li-box">003_li</li>
+      <li class="li-box">004_li</li>
+      <li class="li-box">005_li</li>
+    </ul> -->
+    <!-- <script>
+      let ulBox = document.querySelector('.ul-box')
+      ulBox.addEventListener(
+        'click',
+        function(event) {
+          let target = event.target
+          if (target.tagName.toLowerCase() == 'li') {
+            console.log(event.target)
+          } else {
+            console.log(event)
+          }
+        },
+        false
+      )
+    </script> -->
+    <!-- <script>
+      let container = document.querySelector('.container')
+      let parent = document.querySelector('.parent')
+      let children = document.querySelector('.children')
+
+      function clg(str, flag, flag2) {
+        return function(event) {
+          if (flag) {
+            // 用来阻止事件冒泡
+            event.stopPropagation()
+          }
+          if (flag2) {
+            // 用来阻止事件，能阻止该目标上的其他事件
+            event.stopImmediatePropagation()
+          }
+          console.log(str)
+        }
+      }
+
+      // container.addEventListener('click', clg('container 捕获', false, false), true)
+      container.addEventListener('click', clg('container 冒泡', false, false), false)
+
+      // parent.addEventListener('click', clg('parent 捕获', false, false), true)
+      parent.addEventListener('click', clg('parent 冒泡', false, false), false)
+
+      children.addEventListener('click', clg('children 捕获 最低层 无所谓冒泡捕获', false, true), true)
+      children.addEventListener('click', clg('children 冒泡 最低层 无所谓冒泡捕获', false, true), false)
+    </script> -->
+  </body>
+</html>

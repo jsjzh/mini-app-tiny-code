@@ -1,0 +1,13 @@
+.box {
+  padding: 2rem;
+  margin: 2rem;
+}
+.container {
+  background-color: #009688;
+}
+.parent {
+  background-color: #ffeb3b;
+}
+.children {
+  background-color: #ff5722;
+}
