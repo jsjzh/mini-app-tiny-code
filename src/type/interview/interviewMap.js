@@ -826,3 +826,67 @@
 // }
 // loop()
 
+// class Dep {
+//   constructor() {
+//     this.subs = []
+//   }
+//   addSub(sub) {
+//     this.subs.push(sub)
+//   }
+//   notify() {
+//     this.subs.forEach(sub => {
+//       sub.update()
+//     })
+//   }
+// }
+// Dep.target = null
+// class Watcher {
+//   constructor(obj, key, cb) {
+//     Dep.target = this
+//     this.cb = cb
+//     this.obj = obj
+//     this.key = key
+//     // 假装获取 val 然后借此触发 get
+//     this.value = obj[key]
+//     Dep.target = null
+//   }
+//   update() {
+//     this.value = this.obj[this.key]
+//     this.cb(this.value)
+//   }
+// }
+// function update(value) {
+//   console.log(`数据更新：${value}`)
+// }
+// function observe(obj) {
+//   if (!obj || typeof obj !== 'object') {
+//     return
+//   }
+//   Object.keys(obj).forEach(key => {
+//     defineReactive(obj, key, obj[key])
+//   })
+// }
+// function defineReactive(obj, key, val) {
+//   observe(val)
+//   let dp = new Dep()
+//   Object.defineProperty(obj, key, {
+//     enumerable: true,
+//     configurable: true,
+//     get: function() {
+//       // console.log('get')
+//       if (Dep.target) {
+//         dp.addSub(Dep.target)
+//       }
+//       return val
+//     },
+//     set: function(newVal) {
+//       // console.log('set')
+//       val = newVal
+//       dp.notify()
+//     }
+//   })
+// }
+// var data = { name: '123' }
+// observe(data)
+// new Watcher(data, 'name', update)
+// data.name = 'king'
