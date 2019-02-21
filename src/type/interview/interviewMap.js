@@ -694,3 +694,36 @@
 // 将频繁运行的动画变为图层，图层能够阻止该节点回流影响别的元素
 //    比如对于 video 标签，浏览器会自动将该节点变为图层
 
+// DNS 预解析
+// <link rel="dns-prefetch" href="//yuchengkai.cn" />
+
+// 缓存
+// 浏览器缓存策略分为：强缓存 和 协商缓存
+
+// 缓存 - 强缓存
+// 强缓存表示在缓存期间不需要请求，state code 为 200
+// 实现强缓存可以通过两种响应头：Expires 和 Cache-Control
+
+// 缓存 - 强缓存 - Expires: Wed, 22 Oct 2018 08:41:00 GMT
+// Expires 是 http/1.0 的产物，表示资源会在何时后过期，需要再次请求
+// 为此，其受限于本地时间，如果修改了本地时间，可能会造成缓存丢失
+
+// 缓存 - 强缓存 - Cache-control: max-age=30
+// Cache-Control 出现于 http/1.1 优先级高于 Expires
+// 该属性表示资源会在多少秒后过期，需要再次请求
+
+// 缓存 - 协商缓存
+// 如果缓存过期了，我们可以使用协商缓存来解决问题
+// 协商缓存需要请求，如果缓存有效 state code 为 304
+// 协商缓存需要客户端和服务端共同实现
+
+// 缓存 - 协商缓存 - Last-Modified 和 If-Modified-Since
+// Last-Modified 表示本地文件最后修改日期，If-Modified-Since 会将 Last-Modified 的值发送给服务器
+// 询问服务器在该日期后资源是否有更新，有更新的话就会将新的资源发送回来
+// 但是如果在本地打开缓存文件，就会造成 Last-Modified 被修改，所以在 http/1.1 出现了 ETag
+
+// 缓存 - 协商缓存 - ETag 和 If-None-Match
+// ETag 类似于文件指纹，If-None-Match 会将当前 ETag 发送给服务器，询问该资源 ETag 是否变动
+// 有变动的话就将新的资源发送回来
+// 并且 ETag 优先级比 Last-Modified 高
+
