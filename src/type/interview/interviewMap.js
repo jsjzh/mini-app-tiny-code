@@ -652,12 +652,13 @@
 // 通过动画实现的 opacity 动画转换
 // position: fixed
 
-// 重绘（Repaint）和回流（Reflow）
+// 重绘（Repaint）和回流（Reflow）- 1
 // 重绘：当节点需要更改外观而不会影响布局的，比如改变 color
 // 回流：布局或者几何属性需要改变
 // 回流必定会发生重绘，重绘不一定会引发回流
 // 回流所需的成本比重绘高的多，改变深层次的节点很可能导致父节点的一系列回流
 
+// 重绘（Repaint）和回流（Reflow）- 2
 // 可能会导致性能问题
 // 改变 window 大小
 // 改变字体
@@ -665,4 +666,31 @@
 // 文字改变
 // 定位或者浮动
 // 盒模型
+
+// 重绘（Repaint）和回流（Reflow）- 3
+// 当 Event Loop 执行完 microtask 后，会判断 document 是否需要更新，因为浏览器是 60hz 的刷新率，每 16ms 才会更新一次
+// 然后判断是否有 resize 或者 scroll，有的话去触发事件，所以 resize 和 scroll 事件也是至少 16ms 才会触发一次，并且自带节流（throttle）功能
+// 判断是否触发了 media query
+// 更新动画并且发送事件
+// 判断是否有全屏操作事件
+// 执行 requestAnimationFrame 回调
+// 执行 IntersectionObserver 回调，该方法用于判断元素是否可见，可以用于懒加载上，但是兼容性不好
+// 更新界面
+// 以上就是一帧中可能会做的事情，如果在一帧中有空闲时间，就会去执行 requestIdleCallback 回调
+
+// 重绘（Repaint）和回流（Reflow）- 4
+// 减少重绘和回流
+// 使用 translate 替代 top
+//    dom.style.top = ... 会引起回流
+// 使用 visibility 替换 display: none
+//    因为前者只会引起重绘，后者会引发回流（改变了布局）
+// 把 DOM 离线后修改
+//    比如，先把 DOM 给 display: none（有一次 Reflow），然后修改个 100 次，再显示出来
+// 不要把 DOM 节点的属性值放在一个循环里当成循环里的变量
+//    循环里重复获取 offsetTop 会导致回流，因为需要去获取正确的值
+// 不要使用 table 布局，可能很小的一个改动会造成整个 table 的重新布局
+// 动画实现的速度的选择，动画速度越快，回流次数越多，也可以选择使用 requestAnimationFrame
+// CSS 选择符从右往左匹配查找，避免 DOM 深度过深
+// 将频繁运行的动画变为图层，图层能够阻止该节点回流影响别的元素
+//    比如对于 video 标签，浏览器会自动将该节点变为图层
 
