@@ -760,3 +760,68 @@
 // 图片优化
 // 图片大小计算，对于一个 100 * 100 像素的图片来说，图像上有 10^4 个像素点，如果每个像素的值是 RGBA 存储的话，那么每个像素就有 4 个通道，每个通道 1 个字节（8 位 = 1 个字节），所以图片大概为 10^4 * 4 / 1024 kb
 // 那么优化就是两个思路，减少像素点；减少每个像素点能够显示的颜色
+
+// 图片加载优化
+// 修饰类图片使用 CSS 代替
+// 图片使用 CDN 加载，计算出适配屏幕的宽度，然后去请求相应裁剪好的图片
+// 小图使用 base64 格式
+// 将多个图标文件整合到一张图片中（雪碧图）
+// 选择正确的图片格式
+//    能够使用 WebP 格式的浏览器尽量使用，有更好的图片压缩算法，能带来更小的图片体积，缺点就是兼容性不好
+//    小图使用 PNG，其实对于图标类图片，可以使用 SVG 代替
+//    照片使用 JPEG
+
+// 其他文件优化
+// CSS 文件放在 head 中
+// 服务端开启文件压缩功能 gzip
+// 将 script 标签放在 body 底部，因为 JS 文件执行会阻塞渲染，也可以将 script 标签放在任意位置然后加上 defer，表示该文件会并行下载，但是会放到 HTML 解析完成后顺序执行。
+// 对于么有任何依赖的 JS 文件可以加上 async，表示加载和渲染文档元素的过程将和 JS 文件的加载与执行并行无序进行
+// 执行 JS 代码过长会卡住渲染，对于需要很多时间计算的代码可以考虑使用 Webworker，Webworker 可以让我们另开一个线程执行脚本而不影响渲染
+
+// CDN
+// 静态资源尽量使用 CDN 加载，由于浏览器对于单个域名有并发请求上限，可以考虑使用多个 CDN 域名。对于 CDN 加载静态资源需要注意 CDN 域名要与主站不同，否则每次请求都会带上主站的 cookie
+
+// 使用 Webpack
+// 对于 Webpack4，打包项目使用 production 模式
+// 使用 ES6 模块来开启 tree shaking，这个技术可以移除没有使用的代码
+// 优化图片，对于小图可以使用 base64 的方式
+// 按照路由拆分代码，实现按需加载
+// 给打包出来的文件名添加哈希，实现浏览器缓存文件
+
+// 监控
+// 对于代码运行错误，通常的办法是使用 window.onerror 拦截报错，但是有一些例外
+//    对于跨域的代码运行错误会显示 script error，对于这种情况要给 script 标签添加 crossorigin 属性
+//    对于某些浏览器可能不会显示调用栈信息，这种情况可以通过 arguments.callee.caller 来做栈递归
+// 对于异步代码，可以使用 catch 的方式捕获错误，Promise 可以使用 catch，async await 可以使用 try catch
+// 对于捕获的错误需要上传给服务器，通常可以通过 img 标签的 src 发起一个请求
+
+// 渲染几万条数据并不卡住界面
+// let ulBox = document.querySelector('.ul-box')
+// let total = 1000
+// let chunk = 20
+// let start = 0
+// let count = 1
+// function addDom() {
+//   // 有点类似于 Vue 的 template
+//   let fragment = document.createDocumentFragment()
+//   for (let index = 0; index < chunk; index++) {
+//     let li = document.createElement('li')
+//     li.innerHTML = count
+//     count++
+//     if (start * chunk + index === total) {
+//       break
+//     }
+//     fragment.appendChild(li)
+//   }
+//   ulBox.appendChild(fragment)
+//   if (start * chunk < total) {
+//     start++
+//     loop()
+//   }
+// }
+// function loop() {
+//   requestAnimationFrame(function() {
+//     addDom()
+//   })
+// }
+// loop()
