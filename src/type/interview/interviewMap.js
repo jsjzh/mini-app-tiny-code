@@ -826,6 +826,7 @@
 // }
 // loop()
 
+// Object Vue 双向绑定订阅发布
 // class Dep {
 //   constructor() {
 //     this.subs = []
@@ -890,3 +891,40 @@
 // observe(data)
 // new Watcher(data, 'name', update)
 // data.name = 'king'
+
+// Proxy 实现双向绑定
+// function watcher(obj, setBind, getLogger) {
+//   return new Proxy(obj, {
+//     get: function(target, property, receiver) {
+//       getLogger(target, property)
+//       return Reflect.get(target, property, receiver)
+//     },
+//     set: function(target, property, value, receiver) {
+//       setBind(target, property, value)
+//       return Reflect.set(target, property, value)
+//     }
+//   })
+// }
+// let obj = { a: [123] }
+// let p = watcher(
+//   obj,
+//   (target, property, value) => {
+//     console.log(`Set '${property}' = ${target[property]} to ${value}`)
+//   },
+//   (target, property) => {
+//     console.log(`Get '${property}' = ${target[property]}`)
+//   }
+// )
+// p.a = [123, 123, 123]
+// p.a
+
+// Vue 技术要点：双向绑定 订阅发布者模式 虚拟 Dom
+
+// 路由原理
+// hash 模式
+// 点击链接之后，会触发 hashchange 事件，此时解析路由规则，跳转页面（实则是 DOM 替换的方式更改页面内容）
+// 手动刷新之后，不会向服务器发起请求，但是也不会触发 hashchange 事件了，可以通过 load 事件
+// history 模式
+// 浏览器动作，回退，或者 history.back()，触发 popstate 事件，跳转页面（实则 DOM 替换）
+// 点击跳转，调用 HTML5 的新的 API，pushState 函数向浏览器历史添加了一个状态，并且不会向服务器发送请求
+// 手动刷新，这个时候会像服务器请求，但往往服务器没有对应的文件，比如 http://test.com/demo，没有 demo 这个文件，所以需要后端配合把资源未找到全部重定向到 index 页面，然后 index 页面会解析 url，进行页面跳转（DOM 更替）
