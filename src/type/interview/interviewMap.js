@@ -1045,10 +1045,17 @@ function diffProps(oldProps, newProps) {
 }
 
 function listDiff(oldList, newList, index, paths) {
+  // 为了遍历方便，先取出两个 list 的所有 keys
   let oldKeys = getKeys(oldList)
   let newKeys = getKeys(newList)
   let change = []
-
+  // 用于保存变更后的节点数据
+  // 使用该数组保存有以下好处
+  // 1.可以正确获得被删除节点索引
+  // 2.交换节点位置只需要操作一遍 DOM
+  // 3.用于 `diffChildren` 函数中的判断，只需要遍历
+  // 两个树中都存在的节点，而对于新增或者删除的节点来说，完全没必要
+  // 再去判断一遍
   let list = []
   if (oldList) {
     oldList.forEach(item => {
@@ -1103,6 +1110,7 @@ function listDiff(oldList, newList, index, paths) {
       }
     })
   }
+
   return { change, list }
 }
 
@@ -1151,11 +1159,11 @@ function diffChildren(oldChild, newChild, index, paths) {
   }
 }
 
-let test7 = new Element('div', { class: 'test7' }, ['test4'])
-let test8 = new Element('div', { class: 'test8' }, ['test4'])
+let test7 = new Element('div', { class: 'test7' }, ['test7'], 'test7')
+let test8 = new Element('div', { class: 'test8' }, ['test8'], 'test8')
 
-let test4 = new Element('div', { class: 'test4' }, ['test4'])
-let test5 = new Element('ul', { class: 'test5' }, ['test5'])
+let test4 = new Element('div', { class: 'test4' }, ['test4'], 'test4')
+let test5 = new Element('ul', { class: 'test5' }, ['test5'], 'test5')
 
 let test1 = new Element('div', { class: 'test1' }, [test4], 'test1')
 let test2 = new Element('div', { class: 'test2' }, [test5, test4], 'test1')
@@ -1163,7 +1171,7 @@ let test2 = new Element('div', { class: 'test2' }, [test5, test4], 'test1')
 // let root = test1.render()
 
 let pathchs = diff(test1, test2)
-console.log(pathchs)
+// console.log(pathchs)
 
 // setTimeout(() => {
 //   console.log('开始更新')
