@@ -930,251 +930,237 @@
 // 点击跳转，调用 HTML5 的新的 API，pushState 函数向浏览器历史添加了一个状态，并且不会向服务器发送请求
 // 手动刷新，这个时候会像服务器请求，但往往服务器没有对应的文件，比如 http://test.com/demo，没有 demo 这个文件，所以需要后端配合把资源未找到全部重定向到 index 页面，然后 index 页面会解析 url，进行页面跳转（DOM 更替）
 
-// Virtual Dom
-let $$key = 1
-class Element {
-  constructor(tag = 'div', props = {}, children = null, key) {
-    this.tag = tag
-    this.props = props
-    if (Array.isArray(children)) {
-      this.children = children
-    } else if (typeof children === 'string') {
-      this.key = children
-      this.children = null
-    }
-    this.key = key ? key : $$key
-    $$key++
-  }
-  render() {
-    let root = this.createElement(this.tag, this.props, this.children, this.key)
-    document.body.appendChild(root)
-    return root
-  }
-  create() {
-    return this.createElement(this.tag, this.props, this.children, this.key)
-  }
-  createElement(tag, props, child, key) {
-    let el = document.createElement(tag)
-    for (const key in props) {
-      if (props.hasOwnProperty(key)) {
-        const value = props[key]
-        el.setAttribute(key, value)
-      }
-    }
-    if (key) {
-      el.setAttribute('key', key)
-    }
-    if (child) {
-      child.forEach(element => {
-        let node
-        if (element instanceof Element) {
-          node = this.createElement(element.tag, element.props, element.children, element.key)
-        } else {
-          node = document.createTextNode(element)
-        }
-        el.appendChild(node)
-      })
-    }
-    return el
-  }
-}
+// TODO Virtual Dom
+// let $$key = 1
+// class Element {
+//   constructor(tag = 'div', props = {}, children = null, key) {
+//     this.tag = tag
+//     this.props = props
+//     if (Array.isArray(children)) {
+//       this.children = children
+//     } else if (typeof children === 'string') {
+//       this.key = children
+//       this.children = null
+//     }
+//     this.key = key ? key : $$key
+//     $$key++
+//   }
+//   render() {
+//     let root = this.createElement(this.tag, this.props, this.children, this.key)
+//     document.body.appendChild(root)
+//     return root
+//   }
+//   create() {
+//     return this.createElement(this.tag, this.props, this.children, this.key)
+//   }
+//   createElement(tag, props, child, key) {
+//     let el = document.createElement(tag)
+//     for (const key in props) {
+//       if (props.hasOwnProperty(key)) {
+//         const value = props[key]
+//         el.setAttribute(key, value)
+//       }
+//     }
+//     if (key) {
+//       el.setAttribute('key', key)
+//     }
+//     if (child) {
+//       child.forEach(element => {
+//         let node
+//         if (element instanceof Element) {
+//           node = this.createElement(element.tag, element.props, element.children, element.key)
+//         } else {
+//           node = document.createTextNode(element)
+//         }
+//         el.appendChild(node)
+//       })
+//     }
+//     return el
+//   }
+// }
+// function diff(oldTreeDom, newTreeDom) {
+//   let paths = {}
+//   dfs(oldTreeDom, newTreeDom, 0, paths)
+//   return paths
+// }
+// function dfs(oldNode, newNode, index, paths) {
+//   let curPaths = []
+//   // 需要判断三种情况
+//   // 1.没有新的节点，那么什么都不用做
+//   // 2.新的节点的 tagName 和 `key` 和旧的不同，就替换
+//   // 3.新的节点的 tagName 和 key（可能都没有） 和旧的相同，开始遍历子树
+//   if (!newNode) {
+//     // do nothing
+//   } else if (newNode.tag === oldNode.tag && newNode.key === oldNode.key) {
+//     let props = diffProps(oldNode.props, newNode.props)
+//     if (props.length) {
+//       curPaths.push({ type: 'changeProps', props })
+//     }
+//     diffChildren(oldNode.children, newNode.children, index, paths)
+//   } else {
+//     curPaths.push({ type: 'replace', node: newNode })
+//   }
+//   if (curPaths.length) {
+//     if (paths[index]) {
+//       paths[index] = paths[index].concat(curPaths)
+//     } else {
+//       paths[index] = curPaths
+//     }
+//   }
+// }
+// function diffProps(oldProps, newProps) {
+//   // 判断 Props 三步骤
+//   let change = []
+//   // 先遍历 oldProps 查看是否存在删除的属性
+//   for (const key in oldProps) {
+//     if (oldProps.hasOwnProperty(key) && !newProps[key]) {
+//       change.push({
+//         prop: key
+//       })
+//     }
+//   }
+//   // 然后遍历 newProps 查看是否有属性值被修改
+//   // 最后查看是否有属性新增
+//   for (const key in newProps) {
+//     if (newProps.hasOwnProperty(key)) {
+//       const prop = newProps[key]
+//       const oldProp = oldProps[key]
+//       if (oldProp && oldProp !== prop) {
+//         change.push({
+//           prop: key,
+//           value: prop
+//         })
+//       } else if (!oldProp) {
+//         change.push({
+//           prop: key,
+//           value: prop
+//         })
+//       }
+//     }
+//   }
+//   return change
+// }
+// function listDiff(oldList, newList, index, paths) {
+//   // 为了遍历方便，先取出两个 list 的所有 keys
+//   let oldKeys = getKeys(oldList)
+//   let newKeys = getKeys(newList)
+//   let change = []
+//   // 用于保存变更后的节点数据
+//   // 使用该数组保存有以下好处
+//   // 1.可以正确获得被删除节点索引
+//   // 2.交换节点位置只需要操作一遍 DOM
+//   // 3.用于 `diffChildren` 函数中的判断，只需要遍历
+//   // 两个树中都存在的节点，而对于新增或者删除的节点来说，完全没必要
+//   // 再去判断一遍
+//   let list = []
+//   if (oldList) {
+//     oldList.forEach(item => {
+//       let key = item.key
+//       if (typeof item === 'string') {
+//         key = item
+//       }
+//       if (newKeys.indexOf(key) === -1) {
+//         list.push(null)
+//       } else {
+//         list.push(key)
+//       }
+//     })
+//     let length = list.length
+//     for (let i = length - 1; i >= 0; i--) {
+//       if (!list[i]) {
+//         list.splice(i, 1)
+//         change.push({
+//           type: 'remove',
+//           index: i
+//         })
+//       }
+//     }
+//   }
+//   if (newList) {
+//     newList.forEach((item, i) => {
+//       let key = item.key
+//       if (typeof item === 'string') {
+//         key = item
+//       }
+//       let _index = oldKeys.indexOf(key)
+//       if (_index === -1) {
+//         change.push({
+//           type: 'insert',
+//           node: item,
+//           index: i
+//         })
+//         list.splice(i, 0, key)
+//       } else {
+//         if (_index !== i) {
+//           change.push({
+//             type: 'move',
+//             from: index,
+//             to: i
+//           })
+//           // TODO
+//           // move(list, index, i)
+//         }
+//       }
+//     })
+//   }
+//   return { change, list }
+// }
+// function getKeys(list) {
+//   let keys = []
+//   if (list) {
+//     list.forEach(item => {
+//       let key
+//       if (typeof item === 'string') {
+//         key = [item]
+//       } else if (item instanceof Element) {
+//         key = item.key
+//       }
+//       keys.push(key)
+//     })
+//   }
+//   return keys
+// }
+// function diffChildren(oldChild, newChild, index, paths) {
+//   let { change, list } = listDiff(oldChild, newChild, index, paths)
+//   if (change.length) {
+//     if (paths[index]) {
+//       paths[index] = paths[index].concat(change)
+//     } else {
+//       paths[index] = change
+//     }
+//   }
+//   // 记录上一个遍历过的节点
+//   let last = null
+//   if (oldChild) {
+//     oldChild.forEach(item => {
+//       let child = item && item.children
+//       if (child) {
+//         // debugger
+//         index = last && last.children ? index + last.children.length + 1 : index + 1
+//         let keyIndex = list.indexOf(item.key)
+//         let node = newChild[keyIndex]
+//         // 只遍历新旧中都存在的节点，其他新增或者删除的没必要遍历
+//         if (node) {
+//           dfs(item, node, index, paths)
+//         }
+//       } else index += 1
+//       last = item
+//     })
+//   }
+// }
+// let test7 = new Element('div', { class: 'test7' }, ['test7'], 'test7')
+// let test8 = new Element('div', { class: 'test8' }, ['test8'], 'test8')
+// let test4 = new Element('div', { class: 'test4' }, ['test4'], 'test4')
+// let test5 = new Element('ul', { class: 'test5' }, ['test5'], 'test5')
+// let test1 = new Element('div', { class: 'test1' }, [test4], 'test1')
+// let test2 = new Element('div', { class: 'test2' }, [test5, test4], 'test1')
+// // let root = test1.render()
+// let pathchs = diff(test1, test2)
+// // console.log(pathchs)
+// // setTimeout(() => {
+// //   console.log('开始更新')
+// //   patch(root, pathchs)
+// //   console.log('结束更新')
+// // }, 1000)
 
-function diff(oldTreeDom, newTreeDom) {
-  let paths = {}
-  dfs(oldTreeDom, newTreeDom, 0, paths)
-  return paths
-}
-
-function dfs(oldNode, newNode, index, paths) {
-  let curPaths = []
-  // 需要判断三种情况
-  // 1.没有新的节点，那么什么都不用做
-  // 2.新的节点的 tagName 和 `key` 和旧的不同，就替换
-  // 3.新的节点的 tagName 和 key（可能都没有） 和旧的相同，开始遍历子树
-  if (!newNode) {
-    // do nothing
-  } else if (newNode.tag === oldNode.tag && newNode.key === oldNode.key) {
-    let props = diffProps(oldNode.props, newNode.props)
-    if (props.length) {
-      curPaths.push({ type: 'changeProps', props })
-    }
-    diffChildren(oldNode.children, newNode.children, index, paths)
-  } else {
-    curPaths.push({ type: 'replace', node: newNode })
-  }
-  if (curPaths.length) {
-    if (paths[index]) {
-      paths[index] = paths[index].concat(curPaths)
-    } else {
-      paths[index] = curPaths
-    }
-  }
-}
-
-function diffProps(oldProps, newProps) {
-  // 判断 Props 三步骤
-  let change = []
-  // 先遍历 oldProps 查看是否存在删除的属性
-  for (const key in oldProps) {
-    if (oldProps.hasOwnProperty(key) && !newProps[key]) {
-      change.push({
-        prop: key
-      })
-    }
-  }
-  // 然后遍历 newProps 查看是否有属性值被修改
-  // 最后查看是否有属性新增
-  for (const key in newProps) {
-    if (newProps.hasOwnProperty(key)) {
-      const prop = newProps[key]
-      const oldProp = oldProps[key]
-      if (oldProp && oldProp !== prop) {
-        change.push({
-          prop: key,
-          value: prop
-        })
-      } else if (!oldProp) {
-        change.push({
-          prop: key,
-          value: prop
-        })
-      }
-    }
-  }
-  return change
-}
-
-function listDiff(oldList, newList, index, paths) {
-  // 为了遍历方便，先取出两个 list 的所有 keys
-  let oldKeys = getKeys(oldList)
-  let newKeys = getKeys(newList)
-  let change = []
-  // 用于保存变更后的节点数据
-  // 使用该数组保存有以下好处
-  // 1.可以正确获得被删除节点索引
-  // 2.交换节点位置只需要操作一遍 DOM
-  // 3.用于 `diffChildren` 函数中的判断，只需要遍历
-  // 两个树中都存在的节点，而对于新增或者删除的节点来说，完全没必要
-  // 再去判断一遍
-  let list = []
-  if (oldList) {
-    oldList.forEach(item => {
-      let key = item.key
-      if (typeof item === 'string') {
-        key = item
-      }
-      if (newKeys.indexOf(key) === -1) {
-        list.push(null)
-      } else {
-        list.push(key)
-      }
-    })
-
-    let length = list.length
-
-    for (let i = length - 1; i >= 0; i--) {
-      if (!list[i]) {
-        list.splice(i, 1)
-        change.push({
-          type: 'remove',
-          index: i
-        })
-      }
-    }
-  }
-
-  if (newList) {
-    newList.forEach((item, i) => {
-      let key = item.key
-      if (typeof item === 'string') {
-        key = item
-      }
-      let _index = oldKeys.indexOf(key)
-      if (_index === -1) {
-        change.push({
-          type: 'insert',
-          node: item,
-          index: i
-        })
-        list.splice(i, 0, key)
-      } else {
-        if (_index !== i) {
-          change.push({
-            type: 'move',
-            from: index,
-            to: i
-          })
-          // TODO
-          // move(list, index, i)
-        }
-      }
-    })
-  }
-
-  return { change, list }
-}
-
-function getKeys(list) {
-  let keys = []
-  if (list) {
-    list.forEach(item => {
-      let key
-      if (typeof item === 'string') {
-        key = [item]
-      } else if (item instanceof Element) {
-        key = item.key
-      }
-      keys.push(key)
-    })
-  }
-  return keys
-}
-
-function diffChildren(oldChild, newChild, index, paths) {
-  let { change, list } = listDiff(oldChild, newChild, index, paths)
-  if (change.length) {
-    if (paths[index]) {
-      paths[index] = paths[index].concat(change)
-    } else {
-      paths[index] = change
-    }
-  }
-  // 记录上一个遍历过的节点
-  let last = null
-  if (oldChild) {
-    oldChild.forEach(item => {
-      let child = item && item.children
-      if (child) {
-        // debugger
-        index = last && last.children ? index + last.children.length + 1 : index + 1
-        let keyIndex = list.indexOf(item.key)
-        let node = newChild[keyIndex]
-        // 只遍历新旧中都存在的节点，其他新增或者删除的没必要遍历
-        if (node) {
-          dfs(item, node, index, paths)
-        }
-      } else index += 1
-      last = item
-    })
-  }
-}
-
-let test7 = new Element('div', { class: 'test7' }, ['test7'], 'test7')
-let test8 = new Element('div', { class: 'test8' }, ['test8'], 'test8')
-
-let test4 = new Element('div', { class: 'test4' }, ['test4'], 'test4')
-let test5 = new Element('ul', { class: 'test5' }, ['test5'], 'test5')
-
-let test1 = new Element('div', { class: 'test1' }, [test4], 'test1')
-let test2 = new Element('div', { class: 'test2' }, [test5, test4], 'test1')
-
-// let root = test1.render()
-
-let pathchs = diff(test1, test2)
-// console.log(pathchs)
-
-// setTimeout(() => {
-//   console.log('开始更新')
-//   patch(root, pathchs)
-//   console.log('结束更新')
-// }, 1000)
+// Vue NextTick
