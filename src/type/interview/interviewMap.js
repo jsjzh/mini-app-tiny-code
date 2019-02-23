@@ -1164,3 +1164,8 @@
 // // }, 1000)
 
 // Vue NextTick
+// 默认情况下会使用 microtasks，特殊情况下会使用 macrotasks，比如 v-on。
+// 实现 macrotasks，会先判断是否能使用 setImmediate，不能的话降级为 MessageChannel，以上都不行的话就使用 setTimeout
+
+// Vue 生命周期分析
+// think 其实感觉记住生命周期名称并不重要，重要的是要知道每个生命周期是在什么时候调用的。
