@@ -1,3 +1,12 @@
+/*
+ * @Author: jsjzh
+ * @Email: kimimi_king@163.com
+ * @LastEditors: jsjzh
+ * @Date: 2019-03-08 09:45:09
+ * @LastEditTime: 2019-03-08 10:05:27
+ * @Description: 果然每天的生活都需要点算法题调剂调剂，每天都是重复的业务代码太无趣了，我渴望一点需要动脑子的东西，遂就有了这个小项目
+ */
+
 /**
  * CLEAR
  * 给出一个目标数字，查询数组中是否有和为目标的两个数字
@@ -26,6 +35,10 @@ let twoSum = function(nums, target) {
  * 将一个数字反转，若反转后超出 [-2^31, 2^31-1] 范围，则返回 0
  * @param {Number} x 数字
  *
+ * Tip
+ * -Math.pow(2, 31) === -2147483648
+ * Math.pow(2, 31) - 1 === 2147483647
+ *
  * 官方解题思路
  * 比较神奇的一个想法，出栈入栈，但因为没有辅助函数，所以可以用 num % 10 来实现
  */
@@ -41,7 +54,7 @@ let reverse = function(x) {
   if (flag) x = +x
   else x = -+x
 
-  if (x < -Math.pow(2, 31) || x > Math.pow(2, 31) - 1) return 0
+  if (x < -2147483648 || x > 2147483647) return 0
   else return x
 }
 
