@@ -50,6 +50,8 @@ import 'type/interview/interviewMap'
 // import 'type/functional/functional_ramda'
 
 // import 'type/functional/functional_example'
+
+import 'type/leetcode'
 // ------------- end -------------
 if (module.hot) {
   setTimeout(() => {
