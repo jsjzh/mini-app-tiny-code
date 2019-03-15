@@ -3,7 +3,7 @@
  * @Email: kimimi_king@163.com
  * @LastEditors: jsjzh
  * @Date: 2019-03-08 09:45:09
- * @LastEditTime: 2019-03-14 09:40:34
+ * @LastEditTime: 2019-03-15 13:58:32
  * @Description
  *  果然每天的生活都需要点算法题调剂调剂，每天都是重复的业务代码太无趣了，我渴望一点需要动脑子的东西，遂就有了这个小项目
  *  写上来的代码都是可以通过 leedcode 的测试的，只不过嘛，用时和内存消耗就没有那么完美了，但我会对不满意的题目重写一遍，开拓新的思路，撒花
@@ -147,35 +147,100 @@ let isValid = function(s) {
 }
 
 /**
- * TODO 待完成
+ * CLEAR
  * 将两个有序链表合并为一个新的有序链表并返回y
  * 新链表是通过拼接给定的两个链表的所有节点组成的
  * @param {ListNode} l1
  * @param {ListNode} l2
  * @return {ListNode}
  */
-/**
- * Definition for singly-linked list.
- */
-
+// Definition for singly-linked list
 function ListNode(val) {
   this.val = val
   this.next = null
 }
-
+// 对链表不产生影响，方便测试
 ListNode.prototype.push = function(num) {
   let newNode = new ListNode(num)
   let currNode = this
-  if (currNode.next) currNode = currNode.next
+  while (currNode.next) currNode = currNode.next
   currNode.next = newNode
   return this
 }
-
-let mergeTwoLists = function(l1, l2) {
-  console.log(arguments)
+// 对链表不产生影响，方便测试
+ListNode.prototype.toString = function() {
+  let currNode = this
+  let str = ''
+  while (currNode.next) {
+    str += currNode.val + ','
+    currNode = currNode.next
+  }
+  str += currNode.val
+  return str
 }
 
-let L = new ListNode(1).push(2).push(4)
-let R = new ListNode(1).push(3).push(4)
+let mergeTwoLists = function(l1, l2) {
+  if (l1 === null || l1.val === null) return l2
+  if (l2 === null || l2.val === null) return l1
 
-mergeTwoLists(L, R)
+  let start = new ListNode(0)
+  let cur = start
+
+  while (l1 !== null && l2 !== null) {
+    if (l1.val >= l2.val) {
+      cur.next = l2
+      l2 = l2.next
+    } else if (l1.val < l2.val) {
+      cur.next = l1
+      l1 = l1.next
+    }
+    cur = cur.next
+    if (l2 === null) {
+      cur.next = l1
+    }
+    if (l1 === null) {
+      cur.next = l2
+    }
+  }
+  return start.next
+}
+// 测试用例
+// let L = new ListNode(-2).push(5)
+// let R = new ListNode(-9).push(-6).push(-3).push(-1).push(1).push(6)
+
+/**
+ * CLEAR
+ * 给定一个排序数组，需要在原地删除重复出现的元素，使得每个元素只出现一次
+ * 返回移除后数组的新长度
+ * 不适用额外的数组空间，要在原地修改输入数组并在使用 O(1) 额外空间的条件下完成
+ *
+ * 不需要考虑数组中超出新长度后面的元素
+ * @param {Number[]} nums
+ * @return {Number}
+ *
+ * 一开始的解法似乎读错题意了
+ * 题目意思是把相同的数字移到前面，并返回新长度
+ * 如果循环原数组的新长度将不会得到重复的数字
+ * 但是重复的部分并不是删除了，只是放到新长度后面去了
+ */
+let proRemoveDuplicates = function(nums) {
+  if (nums.length == 0) return 0
+  let i = 0
+  for (let j = 1; j < nums.length; j++) {
+    if (nums[j] != nums[i]) {
+      i++
+      nums[i] = nums[j]
+    }
+  }
+  return i + 1
+}
+// let removeDuplicates = function(nums) {
+//   for (let index = 0; index < nums.length; index++) {
+//     const count = nums[index]
+//     if (count === nums[index + 1]) {
+//       nums.splice(index, 1)
+//       index = index - 1
+//     }
+//   }
+//   return nums.length
+// }
