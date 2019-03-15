@@ -3,7 +3,7 @@
  * @Email: kimimi_king@163.com
  * @LastEditors: jsjzh
  * @Date: 2019-03-08 09:45:09
- * @LastEditTime: 2019-03-15 13:58:32
+ * @LastEditTime: 2019-03-15 14:49:25
  * @Description
  *  果然每天的生活都需要点算法题调剂调剂，每天都是重复的业务代码太无趣了，我渴望一点需要动脑子的东西，遂就有了这个小项目
  *  写上来的代码都是可以通过 leedcode 的测试的，只不过嘛，用时和内存消耗就没有那么完美了，但我会对不满意的题目重写一遍，开拓新的思路，撒花
@@ -236,11 +236,89 @@ let proRemoveDuplicates = function(nums) {
 }
 // let removeDuplicates = function(nums) {
 //   for (let index = 0; index < nums.length; index++) {
-//     const count = nums[index]
-//     if (count === nums[index + 1]) {
+//     if (nums[index] === nums[index + 1]) {
 //       nums.splice(index, 1)
 //       index = index - 1
 //     }
 //   }
 //   return nums.length
 // }
+
+/**
+ * CLEAR
+ * 给定一个数组 nums 和一个值 val，需要原地移除所有数值等于 val 的元素
+ * 返回移除后数组的新长度
+ * 不要使用额外的数组空间，必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成
+ * 元素的顺序可以改变，不需要考虑数组中超出新长度后面的元素
+ * 返回的数组中元素可以为任意顺序
+ * @param {Number[]} nums
+ * @param {Number} val
+ * @return {Number}
+ */
+let proTwoRemoveElement = function(nums, val) {
+  let i = 0
+  let n = nums.length
+  while (i < n) {
+    if (nums[i] === val) {
+      nums[i] = nums[n - 1]
+      n--
+    } else {
+      i++
+    }
+  }
+  return n
+}
+let proRemoveElement = function(nums, val) {
+  let i = 0
+  for (let j = 0; j < nums.length; j++) {
+    if (nums[j] !== val) {
+      nums[i] = nums[j]
+      i++
+    }
+  }
+  return i
+}
+let removeElement = function(nums, val) {
+  for (let index = 0; index < nums.length; index++) {
+    if (val === nums[index]) {
+      nums.splice(index, 1)
+      index = index - 1
+    }
+  }
+  return nums.length
+}
+
+/**
+ * CLEAR
+ * 给定一个 haystack 字符串和一个 needle 字符串
+ * 在 haystack 字符串中找出 needle 字符串出现的第一个位置（从 0 开始）
+ * 如果不存在，则返回 -1
+ * @param {String} haystack
+ * @param {String} needle
+ * @return {Number}
+ *
+ * 怎么感觉这个问题怪怪的？还是说是我想太少了？
+ * 不过倒是提醒了我一个问题，如果 needle 为 ""，返回的是什么
+ * 在 indexOf 中应该返回 0
+ */
+let strStr = function(haystack, needle) {
+  return haystack.indexOf(needle)
+}
+
+/**
+ * TODO
+ * 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引
+ * 如果目标值不存在于数组中，返回它将会被按顺序插入的位置
+ * 你可以假设数组中无重复元素
+ * @param {Number[]} nums
+ * @param {Number} target
+ * @return {Number}
+ */
+let searchInsert = function(nums, target) {
+  for (let index = 0; index < nums.length; index++) {
+    const count = nums[index]
+  }
+}
+
+// [(1, 3, 5, 6)], 5
+// [(1, 3, 5, 6)], 2
