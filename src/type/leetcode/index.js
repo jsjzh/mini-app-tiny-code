@@ -3,7 +3,7 @@
  * @Email: kimimi_king@163.com
  * @LastEditors: jsjzh
  * @Date: 2019-03-08 09:45:09
- * @LastEditTime: 2019-03-15 14:49:25
+ * @LastEditTime: 2019-03-16 10:06:13
  * @Description
  *  果然每天的生活都需要点算法题调剂调剂，每天都是重复的业务代码太无趣了，我渴望一点需要动脑子的东西，遂就有了这个小项目
  *  写上来的代码都是可以通过 leedcode 的测试的，只不过嘛，用时和内存消耗就没有那么完美了，但我会对不满意的题目重写一遍，开拓新的思路，撒花
@@ -306,7 +306,7 @@ let strStr = function(haystack, needle) {
 }
 
 /**
- * TODO
+ * CLEAR
  * 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引
  * 如果目标值不存在于数组中，返回它将会被按顺序插入的位置
  * 你可以假设数组中无重复元素
@@ -314,11 +314,84 @@ let strStr = function(haystack, needle) {
  * @param {Number} target
  * @return {Number}
  */
+let proSearchInsert = function(nums, target) {
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] >= target) {
+      return i
+    }
+  }
+  return nums.length
+}
 let searchInsert = function(nums, target) {
   for (let index = 0; index < nums.length; index++) {
     const count = nums[index]
+    if (count === target) {
+      return index
+    } else if (target < count) {
+      return index
+    } else if (nums[index - 1] < target && target < count) {
+      return index
+    }
   }
+  return nums.length
 }
 
-// [(1, 3, 5, 6)], 5
-// [(1, 3, 5, 6)], 2
+/**
+ * CLEAR
+ * 报数序列是一个整数序列，按照其中的整数的顺序进行报数，得到下一个数
+ * 其前五项如下
+ *   1 ===> 1
+ *   2 ===> 11
+ *   3 ===> 21
+ *   4 ===> 1211
+ *   5 ===> 111221
+ * 规律如下
+ *   1  被读作 "one 1"，即 11
+ *   11 被读作 "two 1"，即 21
+ *   21 被读作 "one 2"，"one 1"，即 1211
+ * 给定一个正整数 n（1 ≤ n ≤ 30），输出报数序列的第 n 项
+ * 注意：整数顺序将表示为一个字符串
+ * @param {Number} n
+ * @return {String}
+ */
+let countAndSay = function(n) {
+  let str = '1'
+  while (n - 1) {
+    let old = str
+    str = ''
+    let tag = old[0]
+    let num = 0
+
+    for (let ind = 0; ind < old.length; ind++) {
+      if (old[ind] === tag) {
+        num++
+      } else {
+        str += num + '' + tag
+        tag = old[ind]
+        num = 1
+      }
+      if (ind + 1 === old.length) {
+        str += num + '' + tag
+      }
+    }
+    n--
+  }
+  return str
+}
+
+/**
+ * TODO
+ * 给定一个整数数组 nums
+ * 找到一个具有最大和的连续子数组（子数组最少包含一个元素）
+ * 返回其最大和
+ * 进阶
+ *   如果你已经实现复杂度为 O(n) 的解法
+ *   尝试使用更为精妙的分治法求解
+ * @param {Number[]} nums
+ * @return {Number}
+ */
+let maxSubArray = function(nums) {
+  return nums
+}
+
+console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
