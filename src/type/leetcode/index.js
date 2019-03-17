@@ -3,7 +3,7 @@
  * @Email: kimimi_king@163.com
  * @LastEditors: jsjzh
  * @Date: 2019-03-08 09:45:09
- * @LastEditTime: 2019-03-17 10:44:00
+ * @LastEditTime: 2019-03-17 11:29:49
  * @Description
  *  果然每天的生活都需要点算法题调剂调剂，每天都是重复的业务代码太无趣了，我渴望一点需要动脑子的东西，遂就有了这个小项目
  *  写上来的代码都是可以通过 leedcode 的测试的，只不过嘛，用时和内存消耗就没有那么完美了，但我会对不满意的题目重写一遍，开拓新的思路，撒花
@@ -438,3 +438,16 @@ function fibonacci_downToUp(n) {
   }
   return x1
 }
+
+function cut(p, n) {
+  if (n == 0) return 0
+  let q = 0
+  for (let i = 1; i <= n; i++) {
+    q = Math.max(q, p[i - 1] + cut(p, n - i))
+  }
+  return q
+}
+
+let p = [1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
+
+console.log(cut(p, 10))
