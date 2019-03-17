@@ -3,7 +3,7 @@
  * @Email: kimimi_king@163.com
  * @LastEditors: jsjzh
  * @Date: 2019-03-08 09:45:09
- * @LastEditTime: 2019-03-17 09:59:11
+ * @LastEditTime: 2019-03-17 10:44:00
  * @Description
  *  果然每天的生活都需要点算法题调剂调剂，每天都是重复的业务代码太无趣了，我渴望一点需要动脑子的东西，遂就有了这个小项目
  *  写上来的代码都是可以通过 leedcode 的测试的，只不过嘛，用时和内存消耗就没有那么完美了，但我会对不满意的题目重写一遍，开拓新的思路，撒花
@@ -398,7 +398,7 @@ let maxSubArray = function(nums) {
   return nums
 }
 
-console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+// console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
 
 /**
  * 拓展学习
@@ -420,9 +420,21 @@ function fibonacci_upToDown(n) {
   return n1 + n2
 }
 
-let fibonacciMark_downToUp = {}
+/**
+ * 拓展学习
+ * 求解斐波那契数列再优化版
+ * 自下向上版本
+ * 该种解法乍一看好像没有备忘录存储
+ * 但其实我的理解就是，斐波那契数列其实质就是一个存储的过程
+ * 下一个数等于前两个数之和，不就是存储吗？
+ */
 function fibonacci_downToUp(n) {
-  for (let ind = 0; ind < n; ind++) {}
+  let x1 = 0
+  let x2 = 1
+  for (let ind = 0; ind < n; ind++) {
+    let next = x1 + x2
+    x1 = x2
+    x2 = next
+  }
+  return x1
 }
-
-console.log(fibonacci_downToUp(10))
