@@ -3,7 +3,7 @@
  * @Email: kimimi_king@163.com
  * @LastEditors: jsjzh
  * @Date: 2019-03-08 09:45:09
- * @LastEditTime: 2019-03-16 10:06:13
+ * @LastEditTime: 2019-03-17 09:59:11
  * @Description
  *  果然每天的生活都需要点算法题调剂调剂，每天都是重复的业务代码太无趣了，我渴望一点需要动脑子的东西，遂就有了这个小项目
  *  写上来的代码都是可以通过 leedcode 的测试的，只不过嘛，用时和内存消耗就没有那么完美了，但我会对不满意的题目重写一遍，开拓新的思路，撒花
@@ -391,7 +391,38 @@ let countAndSay = function(n) {
  * @return {Number}
  */
 let maxSubArray = function(nums) {
+  let max = 0
+  for (let index = 0; index < nums.length; index++) {
+    const count = nums[index]
+  }
   return nums
 }
 
 console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+
+/**
+ * 拓展学习
+ * 求解斐波拉契数列优化版，说一说思想，用到了动态规划
+ * 自顶向下版本
+ * 动态规划一言以蔽之就是会记录曾经求过的值，再次求值会直接使用该值
+ * 这里用了对象的存储器，key ==> value 的方式取值最快
+ * 在获取 n2 的时候，由于 n2 都是等于 n-2 的值，而之前已经求过 n-1，而看我们的代码
+ * 在求解 n-1 的时候就已经将其存储起来
+ */
+let fibonacciMark_upToDown = { 0: 0 }
+function fibonacci_upToDown(n) {
+  if (n <= 0) return 0
+  if (n === 1) return 1
+  let n1 = fibonacciMark_upToDown[n - 1]
+    ? fibonacciMark_upToDown[n - 1]
+    : (fibonacciMark_upToDown[n - 1] = fibonacci_upToDown(n - 1))
+  let n2 = fibonacciMark_upToDown[n - 2]
+  return n1 + n2
+}
+
+let fibonacciMark_downToUp = {}
+function fibonacci_downToUp(n) {
+  for (let ind = 0; ind < n; ind++) {}
+}
+
+console.log(fibonacci_downToUp(10))
