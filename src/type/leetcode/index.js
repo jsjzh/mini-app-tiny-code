@@ -3,7 +3,7 @@
  * @Email: kimimi_king@163.com
  * @LastEditors: jsjzh
  * @Date: 2019-03-08 09:45:09
- * @LastEditTime: 2019-03-17 11:29:49
+ * @LastEditTime: 2019-03-18 09:30:38
  * @Description
  *  果然每天的生活都需要点算法题调剂调剂，每天都是重复的业务代码太无趣了，我渴望一点需要动脑子的东西，遂就有了这个小项目
  *  写上来的代码都是可以通过 leedcode 的测试的，只不过嘛，用时和内存消耗就没有那么完美了，但我会对不满意的题目重写一遍，开拓新的思路，撒花
@@ -413,9 +413,10 @@ let fibonacciMark_upToDown = { 0: 0 }
 function fibonacci_upToDown(n) {
   if (n <= 0) return 0
   if (n === 1) return 1
-  let n1 = fibonacciMark_upToDown[n - 1]
-    ? fibonacciMark_upToDown[n - 1]
-    : (fibonacciMark_upToDown[n - 1] = fibonacci_upToDown(n - 1))
+  let n1 =
+    fibonacciMark_upToDown[n - 1] != null
+      ? fibonacciMark_upToDown[n - 1]
+      : (fibonacciMark_upToDown[n - 1] = fibonacci_upToDown(n - 1))
   let n2 = fibonacciMark_upToDown[n - 2]
   return n1 + n2
 }
@@ -439,15 +440,52 @@ function fibonacci_downToUp(n) {
   return x1
 }
 
-function cut(p, n) {
-  if (n == 0) return 0
-  let q = 0
-  for (let i = 1; i <= n; i++) {
-    q = Math.max(q, p[i - 1] + cut(p, n - i))
+/**
+ * 钢条切割问题，又称最优子结构
+ * dict 的下标可认为是切割的长度，值为该长度的价格
+ * 假设有个 4 长度的钢条，该如何切割让他的价值达到最大
+ * 这个就是最优子结构
+ * 递归的解法
+ * 怎么说呢，在还不知道动态规划的时候我觉得这个已经够牛皮了
+ * 但是在我知道了动态规划之后，我觉得，我可以让他更牛皮一些
+ */
+let dict = [1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
+function cut(dict, len) {
+  if (len === 0) return 0
+  let max = 0
+  for (let ind = 1; ind <= len; ind++) {
+    max = Math.max(max, dict[ind - 1] + cut(dict, len - ind))
   }
-  return q
+  return max
 }
 
-let p = [1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
+/**
+ * 钢铁切割问题的从上往下递归的备忘录版本
+ * cutMark_upToDown 就是我们的备忘录
+ * 和斐波那契数列的类似，就是每次将其存储起来以保证下次可以直接获取最优解
+ * 减少了大量递归次数
+ */
+let cutMark_upToDown = { 0: 0 }
+function cut_upToDown(dict, len) {
+  if (len > dict.length) throw new Error('传入的 len 不得大于字典的长度，因为就无法获取该长度不截取时候的价格了')
+  if (len === 0) return 0
+  if (len === 1) return dict[0]
+  let max = 0
+  for (let ind = 1; ind <= len; ind++) {
+    let start = dict[ind - 1]
+    let end = cutMark_upToDown[len - ind]
+      ? cutMark_upToDown[len - ind]
+      : (cutMark_upToDown[len - ind] = cut_upToDown(dict, len - ind))
+    max = Math.max(max, start + end)
+  }
+  return max
+}
 
-console.log(cut(p, 10))
+let cutMark_downToUp = { 0: 0 }
+function cut_downToUp(dict, len) {
+  if (len > dict.length) throw new Error('传入的 len 不得大于字典的长度，因为就无法获取该长度不截取时候的价格了')
+  let max = 0
+  return max
+}
+
+console.log(cut_downToUp(dict, 10))
