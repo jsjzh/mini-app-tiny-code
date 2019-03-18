@@ -3,7 +3,7 @@
  * @Email: kimimi_king@163.com
  * @LastEditors: jsjzh
  * @Date: 2019-03-08 09:45:09
- * @LastEditTime: 2019-03-18 09:30:38
+ * @LastEditTime: 2019-03-18 10:34:19
  * @Description
  *  果然每天的生活都需要点算法题调剂调剂，每天都是重复的业务代码太无趣了，我渴望一点需要动脑子的东西，遂就有了这个小项目
  *  写上来的代码都是可以通过 leedcode 的测试的，只不过嘛，用时和内存消耗就没有那么完美了，但我会对不满意的题目重写一遍，开拓新的思路，撒花
@@ -481,11 +481,19 @@ function cut_upToDown(dict, len) {
   return max
 }
 
+/**
+ * 钢铁切割问题，由下往上的版本
+ * 都不用递归了，美滋滋
+ */
 let cutMark_downToUp = { 0: 0 }
 function cut_downToUp(dict, len) {
   if (len > dict.length) throw new Error('传入的 len 不得大于字典的长度，因为就无法获取该长度不截取时候的价格了')
-  let max = 0
-  return max
+  for (let ind = 1; ind <= dict.length; ind++) {
+    let max = 0
+    for (let cutLen = 1; cutLen <= ind; cutLen++) {
+      max = Math.max(max, dict[cutLen - 1] + cutMark_downToUp[ind - cutLen])
+    }
+    cutMark_downToUp[ind] = max
+  }
+  return cutMark_downToUp[len]
 }
-
-console.log(cut_downToUp(dict, 10))
