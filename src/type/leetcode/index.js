@@ -3,7 +3,7 @@
  * @Email: kimimi_king@163.com
  * @LastEditors: jsjzh
  * @Date: 2019-03-08 09:45:09
- * @LastEditTime: 2019-03-19 08:59:31
+ * @LastEditTime: 2019-03-19 09:08:02
  * @Description
  *  果然每天的生活都需要点算法题调剂调剂，每天都是重复的业务代码太无趣了，我渴望一点需要动脑子的东西，遂就有了这个小项目
  *  写上来的代码都是可以通过 leedcode 的测试的，只不过嘛，用时和内存消耗就没有那么完美了，但我会对不满意的题目重写一遍，开拓新的思路，撒花
@@ -442,20 +442,20 @@ function fibonacci_downToUp(n) {
 
 /**
  * 钢条切割问题，又称最优子结构
- * dict 的下标可认为是切割的长度，值为该长度的价格
+ * steelPrices 的下标可认为是切割的长度，值为该长度的价格
  * 假设有个 4 长度的钢条，该如何切割让他的价值达到最大
  * 这个就是最优子结构
  * 递归的解法
  * 怎么说呢，在还不知道动态规划的时候我觉得这个已经够牛皮了
  * 但是在我知道了动态规划之后，我觉得，我可以让他更牛皮一些
  */
-let dict = [1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
-function cut(dict, len) {
-  if (len > dict.length) throw new Error('传入的 len 不得大于字典的长度，因为就无法获取该长度不截取时候的价格了')
+let steelPrices = [1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
+function cut(steelPrices, len) {
+  if (len > steelPrices.length) throw new Error('传入的 len 不得大于字典的长度，因为就无法获取该长度不截取时候的价格了')
   if (len === 0) return 0
   let max = 0
   for (let ind = 1; ind <= len; ind++) {
-    max = Math.max(max, dict[ind - 1] + cut(dict, len - ind))
+    max = Math.max(max, steelPrices[ind - 1] + cut(steelPrices, len - ind))
   }
   return max
 }
@@ -467,16 +467,16 @@ function cut(dict, len) {
  * 减少了大量递归次数
  */
 let cutMark_upToDown = { 0: 0 }
-function cut_upToDown(dict, len) {
-  if (len > dict.length) throw new Error('传入的 len 不得大于字典的长度，因为就无法获取该长度不截取时候的价格了')
+function cut_upToDown(steelPrices, len) {
+  if (len > steelPrices.length) throw new Error('传入的 len 不得大于字典的长度，因为就无法获取该长度不截取时候的价格了')
   if (len === 0) return 0
-  if (len === 1) return dict[0]
+  if (len === 1) return steelPrices[0]
   let max = 0
   for (let ind = 1; ind <= len; ind++) {
-    let start = dict[ind - 1]
+    let start = steelPrices[ind - 1]
     let end = cutMark_upToDown[len - ind]
       ? cutMark_upToDown[len - ind]
-      : (cutMark_upToDown[len - ind] = cut_upToDown(dict, len - ind))
+      : (cutMark_upToDown[len - ind] = cut_upToDown(steelPrices, len - ind))
     max = Math.max(max, start + end)
   }
   return max
@@ -487,12 +487,12 @@ function cut_upToDown(dict, len) {
  * 都不用递归了，美滋滋
  */
 let cutMark_downToUp = { 0: 0 }
-function cut_downToUp(dict, len) {
-  if (len > dict.length) throw new Error('传入的 len 不得大于字典的长度，因为就无法获取该长度不截取时候的价格了')
-  for (let ind = 1; ind <= dict.length; ind++) {
+function cut_downToUp(steelPrices, len) {
+  if (len > steelPrices.length) throw new Error('传入的 len 不得大于字典的长度，因为就无法获取该长度不截取时候的价格了')
+  for (let ind = 1; ind <= steelPrices.length; ind++) {
     let max = 0
     for (let cutLen = 1; cutLen <= ind; cutLen++) {
-      max = Math.max(max, dict[cutLen - 1] + cutMark_downToUp[ind - cutLen])
+      max = Math.max(max, steelPrices[cutLen - 1] + cutMark_downToUp[ind - cutLen])
     }
     cutMark_downToUp[ind] = max
   }
@@ -501,12 +501,12 @@ function cut_downToUp(dict, len) {
 
 /**
  * 这是一道小朋友过桥的问题
- * 假设有 n 个小朋友，每个小朋友过桥的时间如下计算
+ * 假设有 n 个小朋友，每个小朋友过桥的时间如 getChildsTimes 计算
  * 只有一个手电筒，桥每次只能过两个人，时间由最慢的那个人决定
  * 每次过了桥之后还需要把手电筒送回来
  * 求最短的过桥时间
  *
- * 这里我的想法和网上的人不一样，我的做法是将最长时间的小朋友人道毁灭
+ * 这里我的想法和网上的人不一样，我的做法是优先将最长时间的小朋友人道毁灭（误）
  * 当排除了最长时间的小朋友之后就又回到了子序列的问题，具体可以看如下
  *
  * 1 3 6 10 15 &=== 无
@@ -519,7 +519,10 @@ function cut_downToUp(dict, len) {
  * 1 3         &=== 6 10 15     --- 1
  * 无          ===& 1 3 6 10 15 --- 3
  */
-function getChildTimes(n) {
+/**
+ * @param {Number} n 小朋友的个数
+ */
+function getChildsTimes(n) {
   let arr = [1]
   for (let ind = 1; ind < n; ind++) {
     arr.push(arr[ind - 1] + ind + 1)
@@ -527,6 +530,9 @@ function getChildTimes(n) {
   return arr
 }
 let crossBridgeMark = { 1: 1, 2: 3, 3: 10 }
+/**
+ * @param {Number[]} times 小朋友的过河时间
+ */
 function crossBridge(times) {
   let min
   if (crossBridgeMark[times.length]) return crossBridgeMark[times.length]
