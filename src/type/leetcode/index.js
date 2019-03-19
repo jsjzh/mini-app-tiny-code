@@ -3,7 +3,7 @@
  * @Email: kimimi_king@163.com
  * @LastEditors: jsjzh
  * @Date: 2019-03-08 09:45:09
- * @LastEditTime: 2019-03-19 09:08:02
+ * @LastEditTime: 2019-03-19 10:20:05
  * @Description
  *  果然每天的生活都需要点算法题调剂调剂，每天都是重复的业务代码太无趣了，我渴望一点需要动脑子的东西，遂就有了这个小项目
  *  写上来的代码都是可以通过 leedcode 的测试的，只不过嘛，用时和内存消耗就没有那么完美了，但我会对不满意的题目重写一遍，开拓新的思路，撒花
@@ -503,7 +503,7 @@ function cut_downToUp(steelPrices, len) {
  * 这是一道小朋友过桥的问题
  * 假设有 n 个小朋友，每个小朋友过桥的时间如 getChildsTimes 计算
  * 只有一个手电筒，桥每次只能过两个人，时间由最慢的那个人决定
- * 每次过了桥之后还需要把手电筒送回来
+ * 每次过了桥之后还需要有人把手电筒送回来
  * 求最短的过桥时间
  *
  * 这里我的想法和网上的人不一样，我的做法是优先将最长时间的小朋友人道毁灭（误）
@@ -544,3 +544,12 @@ function crossBridge(times) {
 
   return min
 }
+
+/**
+ * 给定一个长度为 n 的字符串，求插入最少多少个字符能使它变成一个回文串
+ * 回文串：abcdcba aba
+ * @param {String} str 字符串，长度（n<=1000）
+ */
+function insertToPalindrome(str) {}
+
+console.log(insertToPalindrome('abc'))
