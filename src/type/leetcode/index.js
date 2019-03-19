@@ -3,7 +3,7 @@
  * @Email: kimimi_king@163.com
  * @LastEditors: jsjzh
  * @Date: 2019-03-08 09:45:09
- * @LastEditTime: 2019-03-19 11:59:02
+ * @LastEditTime: 2019-03-19 12:02:29
  * @Description
  *  果然每天的生活都需要点算法题调剂调剂，每天都是重复的业务代码太无趣了，我渴望一点需要动脑子的东西，遂就有了这个小项目
  *  写上来的代码都是可以通过 leedcode 的测试的，只不过嘛，用时和内存消耗就没有那么完美了，但我会对不满意的题目重写一遍，开拓新的思路，撒花
@@ -549,6 +549,10 @@ function crossBridge(times) {
  * 给定一个长度为 n 的字符串，求插入最少多少个字符能使它变成一个回文串
  * 回文串：abcdcba aba
  * @param {String} str 字符串，长度（n<=1000）
+ *
+ * 暴力解法，但是莫名的挺有成就感的，本来觉得这个题目我又要想一天了
+ * 要引入备忘录，应该能减少查询的时间，另外，这个在动态规划里应该算是从上往下的
+ * 还要想想怎么才能从下往上，表示难度有点高
  */
 function insertToPalindrome(str) {
   if (str.length <= 1) return 0
@@ -569,5 +573,3 @@ function insertToPalindrome(str) {
   }
   return count
 }
-
-console.log(insertToPalindrome('AABAC'))
