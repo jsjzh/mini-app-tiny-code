@@ -3,7 +3,7 @@
  * @Email: kimimi_king@163.com
  * @LastEditors: jsjzh
  * @Date: 2019-03-08 09:45:09
- * @LastEditTime: 2019-03-19 10:20:05
+ * @LastEditTime: 2019-03-19 11:59:02
  * @Description
  *  果然每天的生活都需要点算法题调剂调剂，每天都是重复的业务代码太无趣了，我渴望一点需要动脑子的东西，遂就有了这个小项目
  *  写上来的代码都是可以通过 leedcode 的测试的，只不过嘛，用时和内存消耗就没有那么完美了，但我会对不满意的题目重写一遍，开拓新的思路，撒花
@@ -550,6 +550,24 @@ function crossBridge(times) {
  * 回文串：abcdcba aba
  * @param {String} str 字符串，长度（n<=1000）
  */
-function insertToPalindrome(str) {}
+function insertToPalindrome(str) {
+  if (str.length <= 1) return 0
+  let count = 0
+  let flag = false
+  for (let ind = 0; ind < str.length; ind++) {
+    if (str[ind] !== str[str.length - 1 - ind]) {
+      flag = true
+      break
+    }
+  }
+  if (flag) {
+    count++
+    let xCount = count + insertToPalindrome(str.slice(1, str.length))
+    let yCount = count + insertToPalindrome(str.slice(0, str.length - 1))
 
-console.log(insertToPalindrome('abc'))
+    count = Math.min(xCount, yCount)
+  }
+  return count
+}
+
+console.log(insertToPalindrome('AABAC'))
