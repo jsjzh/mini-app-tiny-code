@@ -3,7 +3,7 @@
  * @Email: kimimi_king@163.com
  * @LastEditors: jsjzh
  * @Date: 2019-03-08 09:45:09
- * @LastEditTime: 2019-03-18 10:37:56
+ * @LastEditTime: 2019-03-19 08:59:31
  * @Description
  *  果然每天的生活都需要点算法题调剂调剂，每天都是重复的业务代码太无趣了，我渴望一点需要动脑子的东西，遂就有了这个小项目
  *  写上来的代码都是可以通过 leedcode 的测试的，只不过嘛，用时和内存消耗就没有那么完美了，但我会对不满意的题目重写一遍，开拓新的思路，撒花
@@ -497,4 +497,44 @@ function cut_downToUp(dict, len) {
     cutMark_downToUp[ind] = max
   }
   return cutMark_downToUp[len]
+}
+
+/**
+ * 这是一道小朋友过桥的问题
+ * 假设有 n 个小朋友，每个小朋友过桥的时间如下计算
+ * 只有一个手电筒，桥每次只能过两个人，时间由最慢的那个人决定
+ * 每次过了桥之后还需要把手电筒送回来
+ * 求最短的过桥时间
+ *
+ * 这里我的想法和网上的人不一样，我的做法是将最长时间的小朋友人道毁灭
+ * 当排除了最长时间的小朋友之后就又回到了子序列的问题，具体可以看如下
+ *
+ * 1 3 6 10 15 &=== 无
+ * 6 10 15     ===& 1 3         --- 3
+ * 1 6 10 15   &=== 3           --- 1
+ * 1 6         ===& 3 10 15     --- 15
+ * 1 3 6       &=== 10 15       --- 3
+ * 如上，就是求解 1 3 6 的最短时间，也就是三个小朋友的最短时间
+ * 3           ===& 1 6 10 15   --- 6
+ * 1 3         &=== 6 10 15     --- 1
+ * 无          ===& 1 3 6 10 15 --- 3
+ */
+function getChildTimes(n) {
+  let arr = [1]
+  for (let ind = 1; ind < n; ind++) {
+    arr.push(arr[ind - 1] + ind + 1)
+  }
+  return arr
+}
+let crossBridgeMark = { 1: 1, 2: 3, 3: 10 }
+function crossBridge(times) {
+  let min
+  if (crossBridgeMark[times.length]) return crossBridgeMark[times.length]
+  let front = crossBridgeMark[times.length - 2]
+    ? crossBridgeMark[times.length - 2]
+    : (crossBridgeMark[times.length - 2] = crossBridge(times.slice(0, times.length - 2)))
+
+  min = front + times[times.length - 1] + times[0] + 2 * times[1]
+
+  return min
 }
