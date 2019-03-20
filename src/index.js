@@ -25,21 +25,21 @@ app.innerHTML = require('./index.html')
 // import 'type/default/another'
 // ------------- plugin -------------
 // import 'plugin/cube'
-// ------------- interview -------------
-// import 'type/interview/render'
-// import 'type/interview/twoSum'
-// import 'type/interview/reverse'
-// import 'type/interview/isPalindrome'
-// import 'type/interview/romanToInt'
-// import 'type/interview/longestCommonPrefix'
-// import 'type/interview/searchInsert'
+// ------------- other -------------
+// import 'type/other/render'
+// import 'type/other/twoSum'
+// import 'type/other/reverse'
+// import 'type/other/isPalindrome'
+// import 'type/other/romanToInt'
+// import 'type/other/longestCommonPrefix'
+// import 'type/other/searchInsert'
 // 还未解决
-// import 'type/interview/listToTree'
-// import 'type/interview/isValid'
-// import 'type/interview/maxSubArray'
-// import 'type/interview/addBinary'
-// import 'type/interview/climbStairs'
-import 'type/interview/interviewMap'
+// import 'type/other/listToTree'
+// import 'type/other/isValid'
+// import 'type/other/maxSubArray'
+// import 'type/other/addBinary'
+// import 'type/other/climbStairs'
+// import 'type/other/interviewMap'
 
 // ------------- functional -------------
 // import 'type/functional/functional_curry'
@@ -51,8 +51,10 @@ import 'type/interview/interviewMap'
 
 // import 'type/functional/functional_example'
 
+import 'type/interview'
 import 'type/leetcode'
 // ------------- end -------------
+
 if (module.hot) {
   setTimeout(() => {
     console.log('------------------------ 天了噜 (╯‵□′)╯︵ 更新了 ------------------------')
