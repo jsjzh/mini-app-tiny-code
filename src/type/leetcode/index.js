@@ -3,7 +3,7 @@
  * @Email: kimimi_king@163.com
  * @LastEditors: jsjzh
  * @Date: 2019-03-08 09:45:09
- * @LastEditTime: 2019-03-19 17:38:54
+ * @LastEditTime: 2019-03-20 10:25:25
  * @Description
  *  果然每天的生活都需要点算法题调剂调剂，每天都是重复的业务代码太无趣了，我渴望一点需要动脑子的东西，遂就有了这个小项目
  *  写上来的代码都是可以通过 leedcode 的测试的，只不过嘛，用时和内存消耗就没有那么完美了，但我会对不满意的题目重写一遍，开拓新的思路，撒花
@@ -389,16 +389,14 @@ let countAndSay = function(n) {
  *   尝试使用更为精妙的分治法求解
  * @param {Number[]} nums
  * @return {Number}
+ *
+ * 解题思路
  */
 let maxSubArray = function(nums) {
-  let max = 0
-  for (let index = 0; index < nums.length; index++) {
-    const count = nums[index]
-  }
-  return nums
+  let max = nums[0]
+  return max
 }
-
-// console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
 
 /**
  * 拓展学习
